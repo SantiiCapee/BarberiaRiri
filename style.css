@@ -1,0 +1,266 @@
+/* BarberíaRiri — tokens y lo que Tailwind por CDN no resuelve solo.
+   Los colores son tripletas RGB para que Tailwind pueda aplicar opacidad.
+   Contrastes medidos: ver docs/contexto/convenciones.md §1. */
+
+:root {
+  color-scheme: light;
+  --c-fondo: 250 247 242;          /* #FAF7F2 */
+  --c-superficie: 255 255 255;     /* #FFFFFF */
+  --c-superficie-2: 243 238 230;   /* #F3EEE6 */
+  --c-texto: 28 25 23;             /* #1C1917 */
+  --c-secundario: 87 83 78;        /* #57534E */
+  --c-primario: 30 58 95;          /* #1E3A5F */
+  --c-primario-hover: 43 76 119;   /* #2B4C77 */
+  --c-primario-activo: 21 43 71;   /* #152B47 */
+  --c-primario-suave: 227 234 243; /* #E3EAF3 */
+  --c-sobre-primario: 255 255 255;
+  --c-acento: 201 162 39;          /* #C9A227, solo como fondo */
+  --c-sobre-acento: 28 25 23;
+  --c-exito: 21 128 61;            /* #15803D */
+  --c-error: 185 28 28;            /* #B91C1C */
+  --c-borde: 231 225 216;          /* #E7E1D8, separadores */
+  --c-borde-control: 120 113 108;  /* #78716C, bordes de controles (≥3:1) */
+  --c-poste-rojo: 185 28 28;
+  --alto-tabbar: 4.5rem;
+}
+
+.dark {
+  color-scheme: dark;
+  --c-fondo: 24 24 27;             /* #18181B */
+  --c-superficie: 39 39 42;        /* #27272A */
+  --c-superficie-2: 32 32 36;      /* #202024 */
+  --c-texto: 245 245 244;          /* #F5F5F4 */
+  --c-secundario: 168 162 158;     /* #A8A29E */
+  --c-primario: 143 179 224;       /* #8FB3E0 */
+  --c-primario-hover: 169 197 234; /* #A9C5EA */
+  --c-primario-activo: 122 161 212;/* #7AA1D4 */
+  --c-primario-suave: 35 52 74;    /* #23344A */
+  --c-sobre-primario: 28 25 23;
+  --c-acento: 212 175 55;          /* #D4AF37 */
+  --c-sobre-acento: 28 25 23;
+  --c-exito: 74 222 128;           /* #4ADE80 */
+  --c-error: 248 113 113;          /* #F87171 */
+  --c-borde: 63 63 70;             /* #3F3F46 */
+  --c-borde-control: 139 139 148;  /* #8B8B94 */
+}
+
+/* El atributo hidden gana siempre sobre las utilidades de display de Tailwind */
+[hidden] {
+  display: none !important;
+}
+
+/* Barra de ocupación del local */
+.barra-ocupacion {
+  display: block;
+  width: 100%;
+  height: 0.5rem;
+  border: 0;
+  border-radius: 9999px;
+  overflow: hidden;
+  appearance: none;
+  background: rgb(var(--c-superficie-2));
+}
+
+.barra-ocupacion::-webkit-progress-bar { background: rgb(var(--c-superficie-2)); }
+.barra-ocupacion::-webkit-progress-value { background: rgb(var(--c-primario)); border-radius: 9999px; }
+.barra-ocupacion::-moz-progress-bar { background: rgb(var(--c-primario)); border-radius: 9999px; }
+
+/* Franja del poste de barbería (decorativa, ADR-005) */
+.franja-poste {
+  background: repeating-linear-gradient(
+    -45deg,
+    rgb(var(--c-poste-rojo)) 0 10px,
+    #ffffff 10px 20px,
+    #1e3a5f 20px 30px,
+    #ffffff 30px 40px
+  );
+}
+
+.poste-logo {
+  display: inline-block;
+  width: 0.75rem;
+  height: 1.75rem;
+  border-radius: 9999px;
+  border: 2px solid rgb(var(--c-texto));
+  background: repeating-linear-gradient(
+    -35deg,
+    rgb(var(--c-poste-rojo)) 0 4px,
+    #ffffff 4px 8px,
+    #1e3a5f 8px 12px,
+    #ffffff 12px 16px
+  );
+}
+
+/* GOT-14: el contenido nunca queda debajo de la barra inferior */
+.main-con-barra {
+  padding-bottom: calc(var(--alto-tabbar) + 2rem + env(safe-area-inset-bottom));
+}
+
+.footer-con-barra {
+  padding-bottom: calc(var(--alto-tabbar) + env(safe-area-inset-bottom));
+}
+
+.tabbar {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Barra de acción del asistente: pegada abajo, encima de las pestañas */
+.barra-accion {
+  position: sticky;
+  bottom: calc(var(--alto-tabbar) + env(safe-area-inset-bottom));
+  z-index: 20;
+  margin: 1.5rem -1rem 0;
+  padding: 0.75rem 1rem;
+  background: rgb(var(--c-fondo) / 0.96);
+  border-top: 1px solid rgb(var(--c-borde));
+}
+
+.barra-accion:empty {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .main-con-barra { padding-bottom: 3rem; }
+  .footer-con-barra { padding-bottom: 0; }
+  .barra-accion {
+    bottom: 0;
+    margin-inline: 0;
+    padding-inline: 0;
+  }
+}
+
+/* Días del paso 3: scroll horizontal propio, sin desbordar la página (GOT-13) */
+.dias-scroll {
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+}
+
+.dias-scroll > li {
+  scroll-snap-align: start;
+}
+
+/* Línea de tiempo de la agenda */
+.linea-tiempo {
+  position: relative;
+  padding-left: 1.25rem;
+}
+
+.linea-tiempo::before {
+  content: "";
+  position: absolute;
+  left: 0.3rem;
+  top: 0.5rem;
+  bottom: 0.5rem;
+  width: 2px;
+  background: rgb(var(--c-borde));
+}
+
+.linea-tiempo > li {
+  position: relative;
+}
+
+.linea-tiempo > li::before {
+  content: "";
+  position: absolute;
+  left: -1.2rem;
+  top: 1.35rem;
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 9999px;
+  background: rgb(var(--c-borde-control));
+  border: 2px solid rgb(var(--c-fondo));
+}
+
+.linea-tiempo > li[data-tipo="turno"]::before {
+  background: rgb(var(--c-primario));
+}
+
+/* Interruptores (role="switch") */
+.switch-perilla {
+  position: absolute;
+  left: 0.2rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 9999px;
+  background: rgb(var(--c-borde-control));
+  transition: transform 150ms ease, background-color 150ms ease;
+}
+
+.switch[aria-checked="true"] .switch-perilla {
+  transform: translateX(1.5rem);
+  background: rgb(var(--c-sobre-primario));
+}
+
+/* Modales: hoja inferior en el celular, centrados en la computadora */
+.dialogo-hoja {
+  width: 100%;
+  max-width: 100%;
+  max-height: 90vh;
+  margin: auto auto 0;
+  padding: 0;
+  border: 0;
+  border-radius: 1.25rem 1.25rem 0 0;
+  box-shadow: 0 -8px 32px rgb(0 0 0 / 0.25);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.dialogo-hoja::backdrop {
+  background: rgb(0 0 0 / 0.5);
+}
+
+.dialogo-hoja[open] {
+  animation: subir 200ms ease-out;
+}
+
+@media (min-width: 768px) {
+  .dialogo-hoja {
+    max-width: 28rem;
+    margin: auto;
+    border-radius: 1.25rem;
+  }
+}
+
+@keyframes subir {
+  from { transform: translateY(16px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Avisos flotantes */
+.toast {
+  bottom: calc(var(--alto-tabbar) + 1rem + env(safe-area-inset-bottom));
+}
+
+@media (min-width: 768px) {
+  .toast { bottom: 1.5rem; }
+}
+
+.toast-mensaje {
+  animation: subir 200ms ease-out;
+}
+
+/* Galería del barbero: texturas decorativas en lugar de fotos */
+.galeria-tile {
+  aspect-ratio: 4 / 5;
+  background-color: rgb(var(--c-primario-suave));
+  background-image:
+    radial-gradient(circle at 50% 38%, rgb(var(--c-primario) / 0.85) 0 22%, transparent 23%),
+    radial-gradient(ellipse at 50% 100%, rgb(var(--c-primario) / 0.55) 0 45%, transparent 46%);
+}
+
+.galeria-tile[data-variante="2"] { background-color: rgb(var(--c-superficie-2)); }
+.galeria-tile[data-variante="3"] {
+  background-image:
+    radial-gradient(circle at 50% 38%, rgb(var(--c-texto) / 0.8) 0 22%, transparent 23%),
+    radial-gradient(ellipse at 50% 100%, rgb(var(--c-texto) / 0.45) 0 45%, transparent 46%);
+}
+
+/* Movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

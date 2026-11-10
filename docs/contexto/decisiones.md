@@ -1,0 +1,76 @@
+# Decisiones — BarberíaRiri
+
+> Registro **numérico y cronológico**, con formato `[ADR-XXX] · [AAAA-MM-DD HH:mm]` (hora de Argentina).
+> Todo requerimiento o ajuste acordado se registra acá.
+> **Guard:** los cambios importantes (arquitectura, paleta semántica, framework, borrado de archivos, reglas de negocio) necesitan **autorización explícita** antes de aplicarse.
+
+---
+
+**[ADR-001] · [2026-11-10 15:56] — Operating System del proyecto** · Aprobada
+6 reglas basadas en Gentle-AI, guardadas en `.agents/rules/antigravity_rules.md` (always_on). El Master Context vive en `docs/contexto/`.
+
+**[ADR-002] · [2026-11-10 15:56] — Stack con Vite y TypeScript** · *Reemplazada por ADR-003*
+SPA con Vite, TypeScript y Tailwind, y persistencia en IndexedDB o LocalStorage.
+
+**[ADR-003] · [2026-11-10 16:02] — Un solo index.html con JavaScript puro y Tailwind por CDN** · Aprobada
+- **Why:** es una entrega académica limitada a lo visto en clase, y debe poder abrirse sin pasos de build.
+- **How:** Tailwind v3 por CDN (`darkMode: 'class'`), Google Fonts y `localStorage`. Lo que está prohibido figura en "Qué NO existe" de `arquitectura.md`.
+- **Trade-off:** no hay chequeo de tipos, y el CDN compila en el navegador, lo que sirve para la entrega pero no para producción.
+
+**[ADR-004] · [2026-11-10 16:02] — Barra inferior en el celular y ruteo por hash** · Aprobada
+- **Why:** Tomás usa el celular con una mano; Graciela necesita poder volver atrás.
+- **How:** pestañas inferiores fijas en lugar del menú hamburguesa, y el botón "atrás" funcionando gracias al hash.
+
+**[ADR-005] · [2026-11-10 16:02] — Paleta inspirada en el poste de barbería** · Aprobada
+- **Why:** identidad de barbería clásica, sin que el rojo choque con su significado de error.
+- **How:** marino como primario. El rojo queda solo para el logo, la franja decorativa y los errores, y nunca en botones. El dorado va solo como fondo. Los tokens están en `convenciones.md`.
+
+**[ADR-006] · [2026-11-10 16:02] — Integraciones simuladas** · Aprobada
+- **Mercado Pago:** modal de demostración.
+- **WhatsApp:** link `wa.me` con texto prearmado.
+- **Calendario:** archivo `.ics` o link de Google Calendar.
+- **Cómo llegar:** link a Google Maps.
+- **Notificaciones:** dentro de la app.
+
+**[ADR-007] · [2026-11-10 16:02] — Vista del barbero sin login** · Propuesta → *aprobada en ADR-010*
+"Soy barbero" abre un selector de barbero (Riri, Nico o Lucho); si se elige al dueño (Riri), aparece la pestaña "Local". Es solo una demostración, sin seguridad real.
+
+**[ADR-008] · [2026-11-10 16:02] — Reglas de negocio iniciales (RN-01 a RN-09)** · Aprobada
+Surgen de la entrevista UX. El detalle está en `glosario.md` §2.
+
+**[ADR-009] · [2026-11-10 16:07] — Reglas de negocio RN-10 a RN-15** · Aprobada
+Se aprueban las propuestas P-01 a P-06: bloques consecutivos, política de cancelación, tarjeta de sellos, ventana de reserva, turno liberado y reprogramación. El detalle está en `glosario.md` §2.
+
+**[ADR-010] · [2026-11-10 16:08] — Aprobación del ADR-007** · Aprobada
+El acceso a la vista del barbero sin login queda aprobado.
+
+**[ADR-011] · [2026-11-10 16:10] — Reestructuración del Master Context** · Aprobada
+- **Cambios en los documentos:**
+  - Cada documento se lee en menos de 2 minutos.
+  - Las ADR llevan fecha y hora.
+  - Las reglas de negocio pasan a `glosario.md`.
+  - Se agrega el ciclo DCU al flujo de trabajo.
+  - Se agrega el espaciado Gestalt a las convenciones.
+  - Se agrega el mapa de frames de Figma a la arquitectura.
+- **Contenido del producto:** sin cambios.
+
+**[ADR-012] · [2026-11-10 19:19] — Poda de la biblioteca de skills** · Aprobada (pedido explícito del usuario)
+- **Why:** de 2.860 skills, casi todas apuntaban a tecnologías que no existen en el proyecto (React, Node, Python, apps nativas, etc.).
+- **How:** se conservan 38 skills de Tailwind, diseño, accesibilidad WCAG, UX, JavaScript puro y SDD. También se borró la infraestructura del repositorio (plugins y app Node/Supabase). El detalle está en `.agents/skills/SKILLS-CONSERVADAS.md` y la lista de las podadas en `.agents/SKILLS_PODADAS.txt`.
+- **Trade-off:** el `.git` del clon (85 MB) se conserva para poder restaurar cualquier skill.
+
+**[ADR-013] · [2026-11-10 16:29] — Wireframes low-fi de las pantallas principales** · Aprobada (pedido explícito del usuario)
+- **Why:** la entrega pide wireframes low-fi en Figma que respeten Gestalt y jerarquía visual.
+- **How:** un solo SVG importable a Figma (`docs/wireframes/wireframes-flujo-lowfi.svg`) con 10 pantallas en cajas grises (01 a 09, más 05b el modal de pago) unidas por flechas de flujo. A pedido del usuario se simplificó: sin textos de detalle ni notas, sólo para ver el flujo. Los nombres de frame confirman la tabla de `arquitectura.md`.
+- **Trade-off:** sólo Mobile 360; Desktop 1280 queda para el mid-fi.
+
+**[ADR-014] · [2026-11-10 17:23] — Maquetación del wireframe en index.html + style.css + app.js** · Aprobada (pedido explícito del usuario)
+- **Why:** el usuario pidió entregar el código separado en tres archivos; se gana legibilidad sin sumar herramientas de build.
+- **How:** ajusta ADR-003. Sigue sin build: Tailwind v3 por CDN y JS puro. `style.css` define los tokens como variables RGB (claro y `.dark`) que `tailwind.config` consume, más lo que Tailwind CDN no resuelve (safe-area, `prefers-reduced-motion`, `::backdrop`). Los modales usan `<dialog>` nativo. Las 10 pantallas del wireframe (01 a 09 + 05b) quedan como vistas del router por hash.
+- **Trade-off:** hay que servir los tres archivos juntos; abrir `index.html` con doble clic también funciona.
+
+---
+
+## Pendientes
+
+_Ninguno._

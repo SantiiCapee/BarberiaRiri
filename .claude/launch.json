@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "barberiariri",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["C:/Users/santi/AppData/Local/Temp/claude/4367fba1c6e235a3/2c130a7c-eae8-42c7-a5ca-42b8d2d3e66c/scratchpad/servidor.js", "D:\\Cosas SANTI\\Descargas\\claude\\efi interfaz"],
+      "port": 5173
+    }
+  ]
+}

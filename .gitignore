@@ -1,0 +1,9 @@
+# Librería de skills clonada (repo git propio, ~87 MB)
+.agents/skills/
+
+# Sistema / editores
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+*.log
