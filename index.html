@@ -67,7 +67,7 @@
   <header class="sticky top-0 z-30 border-b border-borde bg-superficie/95 backdrop-blur">
     <div class="franja-poste h-1.5" aria-hidden="true"></div>
     <div class="mx-auto flex h-16 max-w-5xl items-center gap-2 px-4">
-      <a href="#/inicio" class="mr-auto flex min-h-12 items-center gap-2 rounded-xl pr-2 font-titulo text-h2 font-semibold uppercase tracking-wide text-texto hover:text-primario active:scale-[0.98] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo">
+      <a href="#/inicio" id="logo-inicio" class="mr-auto flex min-h-12 items-center gap-2 rounded-xl pr-2 font-titulo text-h2 font-semibold uppercase tracking-wide text-texto hover:text-primario active:scale-[0.98] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo">
         <span class="poste-logo" aria-hidden="true"></span>
         <span>Barbería<span class="text-primario">Riri</span></span>
       </a>
@@ -77,7 +77,7 @@
       </nav>
 
       <button type="button" id="btn-salir-barbero" data-accion="salir-barbero" hidden data-cls="btnIcono" class="px-3">
-        <span data-icono="salir"></span><span>Salir<span class="sr-only"> de Soy barbero</span></span>
+        <span data-icono="salir"></span><span>Salir<span class="sr-only sm:not-sr-only"> del modo barbero</span></span>
       </button>
 
       <button type="button" id="btn-tema" data-accion="tema" aria-pressed="false" aria-label="Modo oscuro" title="Modo oscuro" data-cls="btnIcono">
@@ -221,7 +221,7 @@
       <!-- Clase 4: el recuadro va después de los turnos para que el h1 y el turno sean lo primero que se ve -->
       <div class="mt-8 flex items-center gap-4 rounded-xl border border-borde bg-superficie p-4">
         <p class="grow"><span class="block font-semibold">¿Otro corte?</span><span class="block text-caption text-secundario">Reservá en menos de un minuto.</span></p>
-        <a href="#/reservar/1" data-cls="btnSecundario">Reservar</a>
+        <a href="#/reservar/1" data-cls="btnSecundario">Reservar turno</a>
       </div>
 
       <section aria-labelledby="t-espera" class="mt-8">
@@ -266,7 +266,7 @@
       </section>
 
       <section aria-labelledby="t-preferencias" class="mt-8">
-        <h2 id="t-preferencias" class="font-titulo text-h2 font-semibold leading-tight">Preferencias</h2>
+        <h2 id="t-preferencias" class="font-titulo text-h2 font-semibold leading-tight">Tus datos y preferencias</h2>
         <dl id="perfil-preferencias" class="mt-4 divide-y divide-borde rounded-xl border border-borde bg-superficie px-4"></dl>
         <form id="form-perfil" class="mt-6 grid gap-6">
           <div class="grid gap-6 sm:grid-cols-2">
@@ -286,7 +286,7 @@
             <p id="ayuda-notas" class="text-caption text-secundario">Lo ve tu barbero en la agenda. Ej.: máquina 2 a los costados, tijera arriba.</p>
             <textarea id="perfil-notas" rows="3" aria-describedby="ayuda-notas" data-cls="campo" class="py-3"></textarea>
           </div>
-          <button type="submit" data-cls="btnPrimario" class="sm:justify-self-start">Guardar preferencias</button>
+          <button type="submit" data-cls="btnPrimario" class="sm:justify-self-start">Guardar cambios</button>
         </form>
       </section>
 
@@ -353,7 +353,7 @@
   </footer>
 
   <!-- ===== Barra inferior (solo celular) ===== -->
-  <nav aria-label="Pestañas" class="tabbar fixed inset-x-0 bottom-0 z-30 border-t border-borde bg-superficie md:hidden">
+  <nav aria-label="Principal" class="tabbar fixed inset-x-0 bottom-0 z-30 border-t border-borde bg-superficie md:hidden">
     <ul id="tabbar" class="mx-auto grid max-w-md grid-cols-4"></ul>
   </nav>
 
@@ -371,7 +371,7 @@
         <input id="pago-email" type="email" autocomplete="email" required aria-describedby="error-pago" data-cls="campo">
         <p id="error-pago" class="mt-2 hidden items-center gap-2 text-body font-medium text-error"></p>
       </div>
-      <button type="submit" id="btn-pagar" value="pagar" data-cls="btnPrimario"><span id="pago-icono-candado" data-icono="candado"></span><span id="pago-icono-carga" hidden data-icono="carga" data-icono-clase="h-5 w-5 animate-spin motion-reduce:animate-none"></span><span id="btn-pagar-texto">Pagar</span></button>
+      <button type="submit" id="btn-pagar" value="pagar" data-cls="btnPrimario"><span id="pago-icono-candado" data-icono="candado"></span><span id="pago-icono-carga" hidden data-icono="carga" data-icono-clase="h-5 w-5 animate-spin motion-reduce:animate-none"></span><span id="btn-pagar-texto">Pagar seña</span></button>
       <button type="button" data-accion="cerrar-dialogo" data-cls="btnTexto">Cancelar</button>
     </form>
   </dialog>

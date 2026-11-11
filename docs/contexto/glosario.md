@@ -66,4 +66,7 @@ Cambiar cualquiera de estas reglas requiere autorización y una ADR nueva.
 | Ocupado · Mañana / Tarde | Unavailable · AM / PM |
 | Continuar / Volver · Confirmar turno | Next / Back · Submit |
 | Turno confirmado · Reprogramar / Cancelar | Booking success · Reschedule |
-| Soy barbero | Login staff |
+| Soy barbero · Salir del modo barbero | Login staff · Logout |
+| Pagar seña | Pagar, Submit |
+| Tus datos y preferencias · Guardar cambios | Preferencias (si incluye datos personales) |
+| Reservó en la app | App |

@@ -37,6 +37,35 @@ Cada vista corresponde a un frame del prototipo, en dos tamaños: **Mobile 360**
 
 > Los wireframes low-fi de estos frames (más `05b Modal de pago`) están en `docs/wireframes/` (ADR-013).
 
+## Mapa del sitio
+
+Estructura plana: un solo nivel de pestañas por espacio. Reservar es un asistente lineal con indicador "Paso X de 4" (no hace falta usar migas de pan).
+
+```
+BarberíaRiri
+├─ Espacio cliente (pestañas: Inicio · Reservar · Mis turnos · Perfil)
+│  ├─ Inicio ─ Reservar turno · Repetir mi último corte · Tu próximo turno · Barberos
+│  ├─ Reservar
+│  │  ├─ Paso 1 Servicio → Paso 2 Barbero → Paso 3 Fecha y hora → Paso 4 Tus datos y seña
+│  │  │                                                             └─ (diálogo) Pagar seña
+│  │  └─ Turno confirmado → Ir a Mis turnos
+│  ├─ Mis turnos ─ Próximos / Historial · Lista de espera
+│  │  └─ (diálogo) ¿Cancelar el turno?
+│  └─ Perfil ─ Tarjeta de sellos · Tus datos y preferencias · Ajustes · Soy barbero
+│     └─ (diálogo) Soy barbero → entra al espacio barbero
+├─ Espacio barbero (pestañas: Agenda · Clientes · Mi galería · Local*)
+│  └─ Salir del modo barbero → vuelve a Perfil        * Local: solo el dueño (RN-07)
+└─ Siempre visibles: logo (Inicio, o Agenda en modo barbero) · Modo oscuro · Avisos (diálogo)
+```
+
+## Card sorting
+
+Pendiente: completar con los resultados reales (tipo de card sorting, participantes, tarjetas, grupos formados y conclusiones). Hasta tenerlos, la agrupación actual se justifica por las tareas del cliente y del barbero (ADR-003, ADR-004).
+
+| Tipo | Participantes | Tarjetas | Grupos resultantes | Conclusión |
+|---|---|---|---|---|
+| — | — | — | — | — |
+
 **Partes fijas en todas las vistas:**
 - Barra superior: logo, alternador de modo claro/oscuro y notificaciones.
 - Barra inferior de pestañas (solo en el celular).

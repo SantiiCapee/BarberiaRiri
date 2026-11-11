@@ -138,9 +138,20 @@ El acceso a la vista del barbero sin login queda aprobado.
   - Si el barbero se eligió en Inicio, "Continuar" del Paso 1 va directo a Fecha y hora (`barberoDesdeInicio`). Se puede cambiar con Volver o "Cambiar".
 - **Trade-off:** el aviso de Personas y Journey Map (F de la Clase 6) queda pendiente hasta tener los datos reales de la investigación.
 
+**[ADR-021] · [2026-11-11 21:10] — Ajustes por la Clase 7 (Arquitectura de Información)** · Aprobada (pedido explícito del usuario)
+- **Why:** la revisión marcó que en modo barbero el logo lo sacaba de su menú, botones genéricos ("Pagar", "Salir"), nombres distintos para lo mismo y una sección "Preferencias" que también guardaba datos personales.
+- **How:**
+  - En modo barbero, el logo lleva a la Agenda.
+  - "Pagar" → "Pagar seña"; "Salir" → "Salir del modo barbero" (en celular se ve "Salir" por espacio, el resto lo lee el lector de pantalla).
+  - Perfil: "Preferencias" → "Tus datos y preferencias"; "Guardar preferencias" → "Guardar cambios".
+  - Unificados: "Cualquier barbero disponible", "Reservó en la app", "Reservar turno", "Tus datos y seña" y el menú se llama "Principal" en celular y escritorio.
+  - Mapa del sitio en `arquitectura.md`, con una sección de card sorting vacía.
+- **Trade-off:** el card sorting queda pendiente hasta tener los resultados reales.
+
 ---
 
 ## Pendientes
 
 - Documentar Personas (Tomás, Graciela, Riri) y el User Journey Map con datos reales de la investigación (Clase 6).
 - Definir cuándo y cómo se devuelve la seña al cancelar a tiempo.
+- Cargar los resultados reales del card sorting en `arquitectura.md` (Clase 7).

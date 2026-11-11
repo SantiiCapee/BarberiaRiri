@@ -447,6 +447,8 @@ function pintarNavegacion(ruta, modoBarbero) {
     </li>`).join('');
 
   $('#btn-salir-barbero').hidden = !modoBarbero;
+  // Clase 7: en modo barbero el logo lleva a su Agenda, así no pierde su menú (ADR-021)
+  $('#logo-inicio').setAttribute('href', estado.barbero ? '#/barbero/agenda' : '#/inicio');
 }
 
 // ============ Vistas ============
@@ -502,7 +504,7 @@ function pintarInicio() {
 }
 
 function pintarProgreso(paso) {
-  const nombres = ['Servicio', 'Barbero', 'Fecha y hora', 'Tus datos'];
+  const nombres = ['Servicio', 'Barbero', 'Fecha y hora', 'Tus datos y seña'];
   const reprog = estado.borrador.reprogramando;
   const contenedor = $(`[data-progreso="${paso}"]`);
   contenedor.innerHTML = `
@@ -810,7 +812,7 @@ function pintarMisTurnos() {
   if (valorDia) selDia.value = valorDia;
   const selBarbero = $('#espera-barbero');
   if (!selBarbero.options.length) {
-    selBarbero.innerHTML = `<option value="cualquiera">Cualquiera</option>${BARBEROS.map((b) => `<option value="${b.id}">${b.nombre}</option>`).join('')}`;
+    selBarbero.innerHTML = `<option value="cualquiera">Cualquier barbero disponible</option>${BARBEROS.map((b) => `<option value="${b.id}">${b.nombre}</option>`).join('')}`;
   }
 }
 
@@ -930,7 +932,7 @@ function pintarClientes() {
   $('#clientes-lista').innerHTML = clientes.length ? clientes.map((c) => `
     <li class="${CLS.tarjeta} flex items-center gap-4">
       <span class="${CLS.avatar}" aria-hidden="true">${esc(c.nombre[0])}</span>
-      <p class="min-w-0 grow"><span class="block font-semibold">${esc(c.nombre)}${c.app ? ` <span class="${CLS.badge} bg-primario-suave text-primario">App</span>` : ''}</span>
+      <p class="min-w-0 grow"><span class="block font-semibold">${esc(c.nombre)}${c.app ? ` <span class="${CLS.badge} bg-primario-suave text-primario">Reservó en la app</span>` : ''}</span>
         <span class="block text-caption text-secundario">Próximo: ${c.proximo.fecha === hoy ? 'hoy' : formatoDia(c.proximo.fecha)} ${c.proximo.hora} · ${servicioPorId(c.proximo.servicioId).nombre}</span></p>
       <span class="text-caption font-semibold">${c.cantidad} ${c.cantidad === 1 ? 'turno' : 'turnos'}</span>
     </li>`).join('') : `<li class="${CLS.vacio}">No hay clientes agendados.</li>`;
@@ -1220,7 +1222,7 @@ const ACCIONES = {
   'salir-barbero'() {
     estado.barbero = null;
     guardarStorage('barbero', null);
-    toast('Saliste de Soy barbero.');
+    toast('Saliste del modo barbero.');
     irA('/perfil');
   },
   'agenda-dia'(el) {
@@ -1372,7 +1374,7 @@ function marcarPagando(pagando) {
   // Clase 6: indicador de carga para que no se toque dos veces
   $('#pago-icono-candado').hidden = pagando;
   $('#pago-icono-carga').hidden = !pagando;
-  $('#btn-pagar-texto').textContent = pagando ? 'Procesando pago…' : 'Pagar';
+  $('#btn-pagar-texto').textContent = pagando ? 'Procesando pago…' : 'Pagar seña';
   if (!pagando) temporizadorPago = null;
 }
 
