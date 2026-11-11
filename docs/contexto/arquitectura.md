@@ -58,14 +58,6 @@ BarberíaRiri
 └─ Siempre visibles: logo (Inicio, o Agenda en modo barbero) · Modo oscuro · Avisos (diálogo)
 ```
 
-## Card sorting
-
-Pendiente: completar con los resultados reales (tipo de card sorting, participantes, tarjetas, grupos formados y conclusiones). Hasta tenerlos, la agrupación actual se justifica por las tareas del cliente y del barbero (ADR-003, ADR-004).
-
-| Tipo | Participantes | Tarjetas | Grupos resultantes | Conclusión |
-|---|---|---|---|---|
-| — | — | — | — | — |
-
 **Partes fijas en todas las vistas:**
 - Barra superior: logo, alternador de modo claro/oscuro y notificaciones.
 - Barra inferior de pestañas (solo en el celular).

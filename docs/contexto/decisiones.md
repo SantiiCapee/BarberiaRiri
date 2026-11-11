@@ -145,8 +145,8 @@ El acceso a la vista del barbero sin login queda aprobado.
   - "Pagar" → "Pagar seña"; "Salir" → "Salir del modo barbero" (en celular se ve "Salir" por espacio, el resto lo lee el lector de pantalla).
   - Perfil: "Preferencias" → "Tus datos y preferencias"; "Guardar preferencias" → "Guardar cambios".
   - Unificados: "Cualquier barbero disponible", "Reservó en la app", "Reservar turno", "Tus datos y seña" y el menú se llama "Principal" en celular y escritorio.
-  - Mapa del sitio en `arquitectura.md`, con una sección de card sorting vacía.
-- **Trade-off:** el card sorting queda pendiente hasta tener los resultados reales.
+  - Mapa del sitio en `arquitectura.md`.
+- **Trade-off:** no se hizo card sorting (no lo pide la EFI); la agrupación se justifica por las tareas del cliente y del barbero (ADR-003, ADR-004).
 
 ---
 
@@ -154,4 +154,3 @@ El acceso a la vista del barbero sin login queda aprobado.
 
 - Documentar Personas (Tomás, Graciela, Riri) y el User Journey Map con datos reales de la investigación (Clase 6).
 - Definir cuándo y cómo se devuelve la seña al cancelar a tiempo.
-- Cargar los resultados reales del card sorting en `arquitectura.md` (Clase 7).
