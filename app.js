@@ -39,7 +39,7 @@ const FOCO = 'focus-visible:outline-none focus-visible:ring-[3px] focus-visible:
 const CLS = {
   btnPrimario: `inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border-2 border-transparent bg-primario px-5 font-semibold text-sobre-primario shadow-sm transition duration-150 hover:bg-primario-hover hover:shadow-md active:scale-[0.98] active:bg-primario-activo ${FOCO} disabled:cursor-not-allowed disabled:border-borde-control disabled:bg-superficie-2 disabled:text-secundario disabled:shadow-none disabled:hover:bg-superficie-2 disabled:hover:shadow-none disabled:active:scale-100`,
   btnSecundario: `inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border-2 border-primario bg-superficie px-4 font-semibold text-primario transition duration-150 hover:bg-primario-suave active:scale-[0.98] active:bg-primario-suave ${FOCO} disabled:cursor-not-allowed disabled:border-borde-control disabled:text-secundario disabled:hover:bg-superficie disabled:active:scale-100`,
-  btnTexto: `inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-3 font-semibold text-primario underline-offset-4 transition hover:bg-primario-suave hover:underline active:scale-[0.98] ${FOCO} disabled:cursor-not-allowed disabled:text-secundario disabled:hover:bg-transparent disabled:hover:no-underline`,
+  btnTexto: `inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-3 font-semibold text-primario underline decoration-1 underline-offset-4 transition hover:bg-primario-suave hover:decoration-2 active:scale-[0.98] ${FOCO} disabled:cursor-not-allowed disabled:text-secundario disabled:no-underline disabled:hover:bg-transparent`,
   opcion: `group flex w-full min-h-12 items-center gap-4 rounded-xl border border-borde-control bg-superficie p-4 text-left transition duration-150 hover:border-primario hover:shadow-md active:scale-[0.98] ${FOCO} aria-pressed:border-2 aria-pressed:border-primario aria-pressed:bg-primario-suave aria-pressed:p-[15px] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-borde-control disabled:hover:shadow-none`,
   opcionPunteada: `group flex w-full min-h-12 items-center gap-4 rounded-xl border-2 border-dashed border-borde-control bg-superficie p-[15px] text-left transition duration-150 hover:border-primario hover:shadow-md active:scale-[0.98] ${FOCO} aria-pressed:border-solid aria-pressed:border-primario aria-pressed:bg-primario-suave disabled:cursor-not-allowed disabled:opacity-50`,
   radio: 'grid h-6 w-6 shrink-0 place-items-center rounded-full border-2 border-borde-control group-aria-pressed:border-primario',
@@ -292,7 +292,9 @@ function pintarContadorAvisos() {
   const contador = $('#avisos-contador');
   contador.hidden = sinLeer === 0;
   contador.textContent = sinLeer > 9 ? '9+' : String(sinLeer);
-  $('#btn-avisos').setAttribute('aria-label', sinLeer ? `Avisos, ${sinLeer} sin leer` : 'Avisos');
+  const etiqueta = sinLeer ? `Avisos, ${sinLeer} sin leer` : 'Avisos';
+  $('#btn-avisos').setAttribute('aria-label', etiqueta);
+  $('#btn-avisos').title = etiqueta;
 }
 
 function pintarAvisos() {
@@ -515,7 +517,8 @@ function pintarPaso1() {
         <span class="shrink-0 font-semibold">${precio(s.precio)}</span>
       </button>
     </li>`).join('');
-  pintarBarra(1, Boolean(elegido), elegido ? '' : 'Elegí un servicio para continuar.');
+  const servicio = servicioPorId(elegido);
+  pintarBarra(1, Boolean(elegido), servicio ? `${servicio.nombre} · ${precio(servicio.precio)}` : 'Elegí un servicio para continuar.');
 }
 
 function pintarPaso2() {
@@ -542,7 +545,8 @@ function pintarPaso2() {
         <span class="hidden h-6 w-6 shrink-0 place-items-center rounded-full bg-primario text-sobre-primario group-aria-pressed:grid" aria-hidden="true">${icono('check', 'h-4 w-4')}</span>
       </button>
     </li>`).join('')}`;
-  pintarBarra(2, Boolean(elegido), elegido ? '' : 'Elegí un barbero para continuar.');
+  const conQuien = elegido === 'cualquiera' ? 'cualquier barbero disponible' : esc(nombreBarbero(elegido));
+  pintarBarra(2, Boolean(elegido), elegido ? `${servicioPorId(estado.borrador.servicioId).nombre} con ${conQuien}` : 'Elegí un barbero para continuar.');
 }
 
 function pintarPaso3() {
@@ -759,7 +763,7 @@ function pintarMisTurnos() {
   const hoy = hoyISO();
   estado.espera = estado.espera.filter((e) => e.fecha >= hoy);
   $('#lista-espera').innerHTML = estado.espera.length
-    ? estado.espera.map((e) => `
+    ? [...estado.espera].sort((a, b) => (a.fecha + a.franja).localeCompare(b.fecha + b.franja)).map((e) => `
       <li class="${CLS.tarjeta} flex items-center gap-4">
         <p class="grow"><span class="block font-semibold">${formatoDia(e.fecha)} · ${FRANJAS[e.franja].nombre}</span>
           <span class="block text-sm text-secundario">${esc(nombreBarbero(e.barberoId))}</span></p>
@@ -850,7 +854,7 @@ function pintarAgenda() {
               ${estado.perfil.notas ? `<p class="mt-2 rounded-lg bg-superficie-2 p-2 text-sm">“${esc(estado.perfil.notas)}”</p>` : ''}`}
             ${marca ? `
               <p class="mt-3 flex items-center gap-2 font-semibold ${marca === 'llego' ? 'text-exito' : 'text-error'}">
-                ${icono(marca === 'llego' ? 'check-circulo' : 'x')}${marca === 'llego' ? 'Llegó' : 'No vino'}
+                ${icono(marca === 'llego' ? 'check-circulo' : 'alerta')}${marca === 'llego' ? 'Llegó' : 'No vino'}
                 <button type="button" class="${CLS.btnTexto} ml-auto min-h-10" data-accion="asistencia" data-hora="${hora}" data-valor="">Deshacer</button>
               </p>` : `
               <div class="mt-3 grid grid-cols-2 gap-3">

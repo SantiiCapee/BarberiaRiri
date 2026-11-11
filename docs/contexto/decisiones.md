@@ -91,6 +91,19 @@ El acceso a la vista del barbero sin login queda aprobado.
   - "Saltar al contenido" enfoca el título de la vista sin cambiar de ruta.
 - **Trade-off:** no cambia ningún token de la paleta; todos los colores de texto ya cumplían 4.5:1.
 
+**[ADR-017] · [2026-11-11 18:15] — Ajustes por la Clase 3 (Modelos mentales y Affordance)** · Aprobada (pedido explícito del usuario)
+- **Why:** la revisión marcó botones de texto sin forma, dos acciones principales en Mis turnos, íconos sin tooltip o con doble significado, vocabulario interno, posiciones inconsistentes y selecciones que no se reflejaban.
+- **How:**
+  - Los botones de texto van subrayados siempre.
+  - "Reservar" del recuadro de Mis turnos pasa a secundario.
+  - Los botones de ícono llevan `title`.
+  - "No vino" usa el ícono de alerta (la X queda para cerrar) y "Soy barbero" pierde la tijera (queda para reservar/corte).
+  - "Franja" → "Horario".
+  - En "¿Cancelar el turno?", confirmar va arriba y descartar abajo, con `autofocus` en la opción segura. Ajusta el orden de ADR-015.
+  - La barra de los Pasos 1 y 2 muestra lo elegido.
+  - La lista de espera se ordena por fecha.
+- **Trade-off:** no cambia ningún color ni el foco; se mantiene ADR-005.
+
 ---
 
 ## Pendientes

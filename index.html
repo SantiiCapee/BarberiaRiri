@@ -73,13 +73,13 @@
         <span data-icono="salir"></span><span>Salir<span class="sr-only"> de Soy barbero</span></span>
       </button>
 
-      <button type="button" id="btn-tema" data-accion="tema" aria-pressed="false" aria-label="Modo oscuro"
+      <button type="button" id="btn-tema" data-accion="tema" aria-pressed="false" aria-label="Modo oscuro" title="Modo oscuro"
         class="inline-flex h-12 w-12 items-center justify-center rounded-xl text-texto transition hover:bg-superficie-2 active:scale-95 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50">
         <span data-icono="luna" class="dark:hidden"></span>
         <span data-icono="sol" class="hidden dark:inline"></span>
       </button>
 
-      <button type="button" id="btn-avisos" data-accion="notificaciones" aria-label="Avisos"
+      <button type="button" id="btn-avisos" data-accion="notificaciones" aria-label="Avisos" title="Avisos"
         class="relative inline-flex h-12 w-12 items-center justify-center rounded-xl text-texto transition hover:bg-superficie-2 active:scale-95 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50">
         <span data-icono="campana"></span>
         <span id="avisos-contador" hidden class="absolute right-1.5 top-1.5 grid h-5 min-w-5 place-items-center rounded-full bg-acento px-1 text-xs font-bold text-sobre-acento" aria-hidden="true"></span>
@@ -212,7 +212,7 @@
       <div class="flex items-center gap-4 rounded-xl border border-borde bg-superficie p-4">
         <p class="grow"><span class="block font-semibold">¿Otro corte?</span><span class="block text-sm text-secundario">Reservá en menos de un minuto.</span></p>
         <a href="#/reservar/1"
-          class="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-primario px-5 font-semibold text-sobre-primario shadow-sm transition duration-150 hover:bg-primario-hover hover:shadow-md active:scale-[0.98] active:bg-primario-activo focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo">Reservar</a>
+          class="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border-2 border-primario bg-superficie px-5 font-semibold text-primario transition duration-150 hover:bg-primario-suave active:scale-[0.98] active:bg-primario-suave focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo">Reservar</a>
       </div>
 
       <h1 id="t-mis-turnos" tabindex="-1" class="mt-6 font-titulo text-[2rem] font-semibold leading-tight focus:outline-none">Mis turnos</h1>
@@ -234,7 +234,7 @@
             <select id="espera-dia" class="mt-1 block min-h-12 w-full rounded-xl border border-borde-control bg-superficie px-3 text-texto transition hover:border-primario focus:outline-none focus:ring-[3px] focus:ring-primario focus:ring-offset-2 focus:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50"></select>
           </div>
           <div>
-            <label for="espera-franja" class="block text-sm font-semibold">Franja</label>
+            <label for="espera-franja" class="block text-sm font-semibold">Horario</label>
             <select id="espera-franja" class="mt-1 block min-h-12 w-full rounded-xl border border-borde-control bg-superficie px-3 text-texto transition hover:border-primario focus:outline-none focus:ring-[3px] focus:ring-primario focus:ring-offset-2 focus:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50">
               <option value="manana">Mañana</option>
               <option value="tarde">Tarde</option>
@@ -313,7 +313,7 @@
 
       <button type="button" data-accion="soy-barbero"
         class="mt-8 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border-2 border-primario bg-superficie px-5 font-semibold text-primario transition duration-150 hover:bg-primario-suave active:scale-[0.98] active:bg-primario-suave focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50">
-        <span data-icono="tijera"></span>Soy barbero
+        Soy barbero
       </button>
     </section>
 
@@ -324,9 +324,9 @@
           <h1 id="t-agenda" tabindex="-1" class="font-titulo text-[2rem] font-semibold leading-tight focus:outline-none">Agenda</h1>
           <p id="agenda-subtitulo" class="text-secundario" aria-live="polite"></p>
         </div>
-        <button type="button" id="agenda-anterior" data-accion="agenda-dia" data-delta="-1" aria-label="Día anterior"
+        <button type="button" id="agenda-anterior" data-accion="agenda-dia" data-delta="-1" aria-label="Día anterior" title="Día anterior"
           class="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-borde-control bg-superficie text-texto transition hover:border-primario hover:bg-primario-suave active:scale-95 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-borde-control disabled:hover:bg-superficie"><span data-icono="chevron-izq"></span></button>
-        <button type="button" id="agenda-siguiente" data-accion="agenda-dia" data-delta="1" aria-label="Día siguiente"
+        <button type="button" id="agenda-siguiente" data-accion="agenda-dia" data-delta="1" aria-label="Día siguiente" title="Día siguiente"
           class="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-borde-control bg-superficie text-texto transition hover:border-primario hover:bg-primario-suave active:scale-95 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-borde-control disabled:hover:bg-superficie"><span data-icono="chevron-der"></span></button>
       </div>
       <ol id="agenda-lista" class="linea-tiempo mt-6 grid gap-3"></ol>
@@ -385,7 +385,7 @@
       <button type="submit" id="btn-pagar" value="pagar"
         class="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border-2 border-transparent bg-primario px-5 font-semibold text-sobre-primario shadow-sm transition duration-150 hover:bg-primario-hover hover:shadow-md active:scale-[0.98] active:bg-primario-activo focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:border-borde-control disabled:bg-superficie-2 disabled:text-secundario disabled:shadow-none disabled:hover:bg-superficie-2 disabled:hover:shadow-none disabled:active:scale-100"><span data-icono="candado"></span><span id="btn-pagar-texto">Pagar</span></button>
       <button type="button" data-accion="cerrar-dialogo"
-        class="inline-flex min-h-12 items-center justify-center rounded-xl px-5 font-semibold text-primario transition hover:bg-primario-suave active:scale-[0.98] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:text-secundario disabled:hover:bg-transparent">Cancelar</button>
+        class="inline-flex min-h-12 items-center justify-center rounded-xl px-5 font-semibold text-primario underline decoration-1 underline-offset-4 transition hover:bg-primario-suave hover:decoration-2 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:text-secundario disabled:no-underline disabled:hover:bg-transparent">Cancelar</button>
     </form>
   </dialog>
 
@@ -394,11 +394,11 @@
     <div class="grid gap-4 p-6">
       <h2 id="t-cancelar" class="font-titulo text-2xl font-semibold leading-tight">¿Cancelar el turno?</h2>
       <p id="cancelar-texto"></p>
-      <!-- La opción segura va primero y como principal; la destructiva, delineada (ADR-005: sin rojo en botones) -->
-      <button type="button" data-accion="cerrar-dialogo"
-        class="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-primario px-5 font-semibold text-sobre-primario shadow-sm transition duration-150 hover:bg-primario-hover hover:shadow-md active:scale-[0.98] active:bg-primario-activo focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50">No, mantener turno</button>
+      <!-- Confirmar arriba y descartar abajo, como en los otros diálogos. La opción segura sigue como principal y recibe el foco (ADR-005: sin rojo en botones) -->
       <button type="button" id="btn-cancelar-confirmar" data-accion="cancelar-confirmar"
         class="inline-flex min-h-12 items-center justify-center rounded-xl border-2 border-primario bg-superficie px-5 font-semibold text-primario transition hover:bg-primario-suave active:scale-[0.98] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50">Sí, cancelar turno</button>
+      <button type="button" data-accion="cerrar-dialogo" autofocus
+        class="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-primario px-5 font-semibold text-sobre-primario shadow-sm transition duration-150 hover:bg-primario-hover hover:shadow-md active:scale-[0.98] active:bg-primario-activo focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50">No, mantener turno</button>
     </div>
   </dialog>
 
@@ -416,7 +416,7 @@
       <button type="submit"
         class="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-primario px-5 font-semibold text-sobre-primario shadow-sm transition duration-150 hover:bg-primario-hover hover:shadow-md active:scale-[0.98] active:bg-primario-activo focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50">Entrar a mi agenda</button>
       <button type="button" data-accion="cerrar-dialogo"
-        class="inline-flex min-h-12 items-center justify-center rounded-xl px-5 font-semibold text-primario transition hover:bg-primario-suave active:scale-[0.98] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50">Cancelar</button>
+        class="inline-flex min-h-12 items-center justify-center rounded-xl px-5 font-semibold text-primario underline decoration-1 underline-offset-4 transition hover:bg-primario-suave hover:decoration-2 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50">Cancelar</button>
     </form>
   </dialog>
 
@@ -425,7 +425,7 @@
     <div class="grid gap-4 p-6">
       <div class="flex items-center justify-between gap-4">
         <h2 id="t-avisos" class="font-titulo text-2xl font-semibold leading-tight">Avisos</h2>
-        <button type="button" data-accion="cerrar-dialogo" aria-label="Cerrar avisos"
+        <button type="button" data-accion="cerrar-dialogo" aria-label="Cerrar avisos" title="Cerrar avisos"
           class="inline-flex h-12 w-12 items-center justify-center rounded-xl text-texto transition hover:bg-superficie-2 active:scale-95 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50"><span data-icono="x"></span></button>
       </div>
       <ul id="avisos-lista" class="grid max-h-[60vh] gap-3 overflow-y-auto"></ul>
