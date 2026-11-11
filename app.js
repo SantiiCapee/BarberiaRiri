@@ -38,7 +38,7 @@ const DIAS_SEMANA = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'];
 const FOCO = 'focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo';
 const CLS = {
   btnPrimario: `inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border-2 border-transparent bg-primario px-5 font-semibold text-sobre-primario shadow-sm transition duration-150 hover:bg-primario-hover hover:shadow-md active:scale-[0.98] active:bg-primario-activo ${FOCO} disabled:cursor-not-allowed disabled:border-borde-control disabled:bg-superficie-2 disabled:text-secundario disabled:shadow-none disabled:hover:bg-superficie-2 disabled:hover:shadow-none disabled:active:scale-100`,
-  btnSecundario: `inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border-2 border-primario bg-superficie px-4 font-semibold text-primario transition duration-150 hover:bg-primario-suave active:scale-[0.98] active:bg-primario-suave ${FOCO} disabled:cursor-not-allowed disabled:border-borde-control disabled:text-secundario disabled:hover:bg-superficie disabled:active:scale-100`,
+  btnSecundario: `inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border-2 border-primario bg-superficie px-5 font-semibold text-primario transition duration-150 hover:bg-primario-suave active:scale-[0.98] active:bg-primario-suave ${FOCO} disabled:cursor-not-allowed disabled:border-borde-control disabled:text-secundario disabled:hover:bg-superficie disabled:active:scale-100`,
   btnTexto: `inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-3 font-semibold text-primario underline decoration-1 underline-offset-4 transition hover:bg-primario-suave hover:decoration-2 active:scale-[0.98] ${FOCO} disabled:cursor-not-allowed disabled:text-secundario disabled:no-underline disabled:hover:bg-transparent`,
   opcion: `group flex w-full min-h-12 items-center gap-4 rounded-xl border border-borde-control bg-superficie p-4 text-left transition duration-150 hover:border-primario hover:shadow-md active:scale-[0.98] ${FOCO} aria-pressed:border-2 aria-pressed:border-primario aria-pressed:bg-primario-suave aria-pressed:p-[15px] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-borde-control disabled:hover:shadow-none`,
   opcionPunteada: `group flex w-full min-h-12 items-center gap-4 rounded-xl border-2 border-dashed border-borde-control bg-superficie p-[15px] text-left transition duration-150 hover:border-primario hover:shadow-md active:scale-[0.98] ${FOCO} aria-pressed:border-solid aria-pressed:border-primario aria-pressed:bg-primario-suave disabled:cursor-not-allowed disabled:opacity-50`,
@@ -46,7 +46,12 @@ const CLS = {
   radioPunto: 'h-3 w-3 scale-0 rounded-full bg-primario transition group-aria-pressed:scale-100',
   dia: `flex min-h-16 w-[4.5rem] shrink-0 flex-col items-center justify-center rounded-xl border border-borde-control bg-superficie px-2 py-2 transition duration-150 hover:border-primario hover:bg-primario-suave active:scale-[0.98] ${FOCO} aria-pressed:border-primario aria-pressed:bg-primario aria-pressed:text-sobre-primario disabled:cursor-not-allowed disabled:opacity-50`,
   hora: `flex min-h-12 min-w-0 flex-col items-center justify-center rounded-lg border border-borde-control bg-superficie px-1 py-1 font-semibold text-texto transition duration-150 hover:border-primario hover:bg-primario-suave active:scale-[0.98] ${FOCO} aria-pressed:border-primario aria-pressed:bg-primario aria-pressed:text-sobre-primario disabled:cursor-not-allowed disabled:border-dashed disabled:bg-superficie-2 disabled:font-normal disabled:text-secundario disabled:line-through disabled:hover:border-borde-control disabled:hover:bg-superficie-2 disabled:active:scale-100`,
+  btnIconoBorde: `inline-flex h-12 w-12 items-center justify-center rounded-xl border border-borde-control bg-superficie text-texto transition hover:border-primario hover:bg-primario-suave active:scale-95 ${FOCO} disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-borde-control disabled:hover:bg-superficie`,
+  // Campos de formulario: siempre debajo de su etiqueta, a 8px (proximidad)
+  campo: `mt-2 block min-h-12 w-full rounded-xl border border-borde-control bg-superficie px-4 text-base text-texto placeholder:text-secundario transition hover:border-primario focus:border-primario focus:outline-none focus:ring-[3px] focus:ring-primario focus:ring-offset-2 focus:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50 aria-[invalid=true]:border-2 aria-[invalid=true]:border-error`,
+  etiqueta: 'block font-semibold',
   tarjeta: 'rounded-xl border border-borde bg-superficie p-4',
+  vacio: 'rounded-xl bg-superficie-2 p-4 text-secundario',
   badge: 'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold',
   avatar: 'grid h-12 w-12 shrink-0 place-items-center rounded-full bg-primario-suave font-titulo text-xl font-semibold text-primario',
 };
@@ -300,14 +305,14 @@ function pintarContadorAvisos() {
 function pintarAvisos() {
   const lista = $('#avisos-lista');
   if (!estado.notificaciones.length) {
-    lista.innerHTML = '<li class="rounded-xl bg-superficie-2 p-4 text-center text-secundario">No tenés avisos por ahora.</li>';
+    lista.innerHTML = `<li class="${CLS.vacio} text-center">No tenés avisos por ahora.</li>`;
     return;
   }
   lista.innerHTML = estado.notificaciones.map((n) => `
     <li class="${CLS.tarjeta} ${n.leida ? '' : 'border-primario'}">
       <p class="font-semibold">${n.leida ? '' : `<span class="${CLS.badge} mr-2 bg-primario-suave text-primario">Nuevo</span>`}${esc(n.titulo)}</p>
       <p class="text-sm text-secundario">${esc(n.texto)}</p>
-      ${n.accion ? `<button type="button" class="${CLS.btnSecundario} mt-3 w-full" data-accion="reservar-liberado" data-id="${n.id}">Reservar ese horario</button>` : ''}
+      ${n.accion ? `<button type="button" class="${CLS.btnSecundario} mt-4 w-full" data-accion="reservar-liberado" data-id="${n.id}">Reservar ese horario</button>` : ''}
     </li>`).join('');
 }
 
@@ -450,16 +455,16 @@ function pintarInicio() {
   $('#inicio-destacado').innerHTML = proximo
     ? `<article class="${CLS.tarjeta} shadow-sm" aria-labelledby="t-proximo">
         <p class="text-sm font-semibold uppercase tracking-wide text-secundario">Tu próximo turno</p>
-        <h2 id="t-proximo" class="mt-1 font-titulo text-xl font-semibold">${esc(servicioPorId(proximo.servicioId).nombre)}</h2>
+        <h2 id="t-proximo" class="mt-1 font-titulo text-xl font-semibold leading-tight">${esc(servicioPorId(proximo.servicioId).nombre)}</h2>
         <p class="mt-2 flex items-center gap-2 font-semibold">${icono('calendario')}${formatoDia(proximo.fecha)} · ${proximo.hora}</p>
         <p class="mt-1 flex items-center gap-2 text-secundario">${icono('usuario')}Con ${esc(nombreBarbero(proximo.barberoId))} · ${proximo.codigo}</p>
         <a href="#/mis-turnos" class="${CLS.btnTexto} -ml-3 mt-2">Ver Mis turnos</a>
       </article>`
     : `<article class="${CLS.tarjeta}" aria-labelledby="t-horarios">
-        <h2 id="t-horarios" class="font-titulo text-xl font-semibold">Horarios</h2>
+        <h2 id="t-horarios" class="font-titulo text-xl font-semibold leading-tight">Horarios</h2>
         <p class="mt-2 flex items-center gap-2">${icono('reloj')}Lunes a sábado</p>
         <p class="mt-1 pl-7 text-secundario">Mañana de 9 a 13 · Tarde de 15 a 21</p>
-        <p class="mt-3 text-sm text-secundario">Podés cancelar o reprogramar sin cargo hasta 2 horas antes.</p>
+        <p class="mt-4 text-sm text-secundario">Podés cancelar o reprogramar sin cargo hasta 2 horas antes.</p>
       </article>`;
 
   $('#inicio-barberos').innerHTML = BARBEROS.map((b) => `
@@ -481,10 +486,10 @@ function pintarProgreso(paso) {
   const reprog = estado.borrador.reprogramando;
   const contenedor = $(`[data-progreso="${paso}"]`);
   contenedor.innerHTML = `
-    ${reprog ? `<p class="mb-3 flex flex-wrap items-center gap-x-2 rounded-xl bg-primario-suave p-3 text-sm">Estás reprogramando el turno <strong>${esc(reprog)}</strong>.
+    ${reprog ? `<p class="mb-4 flex flex-wrap items-center gap-x-2 rounded-xl bg-primario-suave p-4 text-sm">Estás reprogramando el turno <strong>${esc(reprog)}</strong>.
       <button type="button" class="${CLS.btnTexto} min-h-10 px-2" data-accion="cancelar-reprogramacion">Dejarlo como estaba</button></p>` : ''}
     <p class="text-sm font-semibold text-secundario">Paso ${paso} de 4</p>
-    <ol class="mt-2 grid grid-cols-4 gap-1.5" aria-label="Progreso de la reserva">
+    <ol class="mt-2 grid grid-cols-4 gap-1" aria-label="Progreso de la reserva">
       ${nombres.map((n, i) => `<li class="h-1.5 rounded-full ${i < paso ? 'bg-primario' : 'bg-borde'}"><span class="sr-only">${n}${i + 1 === paso ? ' (paso actual)' : i < paso ? ' (listo)' : ''}</span></li>`).join('')}
     </ol>`;
 }
@@ -495,7 +500,7 @@ function pintarBarra(paso, puedeContinuar, motivo) {
   $(`[data-barra="${paso}"]`).innerHTML = `
     <div class="mx-auto flex max-w-3xl flex-col gap-2">
       ${motivo ? `<p id="motivo-${paso}" class="text-center text-sm text-secundario">${motivo}</p>` : ''}
-      <div class="flex gap-3">
+      <div class="flex gap-4">
         <a href="${volverReprog}" class="${CLS.btnSecundario}">Volver</a>
         <button type="button" class="${CLS.btnPrimario} grow" data-accion="continuar" data-destino="${paso + 1}" ${puedeContinuar ? '' : 'disabled'} ${motivo ? `aria-describedby="motivo-${paso}"` : ''}>Continuar</button>
       </div>
@@ -511,7 +516,7 @@ function pintarPaso1() {
         <span class="${CLS.radio}" aria-hidden="true"><span class="${CLS.radioPunto}"></span></span>
         <span class="min-w-0 grow">
           <span class="block font-semibold">${s.nombre}</span>
-          <span class="mt-0.5 flex flex-wrap items-center gap-2 text-sm text-secundario">${s.duracion} min
+          <span class="mt-1 flex flex-wrap items-center gap-2 text-sm text-secundario">${s.duracion} min
             ${s.badge ? `<span class="${CLS.badge} bg-acento text-sobre-acento">${s.badge}</span>` : ''}</span>
         </span>
         <span class="shrink-0 font-semibold">${precio(s.precio)}</span>
@@ -527,7 +532,7 @@ function pintarPaso2() {
   $('#lista-barberos').innerHTML = `
     <li>
       <button type="button" class="${CLS.opcionPunteada}" data-accion="barbero" data-id="cualquiera" aria-pressed="${elegido === 'cualquiera'}">
-        <span class="${CLS.radio}" aria-hidden="true"><span class="${CLS.radioPunto}"></span></span>
+        <span class="grid w-12 shrink-0 place-items-center" aria-hidden="true"><span class="${CLS.radio}"><span class="${CLS.radioPunto}"></span></span></span>
         <span class="grow"><span class="block font-semibold">Cualquier barbero disponible</span>
         <span class="block text-sm text-secundario">Te mostramos más horarios y asignamos uno libre.</span></span>
         ${icono('usuarios', 'h-6 w-6 shrink-0 text-secundario')}
@@ -580,7 +585,7 @@ function pintarPaso3() {
     const bloques = bloquesDeFranja(clave);
     return `<fieldset class="rounded-xl bg-superficie-2 p-4">
       <legend class="sr-only">${FRANJAS[clave].nombre}</legend>
-      <p class="mb-3 font-semibold" aria-hidden="true">${FRANJAS[clave].nombre}</p>
+      <p class="mb-4 font-semibold" aria-hidden="true">${FRANJAS[clave].nombre}</p>
       ${libres.size ? `<div class="grid grid-cols-3 gap-2 sm:grid-cols-6">
         ${bloques.map((h) => {
           const libre = libres.has(h);
@@ -636,10 +641,10 @@ function pintarPaso4() {
   const asignado = barberoAsignable(b.barberoId, b.fecha, b.hora, servicio, b.reprogramando);
   const reprog = b.reprogramando ? estado.turnos.find((t) => t.codigo === b.reprogramando) : null;
 
-  const fila = (etiqueta, valor, paso) => `
-    <div class="flex items-center gap-3 py-2">
+  const fila = (etiqueta, valor, paso, destacado = false) => `
+    <div class="flex items-center gap-4 py-2">
       <dt class="w-24 shrink-0 text-sm text-secundario">${etiqueta}</dt>
-      <dd class="min-w-0 grow break-words font-semibold">${valor}</dd>
+      <dd class="min-w-0 grow break-words font-semibold ${destacado ? 'text-xl' : ''}">${valor}</dd>
       ${paso && !(reprog && paso < 3) ? `<dd><a href="#/reservar/${paso}" class="${CLS.btnTexto} min-h-10 px-2">Cambiar<span class="sr-only"> ${etiqueta.toLowerCase()}</span></a></dd>` : ''}
     </div>`;
   $('#resumen-reserva').innerHTML = `
@@ -647,7 +652,7 @@ function pintarPaso4() {
       ${fila('Servicio', `${servicio.nombre} · ${servicio.duracion} min`, 1)}
       ${fila('Barbero', b.barberoId === 'cualquiera' ? `${esc(nombreBarbero(asignado))} <span class="font-normal text-secundario">(asignado)</span>` : esc(nombreBarbero(b.barberoId)), 2)}
       ${fila('Día y hora', `${formatoDia(b.fecha)} · ${b.hora}`, 3)}
-      ${fila('Total', precio(servicio.precio))}
+      ${fila('Total', precio(servicio.precio), null, true)}
     </dl>`;
 
   $('#campo-nombre').value = b.nombre;
@@ -686,16 +691,16 @@ function pintarConfirmado() {
   $('#confirmado-detalle').innerHTML = `
     <p class="mx-auto mt-6 w-fit rounded-xl border-2 border-dashed border-borde-control px-6 py-3">
       <span class="block text-sm text-secundario">Código de turno</span>
-      <span class="block font-titulo text-3xl font-semibold tracking-wider">${t.codigo}</span>
+      <span class="block font-titulo text-2xl font-semibold tracking-wider">${t.codigo}</span>
     </p>
     <dl class="mt-6 divide-y divide-borde rounded-xl border border-borde bg-superficie px-4 py-1 text-left">
-      <div class="flex justify-between gap-4 py-2"><dt class="text-secundario">Servicio</dt><dd class="text-right font-semibold">${servicio.nombre}</dd></div>
-      <div class="flex justify-between gap-4 py-2"><dt class="text-secundario">Barbero</dt><dd class="font-semibold">${esc(barbero)}</dd></div>
-      <div class="flex justify-between gap-4 py-2"><dt class="text-secundario">Día y hora</dt><dd class="font-semibold">${formatoDia(t.fecha)} · ${t.hora}</dd></div>
-      <div class="flex justify-between gap-4 py-2"><dt class="text-secundario">${t.sena ? 'Seña pagada' : 'Pago'}</dt><dd class="font-semibold">${t.sena ? precio(t.sena) : 'En el local'}</dd></div>
-      <div class="flex justify-between gap-4 py-2"><dt class="text-secundario">A pagar en el local</dt><dd class="font-semibold">${precio(servicio.precio - t.sena)}</dd></div>
+      <div class="flex items-baseline justify-between gap-4 py-3"><dt class="text-secundario">Día y hora</dt><dd class="text-lg font-semibold">${formatoDia(t.fecha)} · ${t.hora}</dd></div>
+      <div class="flex justify-between gap-4 py-3"><dt class="text-secundario">Servicio</dt><dd class="text-right font-semibold">${servicio.nombre}</dd></div>
+      <div class="flex justify-between gap-4 py-3"><dt class="text-secundario">Barbero</dt><dd class="font-semibold">${esc(barbero)}</dd></div>
+      <div class="flex justify-between gap-4 py-3"><dt class="text-secundario">${t.sena ? 'Seña pagada' : 'Pago'}</dt><dd class="font-semibold">${t.sena ? precio(t.sena) : 'En el local'}</dd></div>
+      <div class="flex justify-between gap-4 py-3"><dt class="text-secundario">A pagar en el local</dt><dd class="font-semibold">${precio(servicio.precio - t.sena)}</dd></div>
     </dl>
-    <div class="mt-4 grid grid-cols-3 gap-3">
+    <div class="mt-4 grid grid-cols-3 gap-4">
       ${externo(whatsapp, 'mensaje', 'WhatsApp')}
       ${externo(calendario, 'calendario', 'Calendario')}
       ${externo(mapa, 'mapa', 'Cómo llegar')}
@@ -719,16 +724,16 @@ function tarjetaTurno(t, esProximo) {
     <article class="${CLS.tarjeta}" aria-labelledby="turno-${t.codigo}">
       <div class="flex gap-4">
         <p class="grid h-16 w-16 shrink-0 place-content-center rounded-xl bg-superficie-2 text-center" aria-hidden="true">
-          <span class="text-xs font-semibold uppercase text-secundario">${diaSemana}</span><span class="font-semibold">${numero}</span></p>
+          <span class="text-xs font-semibold uppercase text-secundario">${diaSemana}</span><span class="font-titulo text-xl font-semibold leading-tight">${numero}</span></p>
         <div class="min-w-0 grow">
           <h2 id="turno-${t.codigo}" class="font-titulo text-xl font-semibold leading-tight">${servicio.nombre}</h2>
-          <p class="text-sm font-semibold">${formatoDia(t.fecha)} · ${t.hora} · con ${esc(nombreBarbero(t.barberoId))}</p>
+          <p class="mt-1 font-semibold">${formatoDia(t.fecha)} · ${t.hora} · con ${esc(nombreBarbero(t.barberoId))}</p>
           <p class="text-sm text-secundario">${t.codigo} · ${t.sena ? `Seña pagada ${precio(t.sena)}` : 'Pagás en el local'}</p>
           ${esProximo ? '' : `<span class="${CLS.badge} ${colores} mt-2">${etiqueta}</span>`}
         </div>
       </div>
       ${esProximo ? `
-        <div class="mt-4 grid grid-cols-2 gap-3">
+        <div class="mt-4 grid grid-cols-2 gap-4">
           <button type="button" class="${CLS.btnSecundario}" data-accion="reprogramar" data-codigo="${t.codigo}" ${dentroDelPlazo ? '' : 'disabled aria-describedby="plazo-' + t.codigo + '"'}>Reprogramar</button>
           <button type="button" class="${CLS.btnTexto}" data-accion="cancelar" data-codigo="${t.codigo}">Cancelar turno</button>
         </div>
@@ -752,7 +757,7 @@ function pintarMisTurnos() {
   const lista = pestania === 'proximos' ? proximos : historial;
 
   $('#panel-turnos').innerHTML = lista.length
-    ? `<ul class="grid gap-3">${lista.map((t) => tarjetaTurno(t, pestania === 'proximos')).join('')}</ul>`
+    ? `<ul class="grid gap-4">${lista.map((t) => tarjetaTurno(t, pestania === 'proximos')).join('')}</ul>`
     : `<div class="rounded-xl border-2 border-dashed border-borde-control p-6 text-center">
         <p class="font-semibold">${pestania === 'proximos' ? 'No tenés turnos próximos' : 'Todavía no hay turnos en tu historial'}</p>
         <p class="mt-1 text-sm text-secundario">Reservá tu turno en menos de un minuto.</p>
@@ -769,7 +774,7 @@ function pintarMisTurnos() {
           <span class="block text-sm text-secundario">${esc(nombreBarbero(e.barberoId))}</span></p>
         <button type="button" class="${CLS.btnTexto}" data-accion="espera-quitar" data-id="${e.id}">Salir<span class="sr-only"> de la lista de espera del ${formatoDia(e.fecha)}</span></button>
       </li>`).join('')
-    : '<li class="rounded-xl bg-superficie-2 p-4 text-sm text-secundario">No estás en ninguna lista de espera.</li>';
+    : `<li class="${CLS.vacio}">No estás en ninguna lista de espera.</li>`;
 
   const selDia = $('#espera-dia');
   const valorDia = selDia.value;
@@ -825,7 +830,7 @@ function pintarAgenda() {
   $('#agenda-siguiente').disabled = sumarDias(fecha, 1) > limite;
 
   if (esDomingo(fecha)) {
-    $('#agenda-lista').innerHTML = '<li class="rounded-xl bg-superficie-2 p-6 text-center font-semibold">Domingo: franco. ¡A descansar!</li>';
+    $('#agenda-lista').innerHTML = `<li class="${CLS.vacio} text-center">Domingo: franco. ¡A descansar!</li>`;
     return;
   }
 
@@ -835,7 +840,8 @@ function pintarAgenda() {
   const items = [];
   for (const franja of Object.keys(FRANJAS)) {
     const bloques = bloquesDeFranja(franja);
-    items.push(`<li class="list-none before:hidden"><h2 class="font-titulo text-xl font-semibold">${FRANJAS[franja].nombre}</h2></li>`);
+    // Proximidad: el título queda a 16px de su grupo y a 32px del grupo anterior
+    items.push(`<li class="list-none before:hidden ${items.length ? 'mt-4' : ''}"><h2 class="font-titulo text-2xl font-semibold leading-tight">${FRANJAS[franja].nombre}</h2></li>`);
     let i = 0;
     while (i < bloques.length) {
       const hora = bloques[i];
@@ -846,20 +852,20 @@ function pintarAgenda() {
         const marca = turno.demo ? estado.asistencia[clave] : (['llego', 'no-vino'].includes(turno.estado) ? turno.estado : undefined);
         items.push(`<li data-tipo="turno">
           <article class="rounded-xl border border-borde-control bg-superficie p-4 shadow-sm" aria-label="${hora}, ${esc(turno.nombre)}">
-            <div class="flex flex-wrap items-baseline justify-between gap-x-3">
+            <div class="flex flex-wrap items-baseline justify-between gap-x-4">
               <p class="font-semibold">${hora} · ${esc(turno.nombre)}</p>
               <p class="text-sm text-secundario">${servicio.nombre} · ${servicio.duracion} min</p>
             </div>
             ${turno.demo ? '' : `<p class="mt-1 text-sm"><span class="${CLS.badge} bg-primario-suave text-primario">Reservó en la app · ${turno.sena ? `seña ${precio(turno.sena)}` : 'paga en el local'}</span></p>
               ${estado.perfil.notas ? `<p class="mt-2 rounded-lg bg-superficie-2 p-2 text-sm">“${esc(estado.perfil.notas)}”</p>` : ''}`}
             ${marca ? `
-              <p class="mt-3 flex items-center gap-2 font-semibold ${marca === 'llego' ? 'text-exito' : 'text-error'}">
+              <p class="mt-4 flex items-center gap-2 font-semibold ${marca === 'llego' ? 'text-exito' : 'text-error'}">
                 ${icono(marca === 'llego' ? 'check-circulo' : 'alerta')}${marca === 'llego' ? 'Llegó' : 'No vino'}
                 <button type="button" class="${CLS.btnTexto} ml-auto min-h-10" data-accion="asistencia" data-hora="${hora}" data-valor="">Deshacer</button>
               </p>` : `
-              <div class="mt-3 grid grid-cols-2 gap-3">
-                <button type="button" class="${CLS.btnPrimario}" data-accion="asistencia" data-hora="${hora}" data-valor="llego" ${esFuturo ? 'disabled aria-describedby="nota-futuro"' : ''}>Llegó</button>
-                <button type="button" class="${CLS.btnSecundario}" data-accion="asistencia" data-hora="${hora}" data-valor="no-vino" ${esFuturo ? 'disabled aria-describedby="nota-futuro"' : ''}>No vino</button>
+              <div class="mt-4 grid grid-cols-2 gap-4">
+                <button type="button" class="${CLS.btnSecundario}" data-accion="asistencia" data-hora="${hora}" data-valor="llego" ${esFuturo ? 'disabled aria-describedby="nota-futuro"' : ''}>Llegó</button>
+                <button type="button" class="${CLS.btnTexto}" data-accion="asistencia" data-hora="${hora}" data-valor="no-vino" ${esFuturo ? 'disabled aria-describedby="nota-futuro"' : ''}>No vino</button>
               </div>`}
           </article>
         </li>`);
@@ -869,7 +875,7 @@ function pintarAgenda() {
       const bloqueado = bloqueados.has(hora);
       const pasado = esPasado(fecha, hora);
       items.push(`<li data-tipo="libre">
-        <div class="flex min-h-14 items-center gap-3 rounded-xl border-2 border-dashed border-borde-control px-4 py-1 ${bloqueado ? 'bg-superficie-2' : ''}">
+        <div class="flex min-h-14 items-center gap-4 rounded-xl border-2 border-dashed border-borde-control px-4 py-1 ${bloqueado ? 'bg-superficie-2' : ''}">
           <p class="grow"><span class="font-semibold">${hora}</span> <span class="text-secundario">· ${bloqueado ? 'Bloqueado' : pasado ? 'Sin turno' : 'Libre'}</span></p>
           ${pasado ? '' : `<button type="button" class="${CLS.btnTexto} min-h-10" data-accion="bloquear" data-hora="${hora}">${bloqueado ? 'Desbloquear' : 'Bloquear'}<span class="sr-only"> el horario de las ${hora}</span></button>`}
         </div>
@@ -899,7 +905,7 @@ function pintarClientes() {
       <p class="min-w-0 grow"><span class="block font-semibold">${esc(c.nombre)}${c.app ? ` <span class="${CLS.badge} bg-primario-suave text-primario">App</span>` : ''}</span>
         <span class="block text-sm text-secundario">Próximo: ${c.proximo.fecha === hoy ? 'hoy' : formatoDia(c.proximo.fecha)} ${c.proximo.hora} · ${servicioPorId(c.proximo.servicioId).nombre}</span></p>
       <span class="text-sm font-semibold">${c.cantidad} ${c.cantidad === 1 ? 'turno' : 'turnos'}</span>
-    </li>`).join('') : '<li class="rounded-xl bg-superficie-2 p-4 text-secundario">No hay clientes agendados.</li>';
+    </li>`).join('') : `<li class="${CLS.vacio}">No hay clientes agendados.</li>`;
 }
 
 function pintarGaleria() {
@@ -907,7 +913,7 @@ function pintarGaleria() {
     <li>
       <figure class="overflow-hidden rounded-xl border border-borde bg-superficie">
         <div class="galeria-tile" data-variante="${(i % 3) + 1}" role="img" aria-label="Foto de ejemplo: ${nombre}"></div>
-        <figcaption class="p-3 text-sm font-semibold">${nombre}</figcaption>
+        <figcaption class="p-4 text-sm font-semibold">${nombre}</figcaption>
       </figure>
     </li>`).join('');
 }
@@ -931,8 +937,8 @@ function pintarLocal() {
     const ocupados = esDomingo(hoy) ? 0 : bloquesOcupados(b.id, hoy).size;
     const porcentaje = Math.round((ocupados / bloquesTotales) * 100);
     return `<li class="${CLS.tarjeta}">
-      <p class="flex items-center gap-3"><span class="${CLS.avatar}" aria-hidden="true">${b.nombre[0]}</span><span class="font-semibold">${b.nombre}</span></p>
-      <p class="mt-3 text-sm text-secundario">Agenda ocupada: <strong class="text-texto">${porcentaje}%</strong></p>
+      <p class="flex items-center gap-4"><span class="${CLS.avatar}" aria-hidden="true">${b.nombre[0]}</span><span class="font-semibold">${b.nombre}</span></p>
+      <p class="mt-4 text-sm text-secundario">Agenda ocupada: <strong class="text-texto">${porcentaje}%</strong></p>
       <progress class="barra-ocupacion mt-2" max="100" value="${porcentaje}" aria-label="Agenda ocupada de ${b.nombre}">${porcentaje}%</progress>
     </li>`;
   }).join('');
@@ -1176,7 +1182,7 @@ const ACCIONES = {
   },
   'soy-barbero'() {
     $('#opciones-barbero').innerHTML = BARBEROS.map((b, i) => `
-      <label class="flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border border-borde-control bg-superficie p-4 transition hover:border-primario active:scale-[0.99] has-[:checked]:border-2 has-[:checked]:border-primario has-[:checked]:bg-primario-suave has-[:checked]:p-[15px] has-[:focus-visible]:ring-[3px] has-[:focus-visible]:ring-primario has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-fondo">
+      <label class="flex min-h-12 cursor-pointer items-center gap-4 rounded-xl border border-borde-control bg-superficie p-4 transition hover:border-primario active:scale-[0.99] has-[:checked]:border-2 has-[:checked]:border-primario has-[:checked]:bg-primario-suave has-[:checked]:p-[15px] has-[:focus-visible]:ring-[3px] has-[:focus-visible]:ring-primario has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-fondo">
         <input type="radio" name="barbero-actual" value="${b.id}" class="h-5 w-5 accent-[rgb(var(--c-primario))] focus:outline-none" ${(estado.barbero || 'riri') === b.id || (!estado.barbero && i === 0) ? 'checked' : ''}>
         <span class="${CLS.avatar}" aria-hidden="true">${b.nombre[0]}</span>
         <span><span class="block font-semibold">${b.nombre}</span><span class="block text-sm text-secundario">${b.duenio ? 'Dueño · ve también "Local"' : b.especialidad}</span></span>
@@ -1401,6 +1407,10 @@ $('a[href="#contenido"]').addEventListener('click', (evento) => {
 window.addEventListener('hashchange', router);
 
 // ============ Inicio ============
+// Semejanza: los botones y campos del HTML toman sus clases de CLS (una sola definición)
+$$('[data-cls]').forEach((el) => {
+  el.classList.add(...CLS[el.dataset.cls].split(' '));
+});
 $$('[data-icono]').forEach((el) => {
   el.innerHTML = icono(el.dataset.icono, el.dataset.iconoClase || 'h-5 w-5');
 });

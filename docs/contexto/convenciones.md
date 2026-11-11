@@ -55,7 +55,7 @@ Escala base de 8px: 4 · 8 · 16 · 24 · 32 · 48.
 | Principio | Regla |
 |---|---|
 | **Proximidad** | 8px dentro de un grupo (título y precio), 16px entre elementos de una tarjeta, 24 a 32px entre grupos o secciones. |
-| **Semejanza** | Todas las tarjetas de un mismo tipo comparten anatomía, tamaño y orden. Las categorías se distinguen con un badge. |
+| **Semejanza** | Todas las tarjetas de un mismo tipo comparten anatomía, tamaño y orden. Las categorías se distinguen con un badge. Botones, campos y etiquetas usan `CLS` de `app.js` (en el HTML, con `data-cls`). |
 | **Región común** | Cada tarjeta es una superficie con borde y `rounded-xl`. Los horarios se agrupan en los bloques "Mañana" y "Tarde". |
 | **Continuidad** | La barra de progreso del asistente une los pasos 1 a 4. |
 | **Figura y fondo** | Los modales llevan un fondo oscurecido al 50% y la superficie elevada. |

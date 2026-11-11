@@ -95,13 +95,11 @@
         <div>
           <h1 id="t-inicio" tabindex="-1" class="font-titulo text-[2rem] font-semibold leading-tight focus:outline-none md:text-5xl">Reservá tu turno</h1>
           <p class="mt-2 text-secundario">En 1 minuto: elegí servicio, barbero y horario. Asegurás tu lugar con una seña del 30%.</p>
-          <div class="mt-6 grid gap-3 sm:max-w-sm">
-            <a href="#/reservar/1"
-              class="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-primario px-5 font-semibold text-sobre-primario shadow-sm transition duration-150 hover:bg-primario-hover hover:shadow-md active:scale-[0.98] active:bg-primario-activo focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo">
+          <div class="mt-6 grid gap-4 sm:max-w-sm">
+            <a href="#/reservar/1" data-cls="btnPrimario">
               <span data-icono="tijera"></span>Reservar turno
             </a>
-            <button type="button" id="btn-repetir" data-accion="repetir" aria-describedby="ayuda-repetir"
-              class="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border-2 border-primario bg-superficie px-5 font-semibold text-primario transition duration-150 hover:bg-primario-suave active:scale-[0.98] active:bg-primario-suave focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:border-borde-control disabled:text-secundario disabled:hover:bg-superficie disabled:active:scale-100">
+            <button type="button" id="btn-repetir" data-accion="repetir" aria-describedby="ayuda-repetir" data-cls="btnSecundario">
               <span data-icono="repetir"></span>Repetir mi último corte
             </button>
             <p id="ayuda-repetir" class="text-sm text-secundario"></p>
@@ -110,7 +108,7 @@
         <div id="inicio-destacado"></div>
       </div>
 
-      <section aria-labelledby="t-barberos" class="mt-10">
+      <section aria-labelledby="t-barberos" class="mt-8">
         <h2 id="t-barberos" class="font-titulo text-2xl font-semibold leading-tight">Barberos</h2>
         <p class="mt-1 text-sm text-secundario">Tocá un barbero para reservar directamente con él.</p>
         <ul id="inicio-barberos" class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3"></ul>
@@ -118,61 +116,59 @@
     </section>
 
     <!-- ===== 02–05 Reservar ===== -->
-    <section data-vista="paso1" aria-labelledby="t-paso1" hidden class="mx-auto max-w-3xl px-4 pt-6">
+    <section data-vista="paso1" aria-labelledby="t-paso1" hidden class="mx-auto max-w-3xl px-4 pt-8">
       <div data-progreso="1"></div>
       <h1 id="t-paso1" tabindex="-1" class="mt-4 font-titulo text-[2rem] font-semibold leading-tight focus:outline-none">Servicio</h1>
-      <p class="mt-1 text-secundario">¿Qué te hacés hoy?</p>
-      <ul id="lista-servicios" class="mt-6 grid gap-3 md:grid-cols-2" aria-label="Servicios"></ul>
+      <p class="mt-2 text-secundario">¿Qué te hacés hoy?</p>
+      <ul id="lista-servicios" class="mt-6 grid gap-4 md:grid-cols-2" aria-label="Servicios"></ul>
       <div class="barra-accion" data-barra="1"></div>
     </section>
 
-    <section data-vista="paso2" aria-labelledby="t-paso2" hidden class="mx-auto max-w-3xl px-4 pt-6">
+    <section data-vista="paso2" aria-labelledby="t-paso2" hidden class="mx-auto max-w-3xl px-4 pt-8">
       <div data-progreso="2"></div>
       <h1 id="t-paso2" tabindex="-1" class="mt-4 font-titulo text-[2rem] font-semibold leading-tight focus:outline-none">Barbero</h1>
-      <p class="mt-1 text-secundario">Elegí con quién, o dejá que te asignemos uno libre.</p>
-      <ul id="lista-barberos" class="mt-6 grid gap-3" aria-label="Barberos"></ul>
+      <p class="mt-2 text-secundario">Elegí con quién, o dejá que te asignemos uno libre.</p>
+      <ul id="lista-barberos" class="mt-6 grid gap-4" aria-label="Barberos"></ul>
       <div class="barra-accion" data-barra="2"></div>
     </section>
 
-    <section data-vista="paso3" aria-labelledby="t-paso3" hidden class="mx-auto max-w-3xl px-4 pt-6">
+    <section data-vista="paso3" aria-labelledby="t-paso3" hidden class="mx-auto max-w-3xl px-4 pt-8">
       <div data-progreso="3"></div>
       <h1 id="t-paso3" tabindex="-1" class="mt-4 font-titulo text-[2rem] font-semibold leading-tight focus:outline-none">Fecha y hora</h1>
-      <p id="paso3-detalle" class="mt-1 text-secundario"></p>
+      <p id="paso3-detalle" class="mt-2 text-secundario"></p>
       <h2 class="sr-only">Día</h2>
-      <ul id="lista-dias" class="dias-scroll -mx-4 mt-5 flex gap-2 overflow-x-auto px-4 pb-2" aria-label="Días disponibles"></ul>
+      <ul id="lista-dias" class="dias-scroll -mx-4 mt-6 flex gap-2 overflow-x-auto px-4 pb-2" aria-label="Días disponibles"></ul>
       <div id="franjas" class="mt-4 grid gap-4"></div>
       <div class="barra-accion" data-barra="3"></div>
     </section>
 
-    <section data-vista="paso4" aria-labelledby="t-paso4" hidden class="mx-auto max-w-3xl px-4 pt-6">
+    <section data-vista="paso4" aria-labelledby="t-paso4" hidden class="mx-auto max-w-3xl px-4 pt-8">
       <div data-progreso="4"></div>
       <h1 id="t-paso4" tabindex="-1" class="mt-4 font-titulo text-[2rem] font-semibold leading-tight focus:outline-none">Tus datos y seña</h1>
-      <div id="resumen-reserva" class="mt-5"></div>
+      <div id="resumen-reserva" class="mt-6"></div>
 
-      <form id="form-datos" class="mt-6 grid gap-5" novalidate>
+      <form id="form-datos" class="mt-6 grid gap-6" novalidate>
         <div>
-          <label for="campo-nombre" class="block font-semibold">Nombre y apellido</label>
-          <input id="campo-nombre" name="nombre" type="text" autocomplete="name" required aria-describedby="error-nombre"
-            class="mt-2 block min-h-12 w-full rounded-xl border border-borde-control bg-superficie px-4 text-base text-texto placeholder:text-secundario transition hover:border-primario focus:border-primario focus:outline-none focus:ring-[3px] focus:ring-primario focus:ring-offset-2 focus:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50 aria-[invalid=true]:border-2 aria-[invalid=true]:border-error">
+          <label for="campo-nombre" data-cls="etiqueta">Nombre y apellido</label>
+          <input id="campo-nombre" name="nombre" type="text" autocomplete="name" required aria-describedby="error-nombre" data-cls="campo">
           <p id="error-nombre" class="mt-2 hidden items-center gap-2 text-sm font-medium text-error"></p>
         </div>
         <div>
-          <label for="campo-telefono" class="block font-semibold">Teléfono (WhatsApp)</label>
+          <label for="campo-telefono" data-cls="etiqueta">Teléfono (WhatsApp)</label>
           <p id="ayuda-telefono" class="text-sm text-secundario">10 números, sin 0 ni 15. Ej.: 3584123456</p>
-          <input id="campo-telefono" name="telefono" type="tel" inputmode="numeric" autocomplete="tel-national" required aria-describedby="ayuda-telefono error-telefono"
-            class="mt-2 block min-h-12 w-full rounded-xl border border-borde-control bg-superficie px-4 text-base text-texto placeholder:text-secundario transition hover:border-primario focus:border-primario focus:outline-none focus:ring-[3px] focus:ring-primario focus:ring-offset-2 focus:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50 aria-[invalid=true]:border-2 aria-[invalid=true]:border-error">
+          <input id="campo-telefono" name="telefono" type="tel" inputmode="numeric" autocomplete="tel-national" required aria-describedby="ayuda-telefono error-telefono" data-cls="campo">
           <p id="error-telefono" class="mt-2 hidden items-center gap-2 text-sm font-medium text-error"></p>
         </div>
 
         <fieldset id="grupo-pago">
           <legend class="font-semibold">Seña</legend>
-          <div class="mt-2 grid gap-3">
-            <label class="flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border border-borde-control bg-superficie p-4 transition hover:border-primario active:scale-[0.99] has-[:checked]:border-2 has-[:checked]:border-primario has-[:checked]:bg-primario-suave has-[:checked]:p-[15px] has-[:focus-visible]:ring-[3px] has-[:focus-visible]:ring-primario has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-fondo has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50">
+          <div class="mt-2 grid gap-4">
+            <label class="flex min-h-12 cursor-pointer items-center gap-4 rounded-xl border border-borde-control bg-superficie p-4 transition hover:border-primario active:scale-[0.99] has-[:checked]:border-2 has-[:checked]:border-primario has-[:checked]:bg-primario-suave has-[:checked]:p-[15px] has-[:focus-visible]:ring-[3px] has-[:focus-visible]:ring-primario has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-fondo has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50">
               <input type="radio" name="pago" value="sena" class="h-5 w-5 accent-[rgb(var(--c-primario))] focus:outline-none">
               <span class="grow"><span class="block font-semibold">Pagar seña ahora (30%)</span><span class="block text-sm text-secundario">Con Mercado Pago (simulado). El resto lo pagás en el local.</span></span>
               <span id="monto-sena" class="font-semibold"></span>
             </label>
-            <label class="flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border border-borde-control bg-superficie p-4 transition hover:border-primario active:scale-[0.99] has-[:checked]:border-2 has-[:checked]:border-primario has-[:checked]:bg-primario-suave has-[:checked]:p-[15px] has-[:focus-visible]:ring-[3px] has-[:focus-visible]:ring-primario has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-fondo has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50">
+            <label class="flex min-h-12 cursor-pointer items-center gap-4 rounded-xl border border-borde-control bg-superficie p-4 transition hover:border-primario active:scale-[0.99] has-[:checked]:border-2 has-[:checked]:border-primario has-[:checked]:bg-primario-suave has-[:checked]:p-[15px] has-[:focus-visible]:ring-[3px] has-[:focus-visible]:ring-primario has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-fondo has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50">
               <input type="radio" name="pago" value="local" class="h-5 w-5 accent-[rgb(var(--c-primario))] focus:outline-none">
               <span class="grow"><span class="block font-semibold">Pagar en el local</span><span class="block text-sm text-secundario">Pagás todo cuando vengas.</span></span>
             </label>
@@ -188,11 +184,9 @@
         <div class="barra-accion">
           <div class="mx-auto flex max-w-3xl flex-col gap-2">
             <p id="motivo-confirmar" class="text-center text-sm text-secundario" aria-live="polite"></p>
-            <div class="flex gap-3">
-              <a href="#/reservar/3"
-                class="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border-2 border-primario bg-superficie px-5 font-semibold text-primario transition duration-150 hover:bg-primario-suave active:scale-[0.98] active:bg-primario-suave focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo">Volver</a>
-              <button type="submit" id="btn-confirmar" aria-describedby="motivo-confirmar"
-                class="inline-flex min-h-12 grow items-center justify-center gap-2 rounded-xl border-2 border-transparent bg-primario px-5 font-semibold text-sobre-primario shadow-sm transition duration-150 hover:bg-primario-hover hover:shadow-md active:scale-[0.98] active:bg-primario-activo focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:border-borde-control disabled:bg-superficie-2 disabled:text-secundario disabled:shadow-none disabled:hover:bg-superficie-2 disabled:hover:shadow-none disabled:active:scale-100">Confirmar turno</button>
+            <div class="flex gap-4">
+              <a href="#/reservar/3" data-cls="btnSecundario">Volver</a>
+              <button type="submit" id="btn-confirmar" aria-describedby="motivo-confirmar" data-cls="btnPrimario" class="grow">Confirmar turno</button>
             </div>
           </div>
         </div>
@@ -200,22 +194,16 @@
     </section>
 
     <!-- ===== 06 Turno confirmado ===== -->
-    <section data-vista="confirmado" aria-labelledby="t-confirmado" hidden class="mx-auto max-w-xl px-4 pt-10 text-center">
+    <section data-vista="confirmado" aria-labelledby="t-confirmado" hidden class="mx-auto max-w-xl px-4 pt-8 text-center">
       <span data-icono="check-circulo" data-icono-clase="mx-auto h-16 w-16 text-exito"></span>
       <h1 id="t-confirmado" tabindex="-1" class="mt-4 font-titulo text-[2rem] font-semibold leading-tight focus:outline-none">¡Turno confirmado!</h1>
-      <p id="confirmado-subtitulo" class="mt-1 text-secundario">Te esperamos. Guardá tu código por las dudas.</p>
+      <p id="confirmado-subtitulo" class="mt-2 text-secundario">Te esperamos. Guardá tu código por las dudas.</p>
       <div id="confirmado-detalle"></div>
     </section>
 
     <!-- ===== 07 Mis turnos ===== -->
-    <section data-vista="mis-turnos" aria-labelledby="t-mis-turnos" hidden class="mx-auto max-w-3xl px-4 pt-6">
-      <div class="flex items-center gap-4 rounded-xl border border-borde bg-superficie p-4">
-        <p class="grow"><span class="block font-semibold">¿Otro corte?</span><span class="block text-sm text-secundario">Reservá en menos de un minuto.</span></p>
-        <a href="#/reservar/1"
-          class="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border-2 border-primario bg-superficie px-5 font-semibold text-primario transition duration-150 hover:bg-primario-suave active:scale-[0.98] active:bg-primario-suave focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo">Reservar</a>
-      </div>
-
-      <h1 id="t-mis-turnos" tabindex="-1" class="mt-6 font-titulo text-[2rem] font-semibold leading-tight focus:outline-none">Mis turnos</h1>
+    <section data-vista="mis-turnos" aria-labelledby="t-mis-turnos" hidden class="mx-auto max-w-3xl px-4 pt-8">
+      <h1 id="t-mis-turnos" tabindex="-1" class="font-titulo text-[2rem] font-semibold leading-tight focus:outline-none">Mis turnos</h1>
       <div role="tablist" aria-label="Mis turnos" class="mt-4 grid grid-cols-2 gap-1 rounded-xl bg-superficie-2 p-1">
         <button type="button" role="tab" id="tab-proximos" aria-controls="panel-turnos" data-accion="tab-turnos" data-tab="proximos"
           class="min-h-12 rounded-lg border-2 border-transparent font-semibold text-secundario transition hover:text-texto active:scale-[0.98] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario aria-selected:border-primario aria-selected:bg-superficie aria-selected:text-texto aria-selected:shadow-sm disabled:cursor-not-allowed disabled:opacity-50">Próximos</button>
@@ -224,80 +212,81 @@
       </div>
       <div id="panel-turnos" role="tabpanel" tabindex="0" class="mt-4 rounded-xl focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario"></div>
 
-      <section aria-labelledby="t-espera" class="mt-10">
+      <!-- Clase 4: el recuadro va después de los turnos para que el h1 y el turno sean lo primero que se ve -->
+      <div class="mt-8 flex items-center gap-4 rounded-xl border border-borde bg-superficie p-4">
+        <p class="grow"><span class="block font-semibold">¿Otro corte?</span><span class="block text-sm text-secundario">Reservá en menos de un minuto.</span></p>
+        <a href="#/reservar/1" data-cls="btnSecundario">Reservar</a>
+      </div>
+
+      <section aria-labelledby="t-espera" class="mt-8">
         <h2 id="t-espera" class="font-titulo text-2xl font-semibold leading-tight">Lista de espera</h2>
         <p class="mt-1 text-sm text-secundario">¿No había lugar? Anotate y te avisamos si alguien cancela. El primero que confirma se queda con el turno.</p>
-        <ul id="lista-espera" class="mt-4 grid gap-3"></ul>
-        <form id="form-espera" class="mt-4 grid gap-3 rounded-xl border border-borde bg-superficie p-4 sm:grid-cols-3 sm:items-end">
+        <ul id="lista-espera" class="mt-4 grid gap-4"></ul>
+        <form id="form-espera" class="mt-4 grid gap-4 rounded-xl border border-borde bg-superficie p-4 sm:grid-cols-3 sm:items-end">
           <div>
-            <label for="espera-dia" class="block text-sm font-semibold">Día</label>
-            <select id="espera-dia" class="mt-1 block min-h-12 w-full rounded-xl border border-borde-control bg-superficie px-3 text-texto transition hover:border-primario focus:outline-none focus:ring-[3px] focus:ring-primario focus:ring-offset-2 focus:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50"></select>
+            <label for="espera-dia" data-cls="etiqueta">Día</label>
+            <select id="espera-dia" data-cls="campo"></select>
           </div>
           <div>
-            <label for="espera-franja" class="block text-sm font-semibold">Horario</label>
-            <select id="espera-franja" class="mt-1 block min-h-12 w-full rounded-xl border border-borde-control bg-superficie px-3 text-texto transition hover:border-primario focus:outline-none focus:ring-[3px] focus:ring-primario focus:ring-offset-2 focus:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50">
+            <label for="espera-franja" data-cls="etiqueta">Horario</label>
+            <select id="espera-franja" data-cls="campo">
               <option value="manana">Mañana</option>
               <option value="tarde">Tarde</option>
             </select>
           </div>
           <div>
-            <label for="espera-barbero" class="block text-sm font-semibold">Barbero</label>
-            <select id="espera-barbero" class="mt-1 block min-h-12 w-full rounded-xl border border-borde-control bg-superficie px-3 text-texto transition hover:border-primario focus:outline-none focus:ring-[3px] focus:ring-primario focus:ring-offset-2 focus:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50"></select>
+            <label for="espera-barbero" data-cls="etiqueta">Barbero</label>
+            <select id="espera-barbero" data-cls="campo"></select>
           </div>
-          <button type="submit"
-            class="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border-2 border-primario bg-superficie px-5 font-semibold text-primario transition duration-150 hover:bg-primario-suave active:scale-[0.98] active:bg-primario-suave focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50 sm:col-span-3">Anotarme en la lista de espera</button>
+          <button type="submit" data-cls="btnSecundario" class="sm:col-span-3">Anotarme en la lista de espera</button>
         </form>
       </section>
     </section>
 
     <!-- ===== 08 Perfil ===== -->
-    <section data-vista="perfil" aria-labelledby="t-perfil" hidden class="mx-auto max-w-3xl px-4 pt-6">
+    <section data-vista="perfil" aria-labelledby="t-perfil" hidden class="mx-auto max-w-3xl px-4 pt-8">
       <div class="flex items-center gap-4">
         <span id="perfil-avatar" class="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-primario-suave font-titulo text-2xl font-semibold text-primario" aria-hidden="true"></span>
         <div>
           <h1 id="t-perfil" tabindex="-1" class="font-titulo text-[2rem] font-semibold leading-tight focus:outline-none">Perfil</h1>
-          <p id="perfil-subtitulo" class="text-secundario"></p>
+          <p id="perfil-subtitulo" class="mt-2 text-secundario"></p>
         </div>
       </div>
 
       <section aria-labelledby="t-sellos" class="mt-6 rounded-xl border border-borde bg-superficie p-4">
-        <h2 id="t-sellos" class="font-titulo text-xl font-semibold leading-tight">Tarjeta de sellos</h2>
-        <ol id="sellos" class="mt-4 grid grid-cols-5 justify-items-center gap-3" aria-describedby="sellos-texto"></ol>
+        <h2 id="t-sellos" class="font-titulo text-2xl font-semibold leading-tight">Tarjeta de sellos</h2>
+        <ol id="sellos" class="mt-4 grid grid-cols-5 justify-items-center gap-4" aria-describedby="sellos-texto"></ol>
         <p id="sellos-texto" class="mt-4 text-sm text-secundario"></p>
       </section>
 
       <section aria-labelledby="t-preferencias" class="mt-8">
         <h2 id="t-preferencias" class="font-titulo text-2xl font-semibold leading-tight">Preferencias</h2>
-        <dl id="perfil-preferencias" class="mt-3 divide-y divide-borde rounded-xl border border-borde bg-superficie px-4"></dl>
-        <form id="form-perfil" class="mt-4 grid gap-4">
-          <div class="grid gap-4 sm:grid-cols-2">
+        <dl id="perfil-preferencias" class="mt-4 divide-y divide-borde rounded-xl border border-borde bg-superficie px-4"></dl>
+        <form id="form-perfil" class="mt-6 grid gap-6">
+          <div class="grid gap-6 sm:grid-cols-2">
             <div>
-              <label for="perfil-nombre" class="block font-semibold">Nombre y apellido</label>
-              <input id="perfil-nombre" type="text" autocomplete="name"
-                class="mt-2 block min-h-12 w-full rounded-xl border border-borde-control bg-superficie px-4 text-texto transition hover:border-primario focus:border-primario focus:outline-none focus:ring-[3px] focus:ring-primario focus:ring-offset-2 focus:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50">
+              <label for="perfil-nombre" data-cls="etiqueta">Nombre y apellido</label>
+              <input id="perfil-nombre" type="text" autocomplete="name" data-cls="campo">
             </div>
             <div>
-              <label for="perfil-telefono" class="block font-semibold">Teléfono</label>
-              <input id="perfil-telefono" type="tel" inputmode="numeric" autocomplete="tel-national" aria-describedby="ayuda-perfil-telefono error-perfil-telefono"
-                class="mt-2 block min-h-12 w-full rounded-xl border border-borde-control bg-superficie px-4 text-texto transition hover:border-primario focus:border-primario focus:outline-none focus:ring-[3px] focus:ring-primario focus:ring-offset-2 focus:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50 aria-[invalid=true]:border-2 aria-[invalid=true]:border-error">
-              <p id="ayuda-perfil-telefono" class="mt-2 text-sm text-secundario">10 números, sin 0 ni 15. Ej.: 3584123456</p>
+              <label for="perfil-telefono" data-cls="etiqueta">Teléfono</label>
+              <p id="ayuda-perfil-telefono" class="text-sm text-secundario">10 números, sin 0 ni 15. Ej.: 3584123456</p>
+              <input id="perfil-telefono" type="tel" inputmode="numeric" autocomplete="tel-national" aria-describedby="ayuda-perfil-telefono error-perfil-telefono" data-cls="campo">
               <p id="error-perfil-telefono" class="mt-2 hidden items-center gap-2 text-sm font-medium text-error"></p>
             </div>
           </div>
           <div>
-            <label for="perfil-notas" class="block font-semibold">Cómo te gusta el corte</label>
+            <label for="perfil-notas" data-cls="etiqueta">Cómo te gusta el corte</label>
             <p id="ayuda-notas" class="text-sm text-secundario">Lo ve tu barbero en la agenda. Ej.: máquina 2 a los costados, tijera arriba.</p>
-            <textarea id="perfil-notas" rows="3" aria-describedby="ayuda-notas"
-              class="mt-2 block w-full rounded-xl border border-borde-control bg-superficie px-4 py-3 text-texto transition hover:border-primario focus:border-primario focus:outline-none focus:ring-[3px] focus:ring-primario focus:ring-offset-2 focus:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50"></textarea>
+            <textarea id="perfil-notas" rows="3" aria-describedby="ayuda-notas" data-cls="campo" class="py-3"></textarea>
           </div>
-          <button type="submit"
-            class="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border-2 border-primario bg-superficie px-5 font-semibold text-primario transition duration-150 hover:bg-primario-suave active:scale-[0.98] active:bg-primario-suave focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50 sm:justify-self-start">Guardar preferencias</button>
+          <button type="submit" data-cls="btnPrimario" class="sm:justify-self-start">Guardar preferencias</button>
         </form>
       </section>
 
       <section aria-labelledby="t-ajustes" class="mt-8">
         <h2 id="t-ajustes" class="font-titulo text-2xl font-semibold leading-tight">Ajustes</h2>
-        <ul class="mt-3 divide-y divide-borde rounded-xl border border-borde bg-superficie px-4">
+        <ul class="mt-4 divide-y divide-borde rounded-xl border border-borde bg-superficie px-4">
           <li class="flex min-h-14 items-center justify-between gap-4 py-2">
             <span id="lbl-oscuro" class="font-medium">Modo oscuro</span>
             <button type="button" role="switch" id="switch-oscuro" data-accion="tema" aria-checked="false" aria-labelledby="lbl-oscuro"
@@ -311,45 +300,40 @@
         </ul>
       </section>
 
-      <button type="button" data-accion="soy-barbero"
-        class="mt-8 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border-2 border-primario bg-superficie px-5 font-semibold text-primario transition duration-150 hover:bg-primario-suave active:scale-[0.98] active:bg-primario-suave focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50">
-        Soy barbero
-      </button>
+      <button type="button" data-accion="soy-barbero" data-cls="btnSecundario" class="mt-8">Soy barbero</button>
     </section>
 
     <!-- ===== 09 Barbero ===== -->
-    <section data-vista="agenda" aria-labelledby="t-agenda" hidden class="mx-auto max-w-3xl px-4 pt-6">
+    <section data-vista="agenda" aria-labelledby="t-agenda" hidden class="mx-auto max-w-3xl px-4 pt-8">
       <div class="flex items-start gap-2">
         <div class="grow">
           <h1 id="t-agenda" tabindex="-1" class="font-titulo text-[2rem] font-semibold leading-tight focus:outline-none">Agenda</h1>
-          <p id="agenda-subtitulo" class="text-secundario" aria-live="polite"></p>
+          <p id="agenda-subtitulo" class="mt-2 text-secundario" aria-live="polite"></p>
         </div>
-        <button type="button" id="agenda-anterior" data-accion="agenda-dia" data-delta="-1" aria-label="Día anterior" title="Día anterior"
-          class="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-borde-control bg-superficie text-texto transition hover:border-primario hover:bg-primario-suave active:scale-95 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-borde-control disabled:hover:bg-superficie"><span data-icono="chevron-izq"></span></button>
-        <button type="button" id="agenda-siguiente" data-accion="agenda-dia" data-delta="1" aria-label="Día siguiente" title="Día siguiente"
-          class="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-borde-control bg-superficie text-texto transition hover:border-primario hover:bg-primario-suave active:scale-95 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-borde-control disabled:hover:bg-superficie"><span data-icono="chevron-der"></span></button>
+        <button type="button" id="agenda-anterior" data-accion="agenda-dia" data-delta="-1" aria-label="Día anterior" title="Día anterior" data-cls="btnIconoBorde"><span data-icono="chevron-izq"></span></button>
+        <button type="button" id="agenda-siguiente" data-accion="agenda-dia" data-delta="1" aria-label="Día siguiente" title="Día siguiente" data-cls="btnIconoBorde"><span data-icono="chevron-der"></span></button>
       </div>
-      <ol id="agenda-lista" class="linea-tiempo mt-6 grid gap-3"></ol>
+      <ol id="agenda-lista" class="linea-tiempo mt-6 grid gap-4"></ol>
     </section>
 
-    <section data-vista="clientes" aria-labelledby="t-clientes" hidden class="mx-auto max-w-3xl px-4 pt-6">
+    <section data-vista="clientes" aria-labelledby="t-clientes" hidden class="mx-auto max-w-3xl px-4 pt-8">
       <h1 id="t-clientes" tabindex="-1" class="font-titulo text-[2rem] font-semibold leading-tight focus:outline-none">Clientes</h1>
-      <p class="text-secundario">Quiénes vienen en los próximos 14 días.</p>
-      <ul id="clientes-lista" class="mt-6 grid gap-3 sm:grid-cols-2"></ul>
+      <p class="mt-2 text-secundario">Quiénes vienen en los próximos 14 días.</p>
+      <ul id="clientes-lista" class="mt-6 grid gap-4 sm:grid-cols-2"></ul>
     </section>
 
-    <section data-vista="galeria" aria-labelledby="t-galeria" hidden class="mx-auto max-w-5xl px-4 pt-6">
+    <section data-vista="galeria" aria-labelledby="t-galeria" hidden class="mx-auto max-w-5xl px-4 pt-8">
       <h1 id="t-galeria" tabindex="-1" class="font-titulo text-[2rem] font-semibold leading-tight focus:outline-none">Mi galería</h1>
-      <p class="text-secundario">Tus trabajos para mostrarles a los clientes.</p>
+      <p class="mt-2 text-secundario">Tus trabajos para mostrarles a los clientes.</p>
       <ul id="galeria-lista" class="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-3"></ul>
     </section>
 
-    <section data-vista="local" aria-labelledby="t-local" hidden class="mx-auto max-w-5xl px-4 pt-6">
+    <section data-vista="local" aria-labelledby="t-local" hidden class="mx-auto max-w-5xl px-4 pt-8">
       <h1 id="t-local" tabindex="-1" class="font-titulo text-[2rem] font-semibold leading-tight focus:outline-none">Local</h1>
-      <p id="local-subtitulo" class="text-secundario"></p>
+      <p id="local-subtitulo" class="mt-2 text-secundario"></p>
       <dl id="local-resumen" class="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4"></dl>
       <h2 class="mt-8 font-titulo text-2xl font-semibold leading-tight">Barberos hoy</h2>
-      <ul id="local-barberos" class="mt-3 grid gap-3 sm:grid-cols-3"></ul>
+      <ul id="local-barberos" class="mt-4 grid gap-4 sm:grid-cols-3"></ul>
     </section>
   </main>
 
@@ -373,19 +357,16 @@
       <div class="mx-auto h-1.5 w-12 rounded-full bg-borde md:hidden" aria-hidden="true"></div>
       <div>
         <h2 id="t-pago" class="font-titulo text-2xl font-semibold leading-tight">Pagar seña</h2>
-        <p class="text-sm text-secundario">Mercado Pago · simulación, no se cobra nada.</p>
+        <p class="mt-1 text-sm text-secundario">Mercado Pago · simulación, no se cobra nada.</p>
       </div>
       <p class="rounded-xl bg-superficie-2 p-4 text-center"><span class="block text-sm text-secundario">Total a pagar ahora</span><span id="pago-monto" class="block text-3xl font-bold"></span><span id="pago-detalle" class="block text-sm text-secundario"></span></p>
       <div>
-        <label for="pago-email" class="block font-semibold">Email para el comprobante</label>
-        <input id="pago-email" type="email" autocomplete="email" required aria-describedby="error-pago"
-          class="mt-2 block min-h-12 w-full rounded-xl border border-borde-control bg-superficie px-4 text-texto transition hover:border-primario focus:border-primario focus:outline-none focus:ring-[3px] focus:ring-primario focus:ring-offset-2 focus:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50 aria-[invalid=true]:border-2 aria-[invalid=true]:border-error">
+        <label for="pago-email" data-cls="etiqueta">Email para el comprobante</label>
+        <input id="pago-email" type="email" autocomplete="email" required aria-describedby="error-pago" data-cls="campo">
         <p id="error-pago" class="mt-2 hidden items-center gap-2 text-sm font-medium text-error"></p>
       </div>
-      <button type="submit" id="btn-pagar" value="pagar"
-        class="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border-2 border-transparent bg-primario px-5 font-semibold text-sobre-primario shadow-sm transition duration-150 hover:bg-primario-hover hover:shadow-md active:scale-[0.98] active:bg-primario-activo focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:border-borde-control disabled:bg-superficie-2 disabled:text-secundario disabled:shadow-none disabled:hover:bg-superficie-2 disabled:hover:shadow-none disabled:active:scale-100"><span data-icono="candado"></span><span id="btn-pagar-texto">Pagar</span></button>
-      <button type="button" data-accion="cerrar-dialogo"
-        class="inline-flex min-h-12 items-center justify-center rounded-xl px-5 font-semibold text-primario underline decoration-1 underline-offset-4 transition hover:bg-primario-suave hover:decoration-2 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:text-secundario disabled:no-underline disabled:hover:bg-transparent">Cancelar</button>
+      <button type="submit" id="btn-pagar" value="pagar" data-cls="btnPrimario"><span data-icono="candado"></span><span id="btn-pagar-texto">Pagar</span></button>
+      <button type="button" data-accion="cerrar-dialogo" data-cls="btnTexto">Cancelar</button>
     </form>
   </dialog>
 
@@ -395,10 +376,8 @@
       <h2 id="t-cancelar" class="font-titulo text-2xl font-semibold leading-tight">¿Cancelar el turno?</h2>
       <p id="cancelar-texto"></p>
       <!-- Confirmar arriba y descartar abajo, como en los otros diálogos. La opción segura sigue como principal y recibe el foco (ADR-005: sin rojo en botones) -->
-      <button type="button" id="btn-cancelar-confirmar" data-accion="cancelar-confirmar"
-        class="inline-flex min-h-12 items-center justify-center rounded-xl border-2 border-primario bg-superficie px-5 font-semibold text-primario transition hover:bg-primario-suave active:scale-[0.98] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50">Sí, cancelar turno</button>
-      <button type="button" data-accion="cerrar-dialogo" autofocus
-        class="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-primario px-5 font-semibold text-sobre-primario shadow-sm transition duration-150 hover:bg-primario-hover hover:shadow-md active:scale-[0.98] active:bg-primario-activo focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50">No, mantener turno</button>
+      <button type="button" id="btn-cancelar-confirmar" data-accion="cancelar-confirmar" data-cls="btnSecundario">Sí, cancelar turno</button>
+      <button type="button" data-accion="cerrar-dialogo" autofocus data-cls="btnPrimario">No, mantener turno</button>
     </div>
   </dialog>
 
@@ -407,16 +386,14 @@
     <form id="form-barbero" class="grid gap-4 p-6">
       <div>
         <h2 id="t-soy-barbero" class="font-titulo text-2xl font-semibold leading-tight">Soy barbero</h2>
-        <p class="text-sm text-secundario">Demostración sin contraseña: elegí quién sos.</p>
+        <p class="mt-1 text-sm text-secundario">Demostración sin contraseña: elegí quién sos.</p>
       </div>
       <fieldset>
         <legend class="sr-only">Barbero</legend>
-        <div id="opciones-barbero" class="grid gap-3"></div>
+        <div id="opciones-barbero" class="grid gap-4"></div>
       </fieldset>
-      <button type="submit"
-        class="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-primario px-5 font-semibold text-sobre-primario shadow-sm transition duration-150 hover:bg-primario-hover hover:shadow-md active:scale-[0.98] active:bg-primario-activo focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50">Entrar a mi agenda</button>
-      <button type="button" data-accion="cerrar-dialogo"
-        class="inline-flex min-h-12 items-center justify-center rounded-xl px-5 font-semibold text-primario underline decoration-1 underline-offset-4 transition hover:bg-primario-suave hover:decoration-2 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50">Cancelar</button>
+      <button type="submit" data-cls="btnPrimario">Entrar a mi agenda</button>
+      <button type="button" data-accion="cerrar-dialogo" data-cls="btnTexto">Cancelar</button>
     </form>
   </dialog>
 
@@ -428,7 +405,7 @@
         <button type="button" data-accion="cerrar-dialogo" aria-label="Cerrar avisos" title="Cerrar avisos"
           class="inline-flex h-12 w-12 items-center justify-center rounded-xl text-texto transition hover:bg-superficie-2 active:scale-95 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50"><span data-icono="x"></span></button>
       </div>
-      <ul id="avisos-lista" class="grid max-h-[60vh] gap-3 overflow-y-auto"></ul>
+      <ul id="avisos-lista" class="grid max-h-[60vh] gap-4 overflow-y-auto"></ul>
     </div>
   </dialog>
 

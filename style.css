@@ -110,7 +110,7 @@
   bottom: calc(var(--alto-tabbar) + env(safe-area-inset-bottom));
   z-index: 20;
   margin: 1.5rem -1rem 0;
-  padding: 0.75rem 1rem;
+  padding: 1rem;            /* escala de 8px (convenciones §4) */
   background: rgb(var(--c-fondo) / 0.96);
   border-top: 1px solid rgb(var(--c-borde));
 }

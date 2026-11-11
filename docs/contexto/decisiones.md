@@ -104,6 +104,18 @@ El acceso a la vista del barbero sin login queda aprobado.
   - La lista de espera se ordena por fecha.
 - **Trade-off:** no cambia ningún color ni el foco; se mantiene ADR-005.
 
+**[ADR-018] · [2026-11-11 19:57] — Ajustes por la Clase 4 (Gestalt y Jerarquía Visual)** · Aprobada (pedido explícito del usuario)
+- **Why:** la revisión marcó espaciados fuera de la escala de 8px, botones y campos copiados con diferencias, desalineación en el Paso 2, datos clave chicos, demasiados primarios en la Agenda y un recuadro arriba del h1 en Mis turnos.
+- **How:**
+  - Layout en la escala 4·8·16·24·32: 16px entre tarjetas y botones, 24px entre campos, 32px entre secciones y arriba de cada vista.
+  - Botones, campos y etiquetas del HTML toman su clase de `CLS` con `data-cls` (una sola definición).
+  - "Mañana/Tarde" de la Agenda y "Tarjeta de sellos" pasan a 24px, igual que los demás títulos de sección.
+  - Jerarquía por tamaño: Total del Paso 4, "Día y hora" de Confirmado (primera fila) y la fecha de cada turno.
+  - Perfil: "Guardar preferencias" es el primario; "Soy barbero" deja de ocupar todo el ancho.
+  - Agenda: "Llegó" pasa a secundario y "No vino" a texto.
+  - Mis turnos: el h1 va primero y "¿Otro corte?" baja debajo de los turnos.
+- **Trade-off:** las acciones destructivas siguen sin rojo por ADR-005 (decisión del usuario); se distinguen por jerarquía, orden y estilo de texto.
+
 ---
 
 ## Pendientes
