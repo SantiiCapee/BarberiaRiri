@@ -230,6 +230,16 @@
   to { transform: translateY(0); opacity: 1; }
 }
 
+/* Clase 8: cada pantalla entra con un fundido corto para que se note el cambio */
+[data-vista]:not([hidden]) {
+  animation: aparecer 200ms ease-out;
+}
+
+@keyframes aparecer {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
 /* Avisos flotantes */
 .toast {
   bottom: calc(var(--alto-tabbar) + 1rem + env(safe-area-inset-bottom));
@@ -241,6 +251,15 @@
 
 .toast-mensaje {
   animation: subir 200ms ease-out;
+}
+
+/* Clase 8: el aviso se desvanece en lugar de desaparecer de golpe */
+.toast-mensaje.toast-saliendo {
+  animation: desvanecer 200ms ease-in forwards;
+}
+
+@keyframes desvanecer {
+  to { transform: translateY(8px); opacity: 0; }
 }
 
 /* Galería del barbero: texturas decorativas en lugar de fotos */

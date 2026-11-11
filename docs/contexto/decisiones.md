@@ -148,9 +148,18 @@ El acceso a la vista del barbero sin login queda aprobado.
   - Mapa del sitio en `arquitectura.md`.
 - **Trade-off:** no se hizo card sorting (no lo pide la EFI); la agrupación se justifica por las tareas del cliente y del barbero (ADR-003, ADR-004).
 
+**[ADR-022] · [2026-11-11 17:42] — Ajustes por la Clase 8 (Prototipado interactivo)** · Aprobada (pedido explícito del usuario)
+- **Why:** la revisión marcó que las pantallas cambiaban de golpe, que el aviso flotante desaparecía de golpe, que el punto del radio no se animaba y que había estilos copiados a mano (títulos, pestañas, interruptores, errores y radios).
+- **How:**
+  - Cada vista entra con un fundido de 200ms; el aviso flotante sale con otro de 200ms. Con movimiento reducido no se animan.
+  - Al elegir servicio o barbero solo cambia `aria-pressed` (la lista no se redibuja): el punto del radio se anima y el foco no salta.
+  - Nuevos estilos en `CLS`: `tituloVista`, `tituloSeccion`, `pestania`, `interruptor`, `errorCampo` y `radioNativo`. "Soy barbero" usa `opcionRadio`. Se ven igual que antes.
+- **Trade-off:** los diálogos siguen cerrándose sin animación (el `<dialog>` nativo necesita CSS más nuevo para animar la salida). Falta el link al prototipo de Figma y las capturas de la evolución boceto → prototipo.
+
 ---
 
 ## Pendientes
 
 - Documentar Personas (Tomás, Graciela, Riri) y el User Journey Map con datos reales de la investigación (Clase 6).
 - Definir cuándo y cómo se devuelve la seña al cancelar a tiempo.
+- Sumar a `docs/wireframes/README.md` el link real al prototipo de Figma y las capturas de bocetos y prototipo (Clase 8).

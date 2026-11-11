@@ -99,7 +99,7 @@
     <section data-vista="inicio" aria-labelledby="t-inicio" hidden class="mx-auto max-w-5xl px-4 pt-8">
       <div class="grid gap-8 md:grid-cols-[1.1fr_1fr] md:items-start">
         <div>
-          <h1 id="t-inicio" tabindex="-1" class="font-titulo text-h1 font-semibold leading-tight focus:outline-none">Reservá tu turno</h1>
+          <h1 id="t-inicio" tabindex="-1" data-cls="tituloVista">Reservá tu turno</h1>
           <p class="mt-2 text-secundario">En 1 minuto: elegí servicio, barbero y horario. Asegurás tu lugar con una seña del 30%.</p>
           <div class="mt-6 grid gap-4 sm:max-w-sm">
             <a href="#/reservar/1" data-cls="btnPrimario">
@@ -115,7 +115,7 @@
       </div>
 
       <section aria-labelledby="t-barberos" class="mt-8">
-        <h2 id="t-barberos" class="font-titulo text-h2 font-semibold leading-tight">Barberos</h2>
+        <h2 id="t-barberos" data-cls="tituloSeccion">Barberos</h2>
         <p class="mt-1 text-caption text-secundario">Tocá un barbero para reservar directamente con él.</p>
         <ul id="inicio-barberos" class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3"></ul>
       </section>
@@ -124,7 +124,7 @@
     <!-- ===== 02–05 Reservar ===== -->
     <section data-vista="paso1" aria-labelledby="t-paso1" hidden class="mx-auto max-w-3xl px-4 pt-8">
       <div data-progreso="1"></div>
-      <h1 id="t-paso1" tabindex="-1" class="mt-4 font-titulo text-h1 font-semibold leading-tight focus:outline-none">Servicio</h1>
+      <h1 id="t-paso1" tabindex="-1" data-cls="tituloVista" class="mt-4">Servicio</h1>
       <p class="mt-2 text-secundario">¿Qué te hacés hoy?</p>
       <ul id="lista-servicios" class="mt-6 grid gap-4 md:grid-cols-2" aria-label="Servicios"></ul>
       <div class="barra-accion" data-barra="1"></div>
@@ -132,7 +132,7 @@
 
     <section data-vista="paso2" aria-labelledby="t-paso2" hidden class="mx-auto max-w-3xl px-4 pt-8">
       <div data-progreso="2"></div>
-      <h1 id="t-paso2" tabindex="-1" class="mt-4 font-titulo text-h1 font-semibold leading-tight focus:outline-none">Barbero</h1>
+      <h1 id="t-paso2" tabindex="-1" data-cls="tituloVista" class="mt-4">Barbero</h1>
       <p class="mt-2 text-secundario">Elegí con quién, o dejá que te asignemos uno libre.</p>
       <ul id="lista-barberos" class="mt-6 grid gap-4" aria-label="Barberos"></ul>
       <div class="barra-accion" data-barra="2"></div>
@@ -140,7 +140,7 @@
 
     <section data-vista="paso3" aria-labelledby="t-paso3" hidden class="mx-auto max-w-3xl px-4 pt-8">
       <div data-progreso="3"></div>
-      <h1 id="t-paso3" tabindex="-1" class="mt-4 font-titulo text-h1 font-semibold leading-tight focus:outline-none">Fecha y hora</h1>
+      <h1 id="t-paso3" tabindex="-1" data-cls="tituloVista" class="mt-4">Fecha y hora</h1>
       <p id="paso3-detalle" class="mt-2 text-secundario"></p>
       <h2 class="sr-only">Día</h2>
       <ul id="lista-dias" class="dias-scroll -mx-4 mt-6 flex gap-2 overflow-x-auto px-4 pb-2" aria-label="Días disponibles"></ul>
@@ -150,32 +150,32 @@
 
     <section data-vista="paso4" aria-labelledby="t-paso4" hidden class="mx-auto max-w-3xl px-4 pt-8">
       <div data-progreso="4"></div>
-      <h1 id="t-paso4" tabindex="-1" class="mt-4 font-titulo text-h1 font-semibold leading-tight focus:outline-none">Tus datos y seña</h1>
+      <h1 id="t-paso4" tabindex="-1" data-cls="tituloVista" class="mt-4">Tus datos y seña</h1>
       <div id="resumen-reserva" class="mt-6"></div>
 
       <form id="form-datos" class="mt-6 grid gap-6" novalidate>
         <div>
           <label for="campo-nombre" data-cls="etiqueta">Nombre y apellido</label>
           <input id="campo-nombre" name="nombre" type="text" autocomplete="name" required aria-describedby="error-nombre" data-cls="campo">
-          <p id="error-nombre" class="mt-2 hidden items-center gap-2 text-body font-medium text-error"></p>
+          <p id="error-nombre" data-cls="errorCampo"></p>
         </div>
         <div>
           <label for="campo-telefono" data-cls="etiqueta">Teléfono (WhatsApp)</label>
           <p id="ayuda-telefono" class="text-caption text-secundario">10 números, sin 0 ni 15. Ej.: 3584123456</p>
           <input id="campo-telefono" name="telefono" type="tel" inputmode="numeric" autocomplete="tel-national" required aria-describedby="ayuda-telefono error-telefono" data-cls="campo">
-          <p id="error-telefono" class="mt-2 hidden items-center gap-2 text-body font-medium text-error"></p>
+          <p id="error-telefono" data-cls="errorCampo"></p>
         </div>
 
         <fieldset id="grupo-pago">
           <legend class="font-semibold">Seña</legend>
           <div class="mt-2 grid gap-4">
             <label data-cls="opcionRadio">
-              <input type="radio" name="pago" value="sena" class="h-5 w-5 accent-[rgb(var(--c-primario))] focus:outline-none">
+              <input type="radio" name="pago" value="sena" data-cls="radioNativo">
               <span class="grow"><span class="block font-semibold">Pagar seña ahora (30%)</span><span class="block text-caption text-secundario">Con Mercado Pago (simulado). El resto lo pagás en el local.</span></span>
               <span id="monto-sena" class="font-semibold"></span>
             </label>
             <label data-cls="opcionRadio">
-              <input type="radio" name="pago" value="local" class="h-5 w-5 accent-[rgb(var(--c-primario))] focus:outline-none">
+              <input type="radio" name="pago" value="local" data-cls="radioNativo">
               <span class="grow"><span class="block font-semibold">Pagar en el local</span><span class="block text-caption text-secundario">Pagás todo cuando vengas.</span></span>
             </label>
           </div>
@@ -202,19 +202,19 @@
     <!-- ===== 06 Turno confirmado ===== -->
     <section data-vista="confirmado" aria-labelledby="t-confirmado" hidden class="mx-auto max-w-xl px-4 pt-8 text-center">
       <span data-icono="check-circulo" data-icono-clase="mx-auto h-16 w-16 text-exito"></span>
-      <h1 id="t-confirmado" tabindex="-1" class="mt-4 font-titulo text-h1 font-semibold leading-tight focus:outline-none">¡Turno confirmado!</h1>
+      <h1 id="t-confirmado" tabindex="-1" data-cls="tituloVista" class="mt-4">¡Turno confirmado!</h1>
       <p id="confirmado-subtitulo" class="mt-2 text-secundario">Te esperamos. Guardá tu código por las dudas.</p>
       <div id="confirmado-detalle"></div>
     </section>
 
     <!-- ===== 07 Mis turnos ===== -->
     <section data-vista="mis-turnos" aria-labelledby="t-mis-turnos" hidden class="mx-auto max-w-3xl px-4 pt-8">
-      <h1 id="t-mis-turnos" tabindex="-1" class="font-titulo text-h1 font-semibold leading-tight focus:outline-none">Mis turnos</h1>
+      <h1 id="t-mis-turnos" tabindex="-1" data-cls="tituloVista">Mis turnos</h1>
       <div role="tablist" aria-label="Mis turnos" class="mt-4 grid grid-cols-2 gap-1 rounded-xl bg-superficie-2 p-1">
         <button type="button" role="tab" id="tab-proximos" aria-controls="panel-turnos" data-accion="tab-turnos" data-tab="proximos"
-          class="min-h-12 rounded-lg border-2 border-transparent font-semibold text-secundario transition hover:text-texto active:scale-[0.98] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario aria-selected:border-primario aria-selected:bg-superficie aria-selected:text-texto aria-selected:shadow-sm disabled:cursor-not-allowed disabled:opacity-50">Próximos</button>
+          data-cls="pestania">Próximos</button>
         <button type="button" role="tab" id="tab-historial" aria-controls="panel-turnos" data-accion="tab-turnos" data-tab="historial"
-          class="min-h-12 rounded-lg border-2 border-transparent font-semibold text-secundario transition hover:text-texto active:scale-[0.98] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario aria-selected:border-primario aria-selected:bg-superficie aria-selected:text-texto aria-selected:shadow-sm disabled:cursor-not-allowed disabled:opacity-50">Historial</button>
+          data-cls="pestania">Historial</button>
       </div>
       <div id="panel-turnos" role="tabpanel" tabindex="0" class="mt-4 rounded-xl focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario"></div>
 
@@ -225,7 +225,7 @@
       </div>
 
       <section aria-labelledby="t-espera" class="mt-8">
-        <h2 id="t-espera" class="font-titulo text-h2 font-semibold leading-tight">Lista de espera</h2>
+        <h2 id="t-espera" data-cls="tituloSeccion">Lista de espera</h2>
         <p class="mt-1 text-caption text-secundario">¿No había lugar? Anotate y te avisamos si alguien cancela. El primero que confirma se queda con el turno.</p>
         <ul id="lista-espera" class="mt-4 grid gap-4"></ul>
         <form id="form-espera" class="mt-4 grid gap-4 rounded-xl border border-borde bg-superficie p-4 sm:grid-cols-3 sm:items-end">
@@ -254,19 +254,19 @@
       <div class="flex items-center gap-4">
         <span id="perfil-avatar" class="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-primario-suave font-titulo text-h2 font-semibold text-primario" aria-hidden="true"></span>
         <div>
-          <h1 id="t-perfil" tabindex="-1" class="font-titulo text-h1 font-semibold leading-tight focus:outline-none">Perfil</h1>
+          <h1 id="t-perfil" tabindex="-1" data-cls="tituloVista">Perfil</h1>
           <p id="perfil-subtitulo" class="mt-2 text-secundario"></p>
         </div>
       </div>
 
       <section aria-labelledby="t-sellos" class="mt-6 rounded-xl border border-borde bg-superficie p-4">
-        <h2 id="t-sellos" class="font-titulo text-h2 font-semibold leading-tight">Tarjeta de sellos</h2>
+        <h2 id="t-sellos" data-cls="tituloSeccion">Tarjeta de sellos</h2>
         <ol id="sellos" class="mt-4 grid grid-cols-5 justify-items-center gap-4" aria-describedby="sellos-texto"></ol>
         <p id="sellos-texto" class="mt-4 text-caption text-secundario"></p>
       </section>
 
       <section aria-labelledby="t-preferencias" class="mt-8">
-        <h2 id="t-preferencias" class="font-titulo text-h2 font-semibold leading-tight">Tus datos y preferencias</h2>
+        <h2 id="t-preferencias" data-cls="tituloSeccion">Tus datos y preferencias</h2>
         <dl id="perfil-preferencias" class="mt-4 divide-y divide-borde rounded-xl border border-borde bg-superficie px-4"></dl>
         <form id="form-perfil" class="mt-6 grid gap-6">
           <div class="grid gap-6 sm:grid-cols-2">
@@ -278,7 +278,7 @@
               <label for="perfil-telefono" data-cls="etiqueta">Teléfono</label>
               <p id="ayuda-perfil-telefono" class="text-caption text-secundario">10 números, sin 0 ni 15. Ej.: 3584123456</p>
               <input id="perfil-telefono" type="tel" inputmode="numeric" autocomplete="tel-national" aria-describedby="ayuda-perfil-telefono error-perfil-telefono" data-cls="campo">
-              <p id="error-perfil-telefono" class="mt-2 hidden items-center gap-2 text-body font-medium text-error"></p>
+              <p id="error-perfil-telefono" data-cls="errorCampo"></p>
             </div>
           </div>
           <div>
@@ -291,17 +291,17 @@
       </section>
 
       <section aria-labelledby="t-ajustes" class="mt-8">
-        <h2 id="t-ajustes" class="font-titulo text-h2 font-semibold leading-tight">Ajustes</h2>
+        <h2 id="t-ajustes" data-cls="tituloSeccion">Ajustes</h2>
         <ul class="mt-4 divide-y divide-borde rounded-xl border border-borde bg-superficie px-4">
           <li class="flex min-h-14 items-center justify-between gap-4 py-2">
             <span id="lbl-oscuro" class="font-medium">Modo oscuro</span>
             <button type="button" role="switch" id="switch-oscuro" data-accion="tema" aria-checked="false" aria-labelledby="lbl-oscuro"
-              class="switch relative inline-flex h-8 w-14 shrink-0 items-center rounded-full border-2 border-borde-control bg-superficie-2 transition hover:border-primario active:scale-95 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo aria-checked:border-primario aria-checked:bg-primario disabled:cursor-not-allowed disabled:opacity-50"><span class="switch-perilla" aria-hidden="true"></span></button>
+              data-cls="interruptor" class="switch"><span class="switch-perilla" aria-hidden="true"></span></button>
           </li>
           <li class="flex min-h-14 items-center justify-between gap-4 py-2">
             <span id="lbl-recordatorios" class="font-medium">Recordatorio 2 horas antes</span>
             <button type="button" role="switch" id="switch-recordatorios" data-accion="recordatorios" aria-checked="true" aria-labelledby="lbl-recordatorios"
-              class="switch relative inline-flex h-8 w-14 shrink-0 items-center rounded-full border-2 border-borde-control bg-superficie-2 transition hover:border-primario active:scale-95 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo aria-checked:border-primario aria-checked:bg-primario disabled:cursor-not-allowed disabled:opacity-50"><span class="switch-perilla" aria-hidden="true"></span></button>
+              data-cls="interruptor" class="switch"><span class="switch-perilla" aria-hidden="true"></span></button>
           </li>
         </ul>
       </section>
@@ -313,7 +313,7 @@
     <section data-vista="agenda" aria-labelledby="t-agenda" hidden class="mx-auto max-w-3xl px-4 pt-8">
       <div class="flex items-start gap-2">
         <div class="grow">
-          <h1 id="t-agenda" tabindex="-1" class="font-titulo text-h1 font-semibold leading-tight focus:outline-none">Agenda</h1>
+          <h1 id="t-agenda" tabindex="-1" data-cls="tituloVista">Agenda</h1>
           <p id="agenda-subtitulo" class="mt-2 text-secundario" aria-live="polite"></p>
         </div>
         <button type="button" id="agenda-anterior" data-accion="agenda-dia" data-delta="-1" aria-label="Día anterior" title="Día anterior" data-cls="btnIconoBorde"><span data-icono="chevron-izq"></span></button>
@@ -323,22 +323,22 @@
     </section>
 
     <section data-vista="clientes" aria-labelledby="t-clientes" hidden class="mx-auto max-w-3xl px-4 pt-8">
-      <h1 id="t-clientes" tabindex="-1" class="font-titulo text-h1 font-semibold leading-tight focus:outline-none">Clientes</h1>
+      <h1 id="t-clientes" tabindex="-1" data-cls="tituloVista">Clientes</h1>
       <p class="mt-2 text-secundario">Quiénes vienen en los próximos 14 días.</p>
       <ul id="clientes-lista" class="mt-6 grid gap-4 sm:grid-cols-2"></ul>
     </section>
 
     <section data-vista="galeria" aria-labelledby="t-galeria" hidden class="mx-auto max-w-5xl px-4 pt-8">
-      <h1 id="t-galeria" tabindex="-1" class="font-titulo text-h1 font-semibold leading-tight focus:outline-none">Mi galería</h1>
+      <h1 id="t-galeria" tabindex="-1" data-cls="tituloVista">Mi galería</h1>
       <p class="mt-2 text-secundario">Tus trabajos para mostrarles a los clientes.</p>
       <ul id="galeria-lista" class="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-3"></ul>
     </section>
 
     <section data-vista="local" aria-labelledby="t-local" hidden class="mx-auto max-w-5xl px-4 pt-8">
-      <h1 id="t-local" tabindex="-1" class="font-titulo text-h1 font-semibold leading-tight focus:outline-none">Local</h1>
+      <h1 id="t-local" tabindex="-1" data-cls="tituloVista">Local</h1>
       <p id="local-subtitulo" class="mt-2 text-secundario"></p>
       <dl id="local-resumen" class="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4"></dl>
-      <h2 class="mt-8 font-titulo text-h2 font-semibold leading-tight">Barberos hoy</h2>
+      <h2 data-cls="tituloSeccion" class="mt-8">Barberos hoy</h2>
       <ul id="local-barberos" class="mt-4 grid gap-4 sm:grid-cols-3"></ul>
     </section>
   </main>
@@ -362,14 +362,14 @@
     <form id="form-pago" method="dialog" class="grid gap-4 p-6" novalidate>
       <div class="mx-auto h-1.5 w-12 rounded-full bg-borde md:hidden" aria-hidden="true"></div>
       <div>
-        <h2 id="t-pago" class="font-titulo text-h2 font-semibold leading-tight">Pagar seña</h2>
+        <h2 id="t-pago" data-cls="tituloSeccion">Pagar seña</h2>
         <p class="mt-1 text-caption text-secundario">Mercado Pago · simulación, no se cobra nada.</p>
       </div>
       <p class="rounded-xl bg-superficie-2 p-4 text-center"><span class="block text-caption text-secundario">Total a pagar ahora</span><span id="pago-monto" class="block text-h1 font-bold"></span><span id="pago-detalle" class="block text-caption text-secundario"></span></p>
       <div>
         <label for="pago-email" data-cls="etiqueta">Email para el comprobante</label>
         <input id="pago-email" type="email" autocomplete="email" required aria-describedby="error-pago" data-cls="campo">
-        <p id="error-pago" class="mt-2 hidden items-center gap-2 text-body font-medium text-error"></p>
+        <p id="error-pago" data-cls="errorCampo"></p>
       </div>
       <button type="submit" id="btn-pagar" value="pagar" data-cls="btnPrimario"><span id="pago-icono-candado" data-icono="candado"></span><span id="pago-icono-carga" hidden data-icono="carga" data-icono-clase="h-5 w-5 animate-spin motion-reduce:animate-none"></span><span id="btn-pagar-texto">Pagar seña</span></button>
       <button type="button" data-accion="cerrar-dialogo" data-cls="btnTexto">Cancelar</button>
@@ -379,7 +379,7 @@
   <!-- ===== Cancelar turno ===== -->
   <dialog id="dlg-cancelar" aria-labelledby="t-cancelar" aria-describedby="cancelar-texto" class="dialogo-hoja bg-superficie text-texto">
     <div class="grid gap-4 p-6">
-      <h2 id="t-cancelar" class="font-titulo text-h2 font-semibold leading-tight">¿Cancelar el turno?</h2>
+      <h2 id="t-cancelar" data-cls="tituloSeccion">¿Cancelar el turno?</h2>
       <p id="cancelar-texto"></p>
       <!-- Confirmar arriba y descartar abajo, como en los otros diálogos. La opción segura sigue como principal y recibe el foco; la destructiva va en rojo de error (ADR-019) -->
       <button type="button" id="btn-cancelar-confirmar" data-accion="cancelar-confirmar" data-cls="btnPeligro">Sí, cancelar turno</button>
@@ -391,7 +391,7 @@
   <dialog id="dlg-barbero" aria-labelledby="t-soy-barbero" class="dialogo-hoja bg-superficie text-texto">
     <form id="form-barbero" class="grid gap-4 p-6">
       <div>
-        <h2 id="t-soy-barbero" class="font-titulo text-h2 font-semibold leading-tight">Soy barbero</h2>
+        <h2 id="t-soy-barbero" data-cls="tituloSeccion">Soy barbero</h2>
         <p class="mt-1 text-caption text-secundario">Demostración sin contraseña: elegí quién sos.</p>
       </div>
       <fieldset>
@@ -407,7 +407,7 @@
   <dialog id="dlg-avisos" aria-labelledby="t-avisos" class="dialogo-hoja bg-superficie text-texto">
     <div class="grid gap-4 p-6">
       <div class="flex items-center justify-between gap-4">
-        <h2 id="t-avisos" class="font-titulo text-h2 font-semibold leading-tight">Avisos</h2>
+        <h2 id="t-avisos" data-cls="tituloSeccion">Avisos</h2>
         <button type="button" data-accion="cerrar-dialogo" aria-label="Cerrar avisos" title="Cerrar avisos" data-cls="btnIcono"><span data-icono="x"></span></button>
       </div>
       <ul id="avisos-lista" class="grid max-h-[60vh] gap-4 overflow-y-auto"></ul>

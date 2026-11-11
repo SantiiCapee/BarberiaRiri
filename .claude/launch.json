@@ -49,6 +49,16 @@
         "5177"
       ],
       "port": 5177
+    },
+    {
+      "name": "barberiariri-clase8",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "C:/Users/santi/AppData/Local/Temp/claude/e108ff1d76b0f0e6/c8571b41-9e7e-4525-a5c4-024216604f11/scratchpad/servidor.js",
+        "D:\\Cosas SANTI\\Descargas\\claude\\efi interfaz",
+        "5178"
+      ],
+      "port": 5178
     }
   ]
 }

@@ -58,6 +58,13 @@ const CLS = {
   // Campos de formulario: siempre debajo de su etiqueta, a 8px (proximidad)
   campo: `mt-2 block min-h-12 w-full rounded-xl border border-borde-control bg-superficie px-4 text-body text-texto placeholder:text-secundario transition hover:border-primario focus:border-primario focus:outline-none focus:ring-[3px] focus:ring-primario focus:ring-offset-2 focus:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50 aria-[invalid=true]:border-2 aria-[invalid=true]:border-error`,
   etiqueta: 'block font-semibold',
+  // Clase 8: componentes que antes estaban copiados a mano en el HTML
+  errorCampo: 'mt-2 hidden items-center gap-2 text-body font-medium text-error',
+  radioNativo: 'h-5 w-5 accent-[rgb(var(--c-primario))] focus:outline-none',
+  tituloVista: 'font-titulo text-h1 font-semibold leading-tight focus:outline-none',
+  tituloSeccion: 'font-titulo text-h2 font-semibold leading-tight',
+  pestania: 'min-h-12 rounded-lg border-2 border-transparent font-semibold text-secundario transition hover:text-texto active:scale-[0.98] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario aria-selected:border-primario aria-selected:bg-superficie aria-selected:text-texto aria-selected:shadow-sm disabled:cursor-not-allowed disabled:opacity-50',
+  interruptor: `relative inline-flex h-8 w-14 shrink-0 items-center rounded-full border-2 border-borde-control bg-superficie-2 transition hover:border-primario active:scale-95 ${FOCO} aria-checked:border-primario aria-checked:bg-primario disabled:cursor-not-allowed disabled:opacity-50`,
   tarjeta: 'rounded-xl border border-borde bg-superficie p-4',
   vacio: 'rounded-xl bg-superficie-2 p-4 text-secundario',
   badge: 'inline-flex items-center rounded-full px-2 py-0.5 text-caption font-semibold',
@@ -302,7 +309,13 @@ function toast(mensaje, tipo = 'info') {
   const iconoTipo = icono(nombreIcono, `h-5 w-5 shrink-0 ${color}`);
   caja.innerHTML = `<p class="toast-mensaje flex items-start gap-3 rounded-xl border border-borde bg-superficie p-4 text-body font-medium text-texto shadow-lg">${iconoTipo}<span>${esc(mensaje)}</span></p>`;
   clearTimeout(temporizadorToast);
-  temporizadorToast = setTimeout(() => { caja.innerHTML = ''; }, 5000);
+  temporizadorToast = setTimeout(() => {
+    const mensaje = caja.firstElementChild;
+    if (!mensaje) return;
+    mensaje.addEventListener('animationend', () => mensaje.remove(), { once: true });
+    mensaje.classList.add('toast-saliendo');
+    setTimeout(() => mensaje.remove(), 300); // por si la animación no corre (pestaña en segundo plano)
+  }, 5000);
 }
 
 function notificar(titulo, texto, accion = null) {
@@ -477,13 +490,13 @@ function pintarInicio() {
   $('#inicio-destacado').innerHTML = proximo
     ? `<article class="${CLS.tarjeta} shadow-sm" aria-labelledby="t-proximo">
         <p class="text-caption font-semibold uppercase tracking-wide text-secundario">Tu próximo turno</p>
-        <h2 id="t-proximo" class="mt-1 font-titulo text-h2 font-semibold leading-tight">${esc(servicioPorId(proximo.servicioId).nombre)}</h2>
+        <h2 id="t-proximo" class="mt-1 ${CLS.tituloSeccion}">${esc(servicioPorId(proximo.servicioId).nombre)}</h2>
         <p class="mt-2 flex items-center gap-2 font-semibold">${icono('calendario')}${formatoDia(proximo.fecha)} · ${proximo.hora}</p>
         <p class="mt-1 flex items-center gap-2 text-secundario">${icono('usuario')}Con ${esc(nombreBarbero(proximo.barberoId))} · ${proximo.codigo}</p>
         <a href="#/mis-turnos" class="${CLS.btnTexto} -ml-3 mt-2">Ver Mis turnos</a>
       </article>`
     : `<article class="${CLS.tarjeta}" aria-labelledby="t-horarios">
-        <h2 id="t-horarios" class="font-titulo text-h2 font-semibold leading-tight">Horarios</h2>
+        <h2 id="t-horarios" class="${CLS.tituloSeccion}">Horarios</h2>
         <p class="mt-2 flex items-center gap-2">${icono('reloj')}Lunes a sábado</p>
         <p class="mt-1 pl-7 text-secundario">Mañana de 9 a 13 · Tarde de 15 a 21</p>
         <p class="mt-4 text-caption text-secundario">Podés cancelar o reprogramar sin cargo hasta 2 horas antes.</p>
@@ -544,9 +557,14 @@ function pintarPaso1() {
         <span class="shrink-0 font-semibold">${precio(s.precio)}</span>
       </button>
     </li>`).join('');
+  pintarBarraPaso1();
+}
+
+function pintarBarraPaso1() {
+  const b = estado.borrador;
+  const elegido = b.servicioId;
   const servicio = servicioPorId(elegido);
   // ADR-020: si el barbero ya se eligió en Inicio, no se vuelve a pedir (se cambia con Volver o "Cambiar")
-  const b = estado.borrador;
   const saltarBarbero = b.barberoDesdeInicio && b.barberoId;
   pintarBarra(1, Boolean(elegido), servicio ? `${servicio.nombre} · ${precio(servicio.precio)}${saltarBarbero ? ` con ${esc(nombreBarbero(b.barberoId))}` : ''}` : 'Elegí un servicio para continuar.', saltarBarbero ? 3 : 2);
 }
@@ -575,6 +593,11 @@ function pintarPaso2() {
         <span class="hidden h-6 w-6 shrink-0 place-items-center rounded-full bg-primario text-sobre-primario group-aria-pressed:grid" aria-hidden="true">${icono('check', 'h-4 w-4')}</span>
       </button>
     </li>`).join('')}`;
+  pintarBarraPaso2();
+}
+
+function pintarBarraPaso2() {
+  const elegido = estado.borrador.barberoId;
   const conQuien = elegido === 'cualquiera' ? 'cualquier barbero disponible' : esc(nombreBarbero(elegido));
   pintarBarra(2, Boolean(elegido), elegido ? `${servicioPorId(estado.borrador.servicioId).nombre} con ${conQuien}` : 'Elegí un barbero para continuar.');
 }
@@ -750,9 +773,9 @@ function tarjetaTurno(t, esProximo) {
     <article class="${CLS.tarjeta}" aria-labelledby="turno-${t.codigo}">
       <div class="flex gap-4">
         <p class="grid h-16 w-16 shrink-0 place-content-center rounded-xl bg-superficie-2 text-center" aria-hidden="true">
-          <span class="text-caption font-semibold uppercase text-secundario">${diaSemana}</span><span class="font-titulo text-h2 font-semibold leading-tight">${numero}</span></p>
+          <span class="text-caption font-semibold uppercase text-secundario">${diaSemana}</span><span class="${CLS.tituloSeccion}">${numero}</span></p>
         <div class="min-w-0 grow">
-          <h2 id="turno-${t.codigo}" class="font-titulo text-h2 font-semibold leading-tight">${servicio.nombre}</h2>
+          <h2 id="turno-${t.codigo}" class="${CLS.tituloSeccion}">${servicio.nombre}</h2>
           <p class="mt-1 font-semibold">${formatoDia(t.fecha)} · ${t.hora} · con ${esc(nombreBarbero(t.barberoId))}</p>
           <p class="text-caption text-secundario">${t.codigo} · ${t.sena ? `Seña pagada ${precio(t.sena)}` : 'Pagás en el local'}</p>
           ${esProximo
@@ -871,7 +894,7 @@ function pintarAgenda() {
   for (const franja of Object.keys(FRANJAS)) {
     const bloques = bloquesDeFranja(franja);
     // Proximidad: el título queda a 16px de su grupo y a 32px del grupo anterior
-    items.push(`<li class="list-none before:hidden ${items.length ? 'mt-4' : ''}"><h2 class="font-titulo text-h2 font-semibold leading-tight">${FRANJAS[franja].nombre}</h2></li>`);
+    items.push(`<li class="list-none before:hidden ${items.length ? 'mt-4' : ''}"><h2 class="${CLS.tituloSeccion}">${FRANJAS[franja].nombre}</h2></li>`);
     let i = 0;
     while (i < bloques.length) {
       const hora = bloques[i];
@@ -1085,6 +1108,10 @@ function repetir(codigo) {
   irA('/reservar/3');
 }
 
+function marcarElegido(accion, id) {
+  $$(`[data-accion="${accion}"]`).forEach((boton) => boton.setAttribute('aria-pressed', String(boton.dataset.id === id)));
+}
+
 function pintarTema() {
   const oscuro = document.documentElement.classList.contains('dark');
   $('#btn-tema').setAttribute('aria-pressed', String(oscuro));
@@ -1093,17 +1120,18 @@ function pintarTema() {
 }
 
 const ACCIONES = {
+  // Clase 8: solo cambia aria-pressed (no se redibuja la lista), así se ve la transición del radio y el foco no se mueve
   servicio(el) {
     estado.borrador.servicioId = el.dataset.id;
     guardarBorrador();
-    pintarPaso1();
-    $(`[data-accion="servicio"][data-id="${el.dataset.id}"]`).focus();
+    marcarElegido('servicio', el.dataset.id);
+    pintarBarraPaso1();
   },
   barbero(el) {
     estado.borrador.barberoId = el.dataset.id;
     guardarBorrador();
-    pintarPaso2();
-    $(`[data-accion="barbero"][data-id="${el.dataset.id}"]`).focus();
+    marcarElegido('barbero', el.dataset.id);
+    pintarBarraPaso2();
   },
   dia(el) {
     estado.borrador.fecha = el.dataset.fecha;
@@ -1212,8 +1240,8 @@ const ACCIONES = {
   },
   'soy-barbero'() {
     $('#opciones-barbero').innerHTML = BARBEROS.map((b, i) => `
-      <label class="flex min-h-12 cursor-pointer items-center gap-4 rounded-xl border border-borde-control bg-superficie p-4 transition hover:border-primario active:scale-[0.99] has-[:checked]:border-2 has-[:checked]:border-primario has-[:checked]:bg-primario-suave has-[:checked]:p-[15px] has-[:focus-visible]:ring-[3px] has-[:focus-visible]:ring-primario has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-fondo">
-        <input type="radio" name="barbero-actual" value="${b.id}" class="h-5 w-5 accent-[rgb(var(--c-primario))] focus:outline-none" ${(estado.barbero || 'riri') === b.id || (!estado.barbero && i === 0) ? 'checked' : ''}>
+      <label class="${CLS.opcionRadio}">
+        <input type="radio" name="barbero-actual" value="${b.id}" class="${CLS.radioNativo}" ${(estado.barbero || 'riri') === b.id || (!estado.barbero && i === 0) ? 'checked' : ''}>
         <span class="${CLS.avatar}" aria-hidden="true">${b.nombre[0]}</span>
         <span><span class="block font-semibold">${b.nombre}</span><span class="block text-caption text-secundario">${b.duenio ? 'Dueño · ve también "Local"' : b.especialidad}</span></span>
       </label>`).join('');
