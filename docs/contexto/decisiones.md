@@ -56,7 +56,7 @@ El acceso a la vista del barbero sin login queda aprobado.
 
 **[ADR-012] · [2026-11-10 19:19] — Poda de la biblioteca de skills** · Aprobada (pedido explícito del usuario)
 - **Why:** de 2.860 skills, casi todas apuntaban a tecnologías que no existen en el proyecto (React, Node, Python, apps nativas, etc.).
-- **How:** se conservan 38 skills de Tailwind, diseño, accesibilidad WCAG, UX, JavaScript puro y SDD. También se borró la infraestructura del repositorio (plugins y app Node/Supabase). El detalle está en `.agents/skills/SKILLS-CONSERVADAS.md` y la lista de las podadas en `.agents/SKILLS_PODADAS.txt`.
+- **How:** se conservan 38 skills de Tailwind, diseño, accesibilidad WCAG, UX, JavaScript puro y SDD. También se borró la infraestructura del repositorio (plugins y app Node/Supabase). (Actualizado por ADR-023: quedan 18 skills en `.claude/skills/`.)
 - **Trade-off:** el `.git` del clon (85 MB) se conserva para poder restaurar cualquier skill.
 
 **[ADR-013] · [2026-11-10 16:29] — Wireframes low-fi de las pantallas principales** · Aprobada (pedido explícito del usuario)
@@ -155,6 +155,14 @@ El acceso a la vista del barbero sin login queda aprobado.
   - Al elegir servicio o barbero solo cambia `aria-pressed` (la lista no se redibuja): el punto del radio se anima y el foco no salta.
   - Nuevos estilos en `CLS`: `tituloVista`, `tituloSeccion`, `pestania`, `interruptor`, `errorCampo` y `radioNativo`. "Soy barbero" usa `opcionRadio`. Se ven igual que antes.
 - **Trade-off:** los diálogos siguen cerrándose sin animación (el `<dialog>` nativo necesita CSS más nuevo para animar la salida). Falta el link al prototipo de Figma y las capturas de la evolución boceto → prototipo.
+
+**[ADR-023] · [2026-11-11 17:46] — Segunda poda de skills para ahorrar tokens** · Aprobada (pedido explícito del usuario)
+- **Why:** analizar el proyecto consumía muchos tokens. `.agents/skills/` era una copia exacta (87 MB) de las skills de `.claude/skills/`, y varias skills hacían lo mismo. Sus descripciones se cargan en cada sesión.
+- **How:**
+  - Se borró `.agents/skills/` (el repositorio clonado) y `.agents/SKILLS_PODADAS.txt`.
+  - De `.claude/skills/` quedan 18: `better-accessibility`, `better-colors`, `better-interface`, `better-layout`, `better-typography`, `design-token-contrast`, `frontend-design`, `frontend-security-coder`, `modern-javascript-patterns`, `spec-driven-development`, `tailwind-design-system`, `ui-states`, `ux-audit`, `ux-copy`, `ux-feedback`, `ux-flow`, `verification-before-completion` y `web-design-system`.
+  - Se sacaron 20 skills que se pisaban o no aplican (Figma, DevTools MCP, Codex, animaciones).
+- **Trade-off:** las skills borradas solo se recuperan desde el historial de git o volviendo a clonar `sickn33/agentic-awesome-skills`.
 
 ---
 
