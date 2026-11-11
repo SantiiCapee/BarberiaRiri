@@ -278,8 +278,10 @@
             </div>
             <div>
               <label for="perfil-telefono" class="block font-semibold">Teléfono</label>
-              <input id="perfil-telefono" type="tel" inputmode="numeric" autocomplete="tel-national"
-                class="mt-2 block min-h-12 w-full rounded-xl border border-borde-control bg-superficie px-4 text-texto transition hover:border-primario focus:border-primario focus:outline-none focus:ring-[3px] focus:ring-primario focus:ring-offset-2 focus:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50">
+              <input id="perfil-telefono" type="tel" inputmode="numeric" autocomplete="tel-national" aria-describedby="ayuda-perfil-telefono error-perfil-telefono"
+                class="mt-2 block min-h-12 w-full rounded-xl border border-borde-control bg-superficie px-4 text-texto transition hover:border-primario focus:border-primario focus:outline-none focus:ring-[3px] focus:ring-primario focus:ring-offset-2 focus:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50 aria-[invalid=true]:border-2 aria-[invalid=true]:border-error">
+              <p id="ayuda-perfil-telefono" class="mt-2 text-sm text-secundario">10 números, sin 0 ni 15. Ej.: 3584123456</p>
+              <p id="error-perfil-telefono" class="mt-2 hidden items-center gap-2 text-sm font-medium text-error"></p>
             </div>
           </div>
           <div>
@@ -338,7 +340,7 @@
 
     <section data-vista="galeria" aria-labelledby="t-galeria" hidden class="mx-auto max-w-5xl px-4 pt-6">
       <h1 id="t-galeria" tabindex="-1" class="font-titulo text-[2rem] font-semibold leading-tight focus:outline-none">Mi galería</h1>
-      <p class="text-secundario">Tus trabajos para mostrarle a los clientes.</p>
+      <p class="text-secundario">Tus trabajos para mostrarles a los clientes.</p>
       <ul id="galeria-lista" class="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-3"></ul>
     </section>
 
@@ -392,10 +394,11 @@
     <div class="grid gap-4 p-6">
       <h2 id="t-cancelar" class="font-titulo text-2xl font-semibold leading-tight">¿Cancelar el turno?</h2>
       <p id="cancelar-texto"></p>
-      <button type="button" id="btn-cancelar-confirmar" data-accion="cancelar-confirmar"
-        class="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-primario px-5 font-semibold text-sobre-primario shadow-sm transition duration-150 hover:bg-primario-hover hover:shadow-md active:scale-[0.98] active:bg-primario-activo focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50">Sí, cancelar turno</button>
+      <!-- La opción segura va primero y como principal; la destructiva, delineada (ADR-005: sin rojo en botones) -->
       <button type="button" data-accion="cerrar-dialogo"
-        class="inline-flex min-h-12 items-center justify-center rounded-xl border-2 border-primario bg-superficie px-5 font-semibold text-primario transition hover:bg-primario-suave active:scale-[0.98] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50">No, mantener turno</button>
+        class="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-primario px-5 font-semibold text-sobre-primario shadow-sm transition duration-150 hover:bg-primario-hover hover:shadow-md active:scale-[0.98] active:bg-primario-activo focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50">No, mantener turno</button>
+      <button type="button" id="btn-cancelar-confirmar" data-accion="cancelar-confirmar"
+        class="inline-flex min-h-12 items-center justify-center rounded-xl border-2 border-primario bg-superficie px-5 font-semibold text-primario transition hover:bg-primario-suave active:scale-[0.98] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50">Sí, cancelar turno</button>
     </div>
   </dialog>
 

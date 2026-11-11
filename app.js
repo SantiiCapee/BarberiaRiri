@@ -566,7 +566,7 @@ function pintarPaso3() {
       <button type="button" class="${CLS.dia}" data-accion="dia" data-fecha="${d}" aria-pressed="${d === b.fecha}">
         <span class="text-xs font-semibold uppercase">${i === 0 ? 'Hoy' : diaSemana}</span>
         <span class="text-base font-semibold">${numero}</span>
-        <span class="text-[0.6875rem] leading-tight">${libres ? `${libres} ${libres === 1 ? 'libre' : 'libres'}` : 'Completo'}</span>
+        <span class="text-xs leading-tight">${libres ? `${libres} ${libres === 1 ? 'libre' : 'libres'}` : 'Completo'}</span>
       </button>
     </li>`;
   }).join('');
@@ -583,7 +583,7 @@ function pintarPaso3() {
           const elegido = h === b.hora;
           return `<button type="button" class="${CLS.hora}" data-accion="hora" data-hora="${h}" aria-pressed="${elegido}" ${libre ? '' : 'disabled'}>
             <span class="flex items-center gap-1">${elegido ? icono('check', 'h-4 w-4') : ''}${h}</span>
-            ${libre ? '' : '<span class="text-[0.6875rem] no-underline">Ocupado</span>'}
+            ${libre ? '' : '<span class="text-xs no-underline">Ocupado</span>'}
           </button>`;
         }).join('')}
       </div>` : `<p class="text-secundario">Sin horarios libres a la ${FRANJAS[clave].nombre.toLowerCase()}.</p>`}
@@ -598,6 +598,7 @@ function validarCampo(campo, mostrar) {
   const errores = {
     'campo-nombre': (v) => (v.trim().length >= 2 ? '' : 'Escribí tu nombre (mínimo 2 letras).'),
     'campo-telefono': (v) => (/^\d{10}$/.test(v.replace(/\D/g, '')) ? '' : 'El teléfono tiene que tener 10 números, sin 0 ni 15.'),
+    'perfil-telefono': (v) => (!v.trim() || /^\d{10}$/.test(v.replace(/\D/g, '')) ? '' : 'El teléfono tiene que tener 10 números, sin 0 ni 15.'),
     'pago-email': (v) => (/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) ? '' : 'Revisá el email: falta la @ o el dominio.'),
   };
   const error = errores[campo.id](campo.value);
@@ -725,7 +726,7 @@ function tarjetaTurno(t, esProximo) {
       ${esProximo ? `
         <div class="mt-4 grid grid-cols-2 gap-3">
           <button type="button" class="${CLS.btnSecundario}" data-accion="reprogramar" data-codigo="${t.codigo}" ${dentroDelPlazo ? '' : 'disabled aria-describedby="plazo-' + t.codigo + '"'}>Reprogramar</button>
-          <button type="button" class="${CLS.btnSecundario}" data-accion="cancelar" data-codigo="${t.codigo}">Cancelar</button>
+          <button type="button" class="${CLS.btnTexto}" data-accion="cancelar" data-codigo="${t.codigo}">Cancelar turno</button>
         </div>
         ${dentroDelPlazo ? '' : `<p id="plazo-${t.codigo}" class="mt-2 text-sm text-secundario">Faltan menos de 2 horas: ya no se puede reprogramar.</p>`}`
       : `<button type="button" class="${CLS.btnTexto} -ml-3 mt-2" data-accion="repetir" data-codigo="${t.codigo}">${icono('repetir', 'h-4 w-4')}Reservar de nuevo</button>`}
@@ -804,6 +805,7 @@ function pintarPerfil() {
 
   $('#perfil-nombre').value = p.nombre;
   $('#perfil-telefono').value = p.telefono;
+  validarCampo($('#perfil-telefono'), false);
   $('#perfil-notas').value = p.notas;
   $('#switch-recordatorios').setAttribute('aria-checked', String(p.recordatorios));
   pintarTema();
@@ -1310,16 +1312,35 @@ $('#form-pago').addEventListener('submit', (evento) => {
     email.focus();
     return;
   }
-  const boton = $('#btn-pagar');
-  boton.disabled = true;
-  $('#btn-pagar-texto').textContent = 'Procesando pago…';
-  setTimeout(() => {
-    boton.disabled = false;
-    $('#btn-pagar-texto').textContent = 'Pagar';
+  marcarPagando(true);
+  temporizadorPago = setTimeout(() => {
+    marcarPagando(false);
     origenFoco = null;
     cerrarModal('#dlg-pago');
     crearTurno();
   }, 900);
+});
+
+// Mientras se procesa el pago no se puede cerrar el diálogo (Cancelar, Esc ni clic en el fondo)
+let temporizadorPago = null;
+
+function marcarPagando(pagando) {
+  $('#btn-pagar').disabled = pagando;
+  $('#form-pago [data-accion="cerrar-dialogo"]').disabled = pagando;
+  $('#btn-pagar-texto').textContent = pagando ? 'Procesando pago…' : 'Pagar';
+  if (!pagando) temporizadorPago = null;
+}
+
+$('#dlg-pago').addEventListener('cancel', (evento) => {
+  if (temporizadorPago) evento.preventDefault();
+});
+
+// Si el navegador cierra el diálogo igual, el pago se anula: nunca se crea un turno que el usuario cerró
+$('#dlg-pago').addEventListener('close', () => {
+  if (!temporizadorPago) return;
+  clearTimeout(temporizadorPago);
+  marcarPagando(false);
+  toast('Pago cancelado. No se cobró nada.');
 });
 
 $('#form-espera').addEventListener('submit', (evento) => {
@@ -1328,8 +1349,16 @@ $('#form-espera').addEventListener('submit', (evento) => {
   pintarMisTurnos();
 });
 
+$('#perfil-telefono').addEventListener('blur', (evento) => validarCampo(evento.target, true));
+$('#perfil-telefono').addEventListener('input', (evento) => validarCampo(evento.target, false));
+
 $('#form-perfil').addEventListener('submit', (evento) => {
   evento.preventDefault();
+  if (!validarCampo($('#perfil-telefono'), true)) {
+    $('#perfil-telefono').focus();
+    toast('No guardamos los cambios: revisá el teléfono.', 'error');
+    return;
+  }
   estado.perfil.nombre = $('#perfil-nombre').value.trim();
   estado.perfil.telefono = $('#perfil-telefono').value.replace(/\D/g, '');
   estado.perfil.notas = $('#perfil-notas').value.trim();
@@ -1351,7 +1380,7 @@ $('#form-barbero').addEventListener('submit', (evento) => {
 // Modales: clic en el fondo cierra; al cerrar, el foco vuelve a quien lo abrió
 $$('dialog').forEach((dialogo) => {
   dialogo.addEventListener('click', (evento) => {
-    if (evento.target === dialogo) dialogo.close();
+    if (evento.target === dialogo && !(dialogo.id === 'dlg-pago' && temporizadorPago)) dialogo.close();
   });
   dialogo.addEventListener('close', () => {
     if (origenFoco && document.contains(origenFoco)) origenFoco.focus();

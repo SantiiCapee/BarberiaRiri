@@ -69,6 +69,17 @@ El acceso a la vista del barbero sin login queda aprobado.
 - **How:** ajusta ADR-003. Sigue sin build: Tailwind v3 por CDN y JS puro. `style.css` define los tokens como variables RGB (claro y `.dark`) que `tailwind.config` consume, más lo que Tailwind CDN no resuelve (safe-area, `prefers-reduced-motion`, `::backdrop`). Los modales usan `<dialog>` nativo. Las 10 pantallas del wireframe (01 a 09 + 05b) quedan como vistas del router por hash.
 - **Trade-off:** hay que servir los tres archivos juntos; abrir `index.html` con doble clic también funciona.
 
+**[ADR-015] · [2026-11-11 16:30] — Ajustes por la Clase 1 (Mindset del Desarrollador UX)** · Aprobada (pedido explícito del usuario)
+- **Why:** la revisión contra la Clase 1 marcó 4 puntos sin cumplir: formularios, texto legible, textos sin errores y acciones destructivas.
+- **How:**
+  - Teléfono de Perfil con la misma ayuda y validación que el Paso 4.
+  - Textos informativos de 11px suben a 12px.
+  - "mostrarles".
+  - "Cancelar turno" pasa a botón de texto, con menos peso que "Reprogramar".
+  - En el diálogo de cancelación, "No, mantener turno" es el principal y va primero.
+  - Mientras se procesa el pago, el diálogo no se puede cerrar; si se cierra igual, el pago se anula.
+- **Trade-off:** se respeta ADR-005, así que la distinción es por jerarquía y orden, no por color rojo.
+
 ---
 
 ## Pendientes
