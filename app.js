@@ -90,6 +90,7 @@ const ICONOS = {
   imagen: '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/>',
   tienda: '<path d="M3 9l1-5h16l1 5"/><path d="M4 9v11h16V9"/><path d="M9 20v-6h6v6"/>',
   salir: '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5M21 12H9"/>',
+  carga: '<path d="M21 12a9 9 0 1 1-6.22-8.56"/>',
   candado: '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
   estrella: '<path fill="currentColor" d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>',
 };
@@ -193,12 +194,13 @@ function guardarStorage(clave, valor) {
 const borradorVacio = () => ({
   servicioId: null, barberoId: null, fecha: null, hora: null,
   nombre: '', telefono: '', pago: 'sena', politica: false, reprogramando: null,
+  barberoDesdeInicio: false,
 });
 
 const estado = {
   turnos: leerStorage('turnos', []),
   espera: leerStorage('espera', []),
-  perfil: { nombre: '', telefono: '', notas: '', recordatorios: true, ...leerStorage('perfil', {}) },
+  perfil: { nombre: '', telefono: '', email: '', notas: '', recordatorios: true, ...leerStorage('perfil', {}) },
   sellosBase: leerStorage('sellos', 6),
   borrador: { ...borradorVacio(), ...leerStorage('borrador', {}) },
   notificaciones: leerStorage('notificaciones', []),
@@ -505,14 +507,14 @@ function pintarProgreso(paso) {
   const contenedor = $(`[data-progreso="${paso}"]`);
   contenedor.innerHTML = `
     ${reprog ? `<p class="mb-4 flex flex-wrap items-center gap-x-2 rounded-xl bg-primario-suave p-4 text-body">Estás reprogramando el turno <strong>${esc(reprog)}</strong>.
-      <button type="button" class="${CLS.btnTexto} min-h-10 px-2" data-accion="cancelar-reprogramacion">Dejarlo como estaba</button></p>` : ''}
+      <button type="button" class="${CLS.btnTexto} px-2" data-accion="cancelar-reprogramacion">Dejarlo como estaba</button></p>` : ''}
     <p class="text-caption font-semibold text-secundario">Paso ${paso} de 4</p>
     <ol class="mt-2 grid grid-cols-4 gap-1" aria-label="Progreso de la reserva">
       ${nombres.map((n, i) => `<li class="h-1.5 rounded-full ${i < paso ? 'bg-primario' : 'bg-borde'}"><span class="sr-only">${n}${i + 1 === paso ? ' (paso actual)' : i < paso ? ' (listo)' : ''}</span></li>`).join('')}
     </ol>`;
 }
 
-function pintarBarra(paso, puedeContinuar, motivo) {
+function pintarBarra(paso, puedeContinuar, motivo, destino = paso + 1) {
   const volver = paso === 1 ? '#/inicio' : `#/reservar/${paso - 1}`;
   const volverReprog = estado.borrador.reprogramando && paso === 3 ? '#/mis-turnos' : volver;
   $(`[data-barra="${paso}"]`).innerHTML = `
@@ -520,7 +522,7 @@ function pintarBarra(paso, puedeContinuar, motivo) {
       ${motivo ? `<p id="motivo-${paso}" class="text-center text-caption text-secundario">${motivo}</p>` : ''}
       <div class="flex gap-4">
         <a href="${volverReprog}" class="${CLS.btnSecundario}">Volver</a>
-        <button type="button" class="${CLS.btnPrimario} grow" data-accion="continuar" data-destino="${paso + 1}" ${puedeContinuar ? '' : 'disabled'} ${motivo ? `aria-describedby="motivo-${paso}"` : ''}>Continuar</button>
+        <button type="button" class="${CLS.btnPrimario} grow" data-accion="continuar" data-destino="${destino}" ${puedeContinuar ? '' : 'disabled'} ${motivo ? `aria-describedby="motivo-${paso}"` : ''}>Continuar</button>
       </div>
     </div>`;
 }
@@ -541,7 +543,10 @@ function pintarPaso1() {
       </button>
     </li>`).join('');
   const servicio = servicioPorId(elegido);
-  pintarBarra(1, Boolean(elegido), servicio ? `${servicio.nombre} · ${precio(servicio.precio)}` : 'Elegí un servicio para continuar.');
+  // ADR-020: si el barbero ya se eligió en Inicio, no se vuelve a pedir (se cambia con Volver o "Cambiar")
+  const b = estado.borrador;
+  const saltarBarbero = b.barberoDesdeInicio && b.barberoId;
+  pintarBarra(1, Boolean(elegido), servicio ? `${servicio.nombre} · ${precio(servicio.precio)}${saltarBarbero ? ` con ${esc(nombreBarbero(b.barberoId))}` : ''}` : 'Elegí un servicio para continuar.', saltarBarbero ? 3 : 2);
 }
 
 function pintarPaso2() {
@@ -663,7 +668,7 @@ function pintarPaso4() {
     <div class="flex items-center gap-4 py-2">
       <dt class="w-24 shrink-0 text-caption text-secundario">${etiqueta}</dt>
       <dd class="min-w-0 grow break-words font-semibold ${destacado ? 'text-h2' : ''}">${valor}</dd>
-      ${paso && !(reprog && paso < 3) ? `<dd><a href="#/reservar/${paso}" class="${CLS.btnTexto} min-h-10 px-2">Cambiar<span class="sr-only"> ${etiqueta.toLowerCase()}</span></a></dd>` : ''}
+      ${paso && !(reprog && paso < 3) ? `<dd><a href="#/reservar/${paso}" class="${CLS.btnTexto} px-2">Cambiar<span class="sr-only"> ${etiqueta.toLowerCase()}</span></a></dd>` : ''}
     </div>`;
   $('#resumen-reserva').innerHTML = `
     <dl class="divide-y divide-borde rounded-xl bg-superficie-2 px-4 py-1">
@@ -748,7 +753,10 @@ function tarjetaTurno(t, esProximo) {
           <h2 id="turno-${t.codigo}" class="font-titulo text-h2 font-semibold leading-tight">${servicio.nombre}</h2>
           <p class="mt-1 font-semibold">${formatoDia(t.fecha)} · ${t.hora} · con ${esc(nombreBarbero(t.barberoId))}</p>
           <p class="text-caption text-secundario">${t.codigo} · ${t.sena ? `Seña pagada ${precio(t.sena)}` : 'Pagás en el local'}</p>
-          ${esProximo ? '' : `<span class="${CLS.badge} ${colores} mt-2">${etiqueta}</span>`}
+          ${esProximo
+            // Clase 6: el estado se ve también en los turnos que vienen, no solo en el historial
+            ? `<span class="${CLS.badge} mt-2 gap-1 border border-exito bg-superficie text-exito">${icono('check', 'h-4 w-4')}Confirmado</span>`
+            : `<span class="${CLS.badge} ${colores} mt-2">${etiqueta}</span>`}
         </div>
       </div>
       ${esProximo ? `
@@ -790,7 +798,8 @@ function pintarMisTurnos() {
     ? [...estado.espera].sort((a, b) => (a.fecha + a.franja).localeCompare(b.fecha + b.franja)).map((e) => `
       <li class="${CLS.tarjeta} flex items-center gap-4">
         <p class="grow"><span class="block font-semibold">${formatoDia(e.fecha)} · ${FRANJAS[e.franja].nombre}</span>
-          <span class="block text-caption text-secundario">${esc(nombreBarbero(e.barberoId))}</span></p>
+          <span class="block text-caption text-secundario">${esc(nombreBarbero(e.barberoId))}</span>
+          <span class="${CLS.badge} mt-2 gap-1 ${e.avisado ? 'bg-primario-suave text-primario' : 'bg-superficie-2 text-secundario'}">${icono(e.avisado ? 'campana' : 'reloj', 'h-4 w-4')}${e.avisado ? 'Te avisamos: se liberó un turno' : 'Esperando que se libere un turno'}</span></p>
         <button type="button" class="${CLS.btnTexto}" data-accion="espera-quitar" data-id="${e.id}">Salir<span class="sr-only"> de la lista de espera del ${formatoDia(e.fecha)}</span></button>
       </li>`).join('')
     : `<li class="${CLS.vacio}">No estás en ninguna lista de espera.</li>`;
@@ -880,7 +889,7 @@ function pintarAgenda() {
             ${marca ? `
               <p class="mt-4 flex items-center gap-2 font-semibold ${marca === 'llego' ? 'text-exito' : 'text-error'}">
                 ${icono(marca === 'llego' ? 'check-circulo' : 'alerta')}${marca === 'llego' ? 'Llegó' : 'No vino'}
-                <button type="button" class="${CLS.btnTexto} ml-auto min-h-10" data-accion="asistencia" data-hora="${hora}" data-valor="">Deshacer</button>
+                <button type="button" class="${CLS.btnTexto} ml-auto" data-accion="asistencia" data-hora="${hora}" data-valor="">Deshacer</button>
               </p>` : `
               <div class="mt-4 grid grid-cols-2 gap-4">
                 <button type="button" class="${CLS.btnSecundario}" data-accion="asistencia" data-hora="${hora}" data-valor="llego" ${esFuturo ? 'disabled aria-describedby="nota-futuro"' : ''}>Llegó</button>
@@ -896,7 +905,7 @@ function pintarAgenda() {
       items.push(`<li data-tipo="libre">
         <div class="flex min-h-14 items-center gap-4 rounded-xl border-2 border-dashed border-borde-control px-4 py-1 ${bloqueado ? 'bg-superficie-2' : ''}">
           <p class="grow"><span class="font-semibold">${hora}</span> <span class="text-secundario">· ${bloqueado ? 'Bloqueado' : pasado ? 'Sin turno' : 'Libre'}</span></p>
-          ${pasado ? '' : `<button type="button" class="${CLS.btnTexto} min-h-10" data-accion="bloquear" data-hora="${hora}">${bloqueado ? 'Desbloquear' : 'Bloquear'}<span class="sr-only"> el horario de las ${hora}</span></button>`}
+          ${pasado ? '' : `<button type="button" class="${CLS.btnTexto}" data-accion="bloquear" data-hora="${hora}">${bloqueado ? 'Desbloquear' : 'Bloquear'}<span class="sr-only"> el horario de las ${hora}</span></button>`}
         </div>
       </li>`);
       i++;
@@ -1112,7 +1121,7 @@ const ACCIONES = {
   },
   'reservar-con'(el) {
     const actual = estado.borrador;
-    estado.borrador = { ...borradorVacio(), servicioId: actual.reprogramando ? null : actual.servicioId, barberoId: el.dataset.id };
+    estado.borrador = { ...borradorVacio(), servicioId: actual.reprogramando ? null : actual.servicioId, barberoId: el.dataset.id, barberoDesdeInicio: true };
     guardarBorrador();
     irA('/reservar/1');
   },
@@ -1324,6 +1333,7 @@ $('#form-datos').addEventListener('submit', (evento) => {
   $('#pago-monto').textContent = precio(montoSena(servicio));
   $('#pago-detalle').textContent = `Seña del 30% de ${servicio.nombre} (${precio(servicio.precio)})`;
   const email = $('#pago-email');
+  if (!email.value && estado.perfil.email) email.value = estado.perfil.email; // Clase 6: no volver a pedirlo
   email.removeAttribute('aria-invalid');
   $('#error-pago').classList.add('hidden');
   $('#error-pago').classList.remove('flex');
@@ -1344,6 +1354,8 @@ $('#form-pago').addEventListener('submit', (evento) => {
   marcarPagando(true);
   temporizadorPago = setTimeout(() => {
     marcarPagando(false);
+    estado.perfil.email = email.value.trim();
+    guardarStorage('perfil', estado.perfil);
     origenFoco = null;
     cerrarModal('#dlg-pago');
     crearTurno();
@@ -1356,6 +1368,10 @@ let temporizadorPago = null;
 function marcarPagando(pagando) {
   $('#btn-pagar').disabled = pagando;
   $('#form-pago [data-accion="cerrar-dialogo"]').disabled = pagando;
+  $('#btn-pagar').setAttribute('aria-busy', String(pagando));
+  // Clase 6: indicador de carga para que no se toque dos veces
+  $('#pago-icono-candado').hidden = pagando;
+  $('#pago-icono-carga').hidden = !pagando;
   $('#btn-pagar-texto').textContent = pagando ? 'Procesando pago…' : 'Pagar';
   if (!pagando) temporizadorPago = null;
 }

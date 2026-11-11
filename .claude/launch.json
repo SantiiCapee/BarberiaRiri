@@ -29,6 +29,16 @@
         "5175"
       ],
       "port": 5175
+    },
+    {
+      "name": "barberiariri-clase6",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "C:/Users/santi/AppData/Local/Temp/claude/f40d44ceb1997442/1cdf3e1c-801c-4758-a665-74a9bba2b17b/scratchpad/servidor.js",
+        "D:\\Cosas SANTI\\Descargas\\claude\\efi interfaz",
+        "5176"
+      ],
+      "port": 5176
     }
   ]
 }

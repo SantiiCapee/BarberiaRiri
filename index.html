@@ -85,9 +85,10 @@
         <span data-icono="sol" class="hidden dark:inline"></span>
       </button>
 
-      <button type="button" id="btn-avisos" data-accion="notificaciones" aria-label="Avisos" title="Avisos" data-cls="btnIcono" class="relative">
-        <span data-icono="campana"></span>
-        <span id="avisos-contador" hidden class="absolute right-1.5 top-1.5 grid h-5 min-w-5 place-items-center rounded-full bg-acento px-1 text-caption font-bold text-sobre-acento" aria-hidden="true"></span>
+      <button type="button" id="btn-avisos" data-accion="notificaciones" aria-label="Avisos" title="Avisos" data-cls="btnIcono" class="relative flex-col px-1 text-caption">
+        <!-- Clase 6: ícono importante con texto visible, como las pestañas -->
+        <span data-icono="campana"></span><span aria-hidden="true">Avisos</span>
+        <span id="avisos-contador" hidden class="absolute right-0 top-0 grid h-5 min-w-5 place-items-center rounded-full bg-acento px-1 text-caption font-bold text-sobre-acento" aria-hidden="true"></span>
       </button>
     </div>
   </header>
@@ -370,7 +371,7 @@
         <input id="pago-email" type="email" autocomplete="email" required aria-describedby="error-pago" data-cls="campo">
         <p id="error-pago" class="mt-2 hidden items-center gap-2 text-body font-medium text-error"></p>
       </div>
-      <button type="submit" id="btn-pagar" value="pagar" data-cls="btnPrimario"><span data-icono="candado"></span><span id="btn-pagar-texto">Pagar</span></button>
+      <button type="submit" id="btn-pagar" value="pagar" data-cls="btnPrimario"><span id="pago-icono-candado" data-icono="candado"></span><span id="pago-icono-carga" hidden data-icono="carga" data-icono-clase="h-5 w-5 animate-spin motion-reduce:animate-none"></span><span id="btn-pagar-texto">Pagar</span></button>
       <button type="button" data-accion="cerrar-dialogo" data-cls="btnTexto">Cancelar</button>
     </form>
   </dialog>

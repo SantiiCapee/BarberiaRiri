@@ -127,8 +127,20 @@ El acceso a la vista del barbero sin login queda aprobado.
   - Nuevas clases `btnIcono` y `opcionRadio`; el checkbox de la política suma hover y active.
 - **Trade-off:** las ayudas y la letra chica bajan de 14 a 12px (mantienen contraste ≥ 7:1); "Día y hora" y el Total del resumen pasan a 24px para conservar la jerarquía de ADR-018.
 
+**[ADR-020] · [2026-11-11 20:23] — Ajustes por la Clase 6 (Diseñar para humanos)** · Aprobada (pedido explícito del usuario)
+- **Why:** la revisión marcó botones de 40px, el pago sin indicador de carga, turnos próximos sin estado visible, la lista de espera sin decir si ya avisamos, el email pedido en cada pago, la campana sin texto y un paso repetido al reservar desde un barbero de Inicio.
+- **How:**
+  - "Cambiar", "Dejarlo como estaba", "Deshacer" y "Bloquear" vuelven a 48px (GOT-15).
+  - "Pagar" muestra un spinner (quieto con movimiento reducido) y `aria-busy` mientras procesa.
+  - Próximos turnos con la etiqueta "Confirmado"; la lista de espera dice "Esperando…" o "Te avisamos: se liberó un turno".
+  - El email del comprobante se guarda en `br:perfil` y se precarga.
+  - La campana lleva el texto "Avisos" debajo, como las pestañas.
+  - Si el barbero se eligió en Inicio, "Continuar" del Paso 1 va directo a Fecha y hora (`barberoDesdeInicio`). Se puede cambiar con Volver o "Cambiar".
+- **Trade-off:** el aviso de Personas y Journey Map (F de la Clase 6) queda pendiente hasta tener los datos reales de la investigación.
+
 ---
 
 ## Pendientes
 
-_Ninguno._
+- Documentar Personas (Tomás, Graciela, Riri) y el User Journey Map con datos reales de la investigación (Clase 6).
+- Definir cuándo y cómo se devuelve la seña al cancelar a tiempo.
