@@ -47,6 +47,7 @@
             h1: ['2rem', { lineHeight: '1.2' }],
             h2: ['1.5rem', { lineHeight: '1.2' }],
             body: ['1rem', { lineHeight: '1.5' }],
+            small: ['0.875rem', { lineHeight: '1.5' }],
             caption: ['0.75rem', { lineHeight: '1.5' }],
           },
           fontFamily: {
@@ -85,7 +86,7 @@
         <span data-icono="sol" class="hidden dark:inline"></span>
       </button>
 
-      <button type="button" id="btn-avisos" data-accion="notificaciones" aria-label="Avisos" title="Avisos" data-cls="btnIcono" class="relative flex-col px-1 text-caption">
+      <button type="button" id="btn-avisos" data-accion="notificaciones" aria-label="Avisos" title="Avisos" data-cls="btnIcono" class="relative flex-col px-1 text-small">
         <!-- Clase 6: ícono importante con texto visible, como las pestañas -->
         <span data-icono="campana"></span><span aria-hidden="true">Avisos</span>
         <span id="avisos-contador" hidden class="absolute right-0 top-0 grid h-5 min-w-5 place-items-center rounded-full bg-acento px-1 text-caption font-bold text-sobre-acento" aria-hidden="true"></span>
@@ -108,7 +109,7 @@
             <button type="button" id="btn-repetir" data-accion="repetir" aria-describedby="ayuda-repetir" data-cls="btnSecundario">
               <span data-icono="repetir"></span>Repetir mi último corte
             </button>
-            <p id="ayuda-repetir" class="text-caption text-secundario"></p>
+            <p id="ayuda-repetir" class="text-body text-secundario"></p>
           </div>
         </div>
         <div id="inicio-destacado"></div>
@@ -116,7 +117,7 @@
 
       <section aria-labelledby="t-barberos" class="mt-8">
         <h2 id="t-barberos" data-cls="tituloSeccion">Barberos</h2>
-        <p class="mt-1 text-caption text-secundario">Tocá un barbero para reservar directamente con él.</p>
+        <p class="mt-1 text-body text-secundario">Tocá un barbero para reservar directamente con él.</p>
         <ul id="inicio-barberos" class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3"></ul>
       </section>
     </section>
@@ -125,7 +126,7 @@
     <section data-vista="paso1" aria-labelledby="t-paso1" hidden class="mx-auto max-w-3xl px-4 pt-8">
       <div data-progreso="1"></div>
       <h1 id="t-paso1" tabindex="-1" data-cls="tituloVista" class="mt-4">Servicio</h1>
-      <p class="mt-2 text-secundario">¿Qué te hacés hoy?</p>
+      <p class="mt-2 text-secundario">¿Qué te querés hacer?</p>
       <ul id="lista-servicios" class="mt-6 grid gap-4 md:grid-cols-2" aria-label="Servicios"></ul>
       <div class="barra-accion" data-barra="1"></div>
     </section>
@@ -161,7 +162,7 @@
         </div>
         <div>
           <label for="campo-telefono" data-cls="etiqueta">Teléfono (WhatsApp)</label>
-          <p id="ayuda-telefono" class="text-caption text-secundario">10 números, sin 0 ni 15. Ej.: 3584123456</p>
+          <p id="ayuda-telefono" class="text-body text-secundario">10 números, sin 0 ni 15. Ej.: 3584123456</p>
           <input id="campo-telefono" name="telefono" type="tel" inputmode="numeric" autocomplete="tel-national" required aria-describedby="ayuda-telefono error-telefono" data-cls="campo">
           <p id="error-telefono" data-cls="errorCampo"></p>
         </div>
@@ -171,12 +172,12 @@
           <div class="mt-2 grid gap-4">
             <label data-cls="opcionRadio">
               <input type="radio" name="pago" value="sena" data-cls="radioNativo">
-              <span class="grow"><span class="block font-semibold">Pagar seña ahora (30%)</span><span class="block text-caption text-secundario">Con Mercado Pago (simulado). El resto lo pagás en el local.</span></span>
+              <span class="grow"><span class="block font-semibold">Pagar seña ahora (30%)</span><span class="block text-body text-secundario">Con Mercado Pago (simulado). El resto lo pagás en el local.</span></span>
               <span id="monto-sena" class="font-semibold"></span>
             </label>
             <label data-cls="opcionRadio">
               <input type="radio" name="pago" value="local" data-cls="radioNativo">
-              <span class="grow"><span class="block font-semibold">Pagar en el local</span><span class="block text-caption text-secundario">Pagás todo cuando vengas.</span></span>
+              <span class="grow"><span class="block font-semibold">Pagar en el local</span><span class="block text-body text-secundario">Pagás todo cuando vengas.</span></span>
             </label>
           </div>
         </fieldset>
@@ -184,12 +185,12 @@
 
         <label class="flex cursor-pointer items-start gap-3 rounded-xl p-1 transition hover:bg-superficie-2 active:scale-[0.99] has-[:focus-visible]:ring-[3px] has-[:focus-visible]:ring-primario has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-fondo">
           <input id="campo-politica" type="checkbox" class="mt-0.5 h-6 w-6 shrink-0 accent-primario focus:outline-none">
-          <span class="text-caption">Acepto la política de cancelación: podés cancelar o reprogramar sin cargo hasta <strong>2 horas antes</strong>; después, la seña no se devuelve.</span>
+          <span class="text-body">Acepto la política de cancelación: podés cancelar o reprogramar sin cargo hasta <strong>2 horas antes</strong>; después, la seña no se devuelve.</span>
         </label>
 
         <div class="barra-accion">
           <div class="mx-auto flex max-w-3xl flex-col gap-2">
-            <p id="motivo-confirmar" class="text-center text-caption text-secundario" aria-live="polite"></p>
+            <p id="motivo-confirmar" class="flex items-center justify-center gap-2 text-center text-body text-secundario" aria-live="polite"></p>
             <div class="flex gap-4">
               <a href="#/reservar/3" data-cls="btnSecundario">Volver</a>
               <button type="submit" id="btn-confirmar" aria-describedby="motivo-confirmar" data-cls="btnPrimario" class="grow">Confirmar turno</button>
@@ -220,13 +221,13 @@
 
       <!-- Clase 4: el recuadro va después de los turnos para que el h1 y el turno sean lo primero que se ve -->
       <div data-cls="tarjeta" class="mt-8 flex items-center gap-4">
-        <p class="grow"><span class="block font-semibold">¿Otro corte?</span><span class="block text-caption text-secundario">Reservá en menos de un minuto.</span></p>
+        <p class="grow"><span class="block font-semibold">¿Otro corte?</span><span class="block text-body text-secundario">Reservá en menos de un minuto.</span></p>
         <a href="#/reservar/1" data-cls="btnSecundario">Reservar turno</a>
       </div>
 
       <section aria-labelledby="t-espera" class="mt-8">
         <h2 id="t-espera" data-cls="tituloSeccion">Lista de espera</h2>
-        <p class="mt-1 text-caption text-secundario">¿No había lugar? Anotate y te avisamos si alguien cancela. El primero que confirma se queda con el turno.</p>
+        <p class="mt-1 text-body text-secundario">¿No había lugar? Anotate y te avisamos si alguien cancela. El primero que confirma se queda con el turno.</p>
         <ul id="lista-espera" class="mt-4 grid gap-4"></ul>
         <form id="form-espera" data-cls="tarjeta" class="mt-4 grid gap-4 sm:grid-cols-3 sm:items-end">
           <div>
@@ -262,7 +263,7 @@
       <section aria-labelledby="t-sellos" data-cls="tarjeta" class="mt-6">
         <h2 id="t-sellos" data-cls="tituloSeccion">Tarjeta de sellos</h2>
         <ol id="sellos" class="mt-4 grid grid-cols-5 justify-items-center gap-4" aria-describedby="sellos-texto"></ol>
-        <p id="sellos-texto" class="mt-4 text-caption text-secundario"></p>
+        <p id="sellos-texto" class="mt-4 text-body text-secundario"></p>
       </section>
 
       <section aria-labelledby="t-preferencias" class="mt-8">
@@ -276,14 +277,14 @@
             </div>
             <div>
               <label for="perfil-telefono" data-cls="etiqueta">Teléfono</label>
-              <p id="ayuda-perfil-telefono" class="text-caption text-secundario">10 números, sin 0 ni 15. Ej.: 3584123456</p>
+              <p id="ayuda-perfil-telefono" class="text-body text-secundario">10 números, sin 0 ni 15. Ej.: 3584123456</p>
               <input id="perfil-telefono" type="tel" inputmode="numeric" autocomplete="tel-national" aria-describedby="ayuda-perfil-telefono error-perfil-telefono" data-cls="campo">
               <p id="error-perfil-telefono" data-cls="errorCampo"></p>
             </div>
           </div>
           <div>
             <label for="perfil-notas" data-cls="etiqueta">Cómo te gusta el corte</label>
-            <p id="ayuda-notas" class="text-caption text-secundario">Lo ve tu barbero en la agenda. Ej.: máquina 2 a los costados, tijera arriba.</p>
+            <p id="ayuda-notas" class="text-body text-secundario">Lo ve tu barbero en la agenda. Ej.: máquina 2 a los costados, tijera arriba.</p>
             <textarea id="perfil-notas" rows="3" aria-describedby="ayuda-notas" data-cls="campo" class="py-3"></textarea>
           </div>
           <button type="submit" data-cls="btnPrimario" class="sm:justify-self-start">Guardar cambios</button>
@@ -344,7 +345,7 @@
   </main>
 
   <footer class="footer-con-barra border-t border-borde bg-superficie">
-    <div class="mx-auto grid max-w-5xl gap-2 px-4 py-6 text-caption text-secundario sm:grid-cols-2">
+    <div class="mx-auto grid max-w-5xl gap-2 px-4 py-6 text-small text-secundario sm:grid-cols-2">
       <p><strong class="text-texto">BarberíaRiri</strong> · Río Cuarto, Córdoba<br>Lunes a sábado de 9 a 13 y de 15 a 21 · Domingo franco</p>
       <p class="sm:text-right">Demo académica: los pagos, WhatsApp y avisos son simulados.<br>
         <a href="https://www.google.com/maps/search/?api=1&amp;query=Barber%C3%ADa%20Riri%20R%C3%ADo%20Cuarto" target="_blank" rel="noopener noreferrer"
@@ -363,16 +364,16 @@
       <div class="mx-auto h-1.5 w-12 rounded-full bg-borde md:hidden" aria-hidden="true"></div>
       <div>
         <h2 id="t-pago" data-cls="tituloSeccion">Pagar seña</h2>
-        <p class="mt-1 text-caption text-secundario">Mercado Pago · simulación, no se cobra nada.</p>
+        <p class="mt-1 text-body text-secundario">Mercado Pago · simulación, no se cobra nada.</p>
       </div>
-      <p class="rounded-xl bg-superficie-2 p-4 text-center"><span class="block text-caption text-secundario">Total a pagar ahora</span><span id="pago-monto" class="block text-h1 font-bold"></span><span id="pago-detalle" class="block text-caption text-secundario"></span></p>
+      <p class="rounded-xl bg-superficie-2 p-4 text-center"><span class="block text-small text-secundario">Total a pagar ahora</span><span id="pago-monto" class="block text-h1 font-bold"></span><span id="pago-detalle" class="block text-small text-secundario"></span></p>
       <div>
         <label for="pago-email" data-cls="etiqueta">Email para el comprobante</label>
         <input id="pago-email" type="email" autocomplete="email" required aria-describedby="error-pago" data-cls="campo">
         <p id="error-pago" data-cls="errorCampo"></p>
       </div>
       <button type="submit" id="btn-pagar" value="pagar" data-cls="btnPrimario"><span id="pago-icono-candado" data-icono="candado"></span><span id="pago-icono-carga" hidden data-icono="carga" data-icono-clase="h-5 w-5 animate-spin motion-reduce:animate-none"></span><span id="btn-pagar-texto">Pagar seña</span></button>
-      <button type="button" data-accion="cerrar-dialogo" data-cls="btnTexto">Cancelar</button>
+      <button type="button" data-accion="cerrar-dialogo" data-cls="btnTexto">Volver sin pagar</button>
     </form>
   </dialog>
 
@@ -392,14 +393,14 @@
     <form id="form-barbero" class="grid gap-4 p-6">
       <div>
         <h2 id="t-soy-barbero" data-cls="tituloSeccion">Soy barbero</h2>
-        <p class="mt-1 text-caption text-secundario">Demostración sin contraseña: elegí quién sos.</p>
+        <p class="mt-1 text-body text-secundario">Demostración sin contraseña: elegí quién sos.</p>
       </div>
       <fieldset>
         <legend class="sr-only">Barbero</legend>
         <div id="opciones-barbero" class="grid gap-4"></div>
       </fieldset>
       <button type="submit" data-cls="btnPrimario">Entrar a mi agenda</button>
-      <button type="button" data-accion="cerrar-dialogo" data-cls="btnTexto">Cancelar</button>
+      <button type="button" data-accion="cerrar-dialogo" data-cls="btnTexto">Volver</button>
     </form>
   </dialog>
 

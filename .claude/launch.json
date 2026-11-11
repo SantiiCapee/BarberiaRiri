@@ -69,6 +69,16 @@
         "5179"
       ],
       "port": 5179
+    },
+    {
+      "name": "barberiariri-ux-writing",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "C:/Users/santi/AppData/Local/Temp/claude/415209ab41d6ac35/f2f4184d-c9ee-42a6-b6e4-006b2e01a069/scratchpad/servidor.js",
+        "D:/Cosas SANTI/Descargas/claude/efi interfaz",
+        "5180"
+      ],
+      "port": 5180
     }
   ]
 }

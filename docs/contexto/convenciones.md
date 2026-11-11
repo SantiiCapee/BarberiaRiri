@@ -28,12 +28,15 @@ Inspirados en el poste de barbería. Todos los contrastes están medidos con la 
 
 Definida una sola vez en `tailwind.config` (`index.html`, `fontSize`). No usar `text-sm`, `text-xl`, `text-[…]` ni otros tamaños sueltos (ADR-019).
 
+**Regla (ADR-025):** todo texto que dice qué hacer (ayudas de campos, motivos, advertencias, estados vacíos) va en `text-body`. `text-small` para datos secundarios y las etiquetas de la barra inferior. `text-caption` solo para badges, contadores, rótulos en mayúsculas y texto dentro de botones chicos (días y horarios).
+
 | Clase | Nivel | Fuente | Tamaño | Interlineado | Uso |
 |---|---|---|---|---|---|
 | `text-h1` | h1 | Oswald | 32px | 1.2 | Título de pantalla, montos y estadísticas |
 | `text-h2` | h2 | Oswald | 24px | 1.2 | Títulos de sección y de tarjeta, logo, datos destacados |
-| `text-body` | Texto | Inter | 16px | 1.5 | Texto común, botones, errores y avisos |
-| `text-caption` | Caption | Inter | 12px | 1.5 | Ayudas, fechas, badges, letra chica |
+| `text-body` | Texto | Inter | 16px | 1.5 | Texto común, botones, errores, avisos, ayudas y estados vacíos |
+| `text-small` | Small | Inter | 14px | 1.5 | Datos secundarios (especialidad, duración, código), barra inferior, pie |
+| `text-caption` | Caption | Inter | 12px | 1.5 | Badges, contadores, rótulos en mayúsculas, texto dentro de días y horarios |
 
 Los precios y los horarios van en **Inter semibold**.
 
@@ -47,6 +50,8 @@ Los precios y los horarios van en **Inter semibold**.
 | **Focus** | `focus-visible`: anillo de 3px con separación de 2px (marino en modo claro, azul claro en oscuro) | Igual | Igual |
 | **Disabled** | `opacity-50`, `cursor-not-allowed` | — | `disabled`, tachado y la palabra **"Ocupado"** |
 | *Seleccionado* | — | Borde de 2px, ícono de check y `aria-pressed="true"` | Fondo primario y check |
+
+Los botones de avanzar ("Continuar a…", "Confirmar turno") no usan `disabled` sino `aria-disabled="true"` (se ven igual): así reciben el foco y leen su motivo. Si se tocan, el motivo se pone en rojo con ícono y el foco va a lo que falta (ADR-025).
 
 Para los botones, los 5 estados se escriben juntos en la misma lista de clases. Los nombres de clase van **siempre completos**: el CDN de Tailwind no genera clases armadas por concatenación (ver GOT-11).
 
@@ -76,6 +81,7 @@ Las zonas táctiles miden **48px como mínimo**. La base de diseño es el celula
 4. Cada campo tiene su `<label>`. Los errores se asocian con `aria-describedby` y se marcan con `aria-invalid`.
 5. Las imágenes tienen un `alt` descriptivo (`alt=""` si son decorativas).
 6. Se respeta `prefers-reduced-motion`.
+7. Los avisos de error no se van solos: quedan hasta que se tocan "Cerrar aviso" o llega otro aviso (2.2.1). Los de éxito e info duran 5 segundos.
 
 ## 6. Código
 

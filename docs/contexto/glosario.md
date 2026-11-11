@@ -64,7 +64,9 @@ Cambiar cualquiera de estas reglas requiere autorización y una ADR nueva.
 | Franco | Día libre, Day off |
 | Llegó / No vino | Check-in / No-show |
 | Ocupado · Mañana / Tarde | Unavailable · AM / PM |
-| Continuar / Volver · Confirmar turno | Next / Back · Submit |
+| Continuar a Barbero · Continuar a Fecha y hora · Continuar a tus datos / Volver · Confirmar turno | Continuar (solo), Next / Back · Submit |
+| Volver sin pagar (diálogo de pago) · Volver (diálogo Soy barbero) | Cancelar (se confunde con cancelar el turno) |
+| Sin lugar (día sin horarios) | Completo |
 | Turno confirmado · Reprogramar / Cancelar | Booking success · Reschedule |
 | Soy barbero · Salir del modo barbero | Login staff · Logout |
 | Pagar seña | Pagar, Submit |

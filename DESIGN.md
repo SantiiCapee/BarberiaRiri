@@ -23,8 +23,9 @@ En el HTML, un elemento toma su componente con `data-cls="nombre"`; en `app.js`,
 |---|---|---|
 | `text-h1` | 32px | Título de pantalla |
 | `text-h2` | 24px | Título de sección, datos destacados |
-| `text-body` | 16px | Texto, botones, errores |
-| `text-caption` | 12px | Ayudas, badges, letra chica |
+| `text-body` | 16px | Texto, botones, errores, ayudas y estados vacíos |
+| `text-small` | 14px | Datos secundarios, barra inferior, pie |
+| `text-caption` | 12px | Badges, contadores, rótulos en mayúsculas |
 
 Pesos: `font-semibold` para acciones y datos, `font-medium` para etiquetas de ajustes, `font-bold` solo para el monto a pagar y el contador de avisos.
 

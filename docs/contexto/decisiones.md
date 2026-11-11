@@ -175,6 +175,18 @@ El acceso a la vista del barbero sin login queda aprobado.
   - Las clases que se aplican son las mismas que antes: la app se ve igual.
 - **Trade-off:** en navegadores sin transiciones discretas (Firefox) los diálogos se siguen cerrando sin animación.
 
+**[ADR-025] · [2026-11-11 18:03] — Auditoría de UX Writing y accesibilidad** · Aprobada (pedido explícito del usuario)
+- **Why:** la auditoría encontró ayudas en 12px (poco para Graciela), botones desactivados que el teclado no alcanza, avisos de error que se iban a los 5s, "Continuar" sin destino, estados vacíos sin próximo paso y botones "Cancelar" ambiguos.
+- **How:**
+  - Nuevo tamaño `text-small` (14px). Las ayudas, motivos y estados vacíos pasan a `text-body` (16px). `text-caption` queda para badges y rótulos (convenciones §2).
+  - "Continuar a Barbero / Fecha y hora / tus datos" y "Confirmar turno" usan `aria-disabled` en vez de `disabled`: si se tocan sin completar, el motivo se pone en rojo con ícono y el foco va a lo que falta.
+  - Los avisos de error quedan fijos, con borde rojo y botón "Cerrar aviso", y se anuncian con `role="alert"`.
+  - Diálogos: "Volver sin pagar" (pago) y "Volver" (Soy barbero) en vez de "Cancelar". Al cancelar con menos de 2 horas, la pérdida de la seña va en un recuadro de advertencia con ícono.
+  - Textos nuevos: "¿Qué te querés hacer?", "Sin lugar" para días llenos (borde punteado), estados vacíos de Avisos, Historial, Lista de espera y Clientes con ícono y próximo paso, errores de email y horario ocupado con la solución, y el aviso de "Soy barbero" pasa de error a info.
+  - "Repetir mi último corte" se oculta hasta el primer turno; en su lugar se explica para qué sirve.
+  - Se actualizaron el glosario (§3), las convenciones (§2, §3 y §5) y `DESIGN.md`.
+- **Trade-off:** los avisos de error ahora hay que cerrarlos a mano.
+
 ---
 
 ## Pendientes
