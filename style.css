@@ -217,6 +217,34 @@
   animation: subir 200ms ease-out;
 }
 
+/* Clase 9: al cerrar, el diálogo baja y se desvanece en vez de desaparecer de golpe.
+   close() sigue siendo inmediato (foco y teclado); solo la imagen se queda 200ms.
+   Navegadores sin transiciones discretas cierran como antes. */
+.dialogo-hoja,
+.dialogo-hoja::backdrop {
+  transition:
+    opacity 200ms ease-in,
+    transform 200ms ease-in,
+    background-color 200ms ease-in,
+    overlay 200ms ease-in allow-discrete,
+    display 200ms ease-in allow-discrete;
+}
+
+.dialogo-hoja:not([open]) {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.dialogo-hoja:not([open])::backdrop {
+  background-color: rgb(0 0 0 / 0);
+}
+
+@starting-style {
+  .dialogo-hoja[open]::backdrop {
+    background-color: rgb(0 0 0 / 0);
+  }
+}
+
 @media (min-width: 768px) {
   .dialogo-hoja {
     max-width: 28rem;

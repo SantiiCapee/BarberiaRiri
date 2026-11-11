@@ -164,6 +164,17 @@ El acceso a la vista del barbero sin login queda aprobado.
   - Se sacaron 20 skills que se pisaban o no aplican (Figma, DevTools MCP, Codex, animaciones).
 - **Trade-off:** las skills borradas solo se recuperan desde el historial de git o volviendo a clonar `sickn33/agentic-awesome-skills`.
 
+**[ADR-024] · [2026-11-11 22:30] — Ajustes por la Clase 9 (Sistemas de diseño y microinteracciones)** · Aprobada (pedido explícito del usuario)
+- **Why:** la revisión marcó que los diálogos se cerraban de golpe, que los botones repetían la misma base en tres variantes, que había 7 recuadros escritos a mano aunque existía `CLS.tarjeta` y que faltaba un resumen del sistema de diseño.
+- **How:**
+  - Los diálogos bajan y se desvanecen en 200ms al cerrarse, y el fondo oscuro aparece y se va con un fundido. Es solo CSS: `close()` sigue siendo inmediato. Resuelve el trade-off de ADR-022.
+  - `BTN_BASE` en `app.js`: base común de `btnPrimario`, `btnSecundario` y `btnPeligro`.
+  - `RECUADRO` + `CLS.recuadro`, `CLS.tarjeta` y `CLS.panelLista` reemplazan los recuadros escritos a mano.
+  - `accent-[rgb(var(--c-primario))]` → `accent-primario`.
+  - Nuevo `DESIGN.md` con tokens y componentes.
+  - Las clases que se aplican son las mismas que antes: la app se ve igual.
+- **Trade-off:** en navegadores sin transiciones discretas (Firefox) los diálogos se siguen cerrando sin animación.
+
 ---
 
 ## Pendientes

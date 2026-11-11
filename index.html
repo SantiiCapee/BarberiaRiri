@@ -183,7 +183,7 @@
         <p id="nota-reprogramacion" hidden class="rounded-xl bg-primario-suave p-4 text-body"></p>
 
         <label class="flex cursor-pointer items-start gap-3 rounded-xl p-1 transition hover:bg-superficie-2 active:scale-[0.99] has-[:focus-visible]:ring-[3px] has-[:focus-visible]:ring-primario has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-fondo">
-          <input id="campo-politica" type="checkbox" class="mt-0.5 h-6 w-6 shrink-0 accent-[rgb(var(--c-primario))] focus:outline-none">
+          <input id="campo-politica" type="checkbox" class="mt-0.5 h-6 w-6 shrink-0 accent-primario focus:outline-none">
           <span class="text-caption">Acepto la política de cancelación: podés cancelar o reprogramar sin cargo hasta <strong>2 horas antes</strong>; después, la seña no se devuelve.</span>
         </label>
 
@@ -219,7 +219,7 @@
       <div id="panel-turnos" role="tabpanel" tabindex="0" class="mt-4 rounded-xl focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario"></div>
 
       <!-- Clase 4: el recuadro va después de los turnos para que el h1 y el turno sean lo primero que se ve -->
-      <div class="mt-8 flex items-center gap-4 rounded-xl border border-borde bg-superficie p-4">
+      <div data-cls="tarjeta" class="mt-8 flex items-center gap-4">
         <p class="grow"><span class="block font-semibold">¿Otro corte?</span><span class="block text-caption text-secundario">Reservá en menos de un minuto.</span></p>
         <a href="#/reservar/1" data-cls="btnSecundario">Reservar turno</a>
       </div>
@@ -228,7 +228,7 @@
         <h2 id="t-espera" data-cls="tituloSeccion">Lista de espera</h2>
         <p class="mt-1 text-caption text-secundario">¿No había lugar? Anotate y te avisamos si alguien cancela. El primero que confirma se queda con el turno.</p>
         <ul id="lista-espera" class="mt-4 grid gap-4"></ul>
-        <form id="form-espera" class="mt-4 grid gap-4 rounded-xl border border-borde bg-superficie p-4 sm:grid-cols-3 sm:items-end">
+        <form id="form-espera" data-cls="tarjeta" class="mt-4 grid gap-4 sm:grid-cols-3 sm:items-end">
           <div>
             <label for="espera-dia" data-cls="etiqueta">Día</label>
             <select id="espera-dia" data-cls="campo"></select>
@@ -259,7 +259,7 @@
         </div>
       </div>
 
-      <section aria-labelledby="t-sellos" class="mt-6 rounded-xl border border-borde bg-superficie p-4">
+      <section aria-labelledby="t-sellos" data-cls="tarjeta" class="mt-6">
         <h2 id="t-sellos" data-cls="tituloSeccion">Tarjeta de sellos</h2>
         <ol id="sellos" class="mt-4 grid grid-cols-5 justify-items-center gap-4" aria-describedby="sellos-texto"></ol>
         <p id="sellos-texto" class="mt-4 text-caption text-secundario"></p>
@@ -267,7 +267,7 @@
 
       <section aria-labelledby="t-preferencias" class="mt-8">
         <h2 id="t-preferencias" data-cls="tituloSeccion">Tus datos y preferencias</h2>
-        <dl id="perfil-preferencias" class="mt-4 divide-y divide-borde rounded-xl border border-borde bg-superficie px-4"></dl>
+        <dl id="perfil-preferencias" data-cls="panelLista" class="mt-4"></dl>
         <form id="form-perfil" class="mt-6 grid gap-6">
           <div class="grid gap-6 sm:grid-cols-2">
             <div>
@@ -292,7 +292,7 @@
 
       <section aria-labelledby="t-ajustes" class="mt-8">
         <h2 id="t-ajustes" data-cls="tituloSeccion">Ajustes</h2>
-        <ul class="mt-4 divide-y divide-borde rounded-xl border border-borde bg-superficie px-4">
+        <ul data-cls="panelLista" class="mt-4">
           <li class="flex min-h-14 items-center justify-between gap-4 py-2">
             <span id="lbl-oscuro" class="font-medium">Modo oscuro</span>
             <button type="button" role="switch" id="switch-oscuro" data-accion="tema" aria-checked="false" aria-labelledby="lbl-oscuro"

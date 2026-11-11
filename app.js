@@ -38,9 +38,13 @@ const COLOR_BARRA_NAVEGADOR = { claro: '#1E3A5F', oscuro: '#18181B' };
 
 // ============ Clases (nombres completos: GOT-11) ============
 const FOCO = 'focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo';
+// Clase 9: base común de los botones con borde (forma, tamaño, foco y disabled).
+// Cada variante (primario, secundario, peligro) suma solo sus colores.
+const BTN_BASE = `inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border-2 px-5 font-semibold transition duration-150 active:scale-[0.98] ${FOCO} disabled:cursor-not-allowed disabled:border-borde-control disabled:text-secundario disabled:active:scale-100`;
+const RECUADRO = 'rounded-xl border border-borde bg-superficie';
 const CLS = {
-  btnPrimario: `inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border-2 border-transparent bg-primario px-5 font-semibold text-sobre-primario shadow-sm transition duration-150 hover:bg-primario-hover hover:shadow-md active:scale-[0.98] active:bg-primario-activo ${FOCO} disabled:cursor-not-allowed disabled:border-borde-control disabled:bg-superficie-2 disabled:text-secundario disabled:shadow-none disabled:hover:bg-superficie-2 disabled:hover:shadow-none disabled:active:scale-100`,
-  btnSecundario: `inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border-2 border-primario bg-superficie px-5 font-semibold text-primario transition duration-150 hover:bg-primario-suave active:scale-[0.98] active:bg-primario-suave ${FOCO} disabled:cursor-not-allowed disabled:border-borde-control disabled:text-secundario disabled:hover:bg-superficie disabled:active:scale-100`,
+  btnPrimario: `${BTN_BASE} border-transparent bg-primario text-sobre-primario shadow-sm hover:bg-primario-hover hover:shadow-md active:bg-primario-activo disabled:bg-superficie-2 disabled:shadow-none disabled:hover:bg-superficie-2 disabled:hover:shadow-none`,
+  btnSecundario: `${BTN_BASE} border-primario bg-superficie text-primario hover:bg-primario-suave active:bg-primario-suave disabled:hover:bg-superficie`,
   btnTexto: `inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-3 font-semibold text-primario underline decoration-1 underline-offset-4 transition hover:bg-primario-suave hover:decoration-2 active:scale-[0.98] ${FOCO} disabled:cursor-not-allowed disabled:text-secundario disabled:no-underline disabled:hover:bg-transparent`,
   opcion: `group flex w-full min-h-12 items-center gap-4 rounded-xl border border-borde-control bg-superficie p-4 text-left transition duration-150 hover:border-primario hover:shadow-md active:scale-[0.98] ${FOCO} aria-pressed:border-2 aria-pressed:border-primario aria-pressed:bg-primario-suave aria-pressed:p-[15px] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-borde-control disabled:hover:shadow-none`,
   opcionPunteada: `group flex w-full min-h-12 items-center gap-4 rounded-xl border-2 border-dashed border-borde-control bg-superficie p-[15px] text-left transition duration-150 hover:border-primario hover:shadow-md active:scale-[0.98] ${FOCO} aria-pressed:border-solid aria-pressed:border-primario aria-pressed:bg-primario-suave disabled:cursor-not-allowed disabled:opacity-50`,
@@ -49,7 +53,7 @@ const CLS = {
   dia: `flex min-h-16 w-[4.5rem] shrink-0 flex-col items-center justify-center rounded-xl border border-borde-control bg-superficie px-2 py-2 transition duration-150 hover:border-primario hover:bg-primario-suave active:scale-[0.98] ${FOCO} aria-pressed:border-primario aria-pressed:bg-primario aria-pressed:text-sobre-primario disabled:cursor-not-allowed disabled:opacity-50`,
   hora: `flex min-h-12 min-w-0 flex-col items-center justify-center rounded-lg border border-borde-control bg-superficie px-1 py-1 font-semibold text-texto transition duration-150 hover:border-primario hover:bg-primario-suave active:scale-[0.98] ${FOCO} aria-pressed:border-primario aria-pressed:bg-primario aria-pressed:text-sobre-primario disabled:cursor-not-allowed disabled:border-dashed disabled:bg-superficie-2 disabled:font-normal disabled:text-secundario disabled:line-through disabled:hover:border-borde-control disabled:hover:bg-superficie-2 disabled:active:scale-100`,
   // Acciones destructivas (Clase 5, ADR-019): rojo de error, sin relleno, para no competir con el primario
-  btnPeligro: `inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border-2 border-error bg-superficie px-5 font-semibold text-error transition duration-150 hover:bg-superficie-2 active:scale-[0.98] ${FOCO} disabled:cursor-not-allowed disabled:border-borde-control disabled:text-secundario disabled:hover:bg-superficie disabled:active:scale-100`,
+  btnPeligro: `${BTN_BASE} border-error bg-superficie text-error hover:bg-superficie-2 disabled:hover:bg-superficie`,
   // Botón de ícono sin borde (barra superior y cierre de diálogos). Con texto, sumar px-3.
   btnIcono: `inline-flex min-h-12 min-w-12 items-center justify-center gap-2 rounded-xl font-semibold text-texto transition hover:bg-superficie-2 active:scale-95 ${FOCO} disabled:cursor-not-allowed disabled:opacity-50`,
   // Tarjeta con radio nativo adentro (forma de pago)
@@ -60,12 +64,15 @@ const CLS = {
   etiqueta: 'block font-semibold',
   // Clase 8: componentes que antes estaban copiados a mano en el HTML
   errorCampo: 'mt-2 hidden items-center gap-2 text-body font-medium text-error',
-  radioNativo: 'h-5 w-5 accent-[rgb(var(--c-primario))] focus:outline-none',
+  radioNativo: 'h-5 w-5 accent-primario focus:outline-none',
   tituloVista: 'font-titulo text-h1 font-semibold leading-tight focus:outline-none',
   tituloSeccion: 'font-titulo text-h2 font-semibold leading-tight',
   pestania: 'min-h-12 rounded-lg border-2 border-transparent font-semibold text-secundario transition hover:text-texto active:scale-[0.98] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario aria-selected:border-primario aria-selected:bg-superficie aria-selected:text-texto aria-selected:shadow-sm disabled:cursor-not-allowed disabled:opacity-50',
   interruptor: `relative inline-flex h-8 w-14 shrink-0 items-center rounded-full border-2 border-borde-control bg-superficie-2 transition hover:border-primario active:scale-95 ${FOCO} aria-checked:border-primario aria-checked:bg-primario disabled:cursor-not-allowed disabled:opacity-50`,
-  tarjeta: 'rounded-xl border border-borde bg-superficie p-4',
+  // Clase 9: superficie con borde (región común). Tarjeta = con relleno; panelLista = filas con separadores
+  recuadro: RECUADRO,
+  tarjeta: `${RECUADRO} p-4`,
+  panelLista: `${RECUADRO} divide-y divide-borde px-4`,
   vacio: 'rounded-xl bg-superficie-2 p-4 text-secundario',
   badge: 'inline-flex items-center rounded-full px-2 py-0.5 text-caption font-semibold',
   avatar: 'grid h-12 w-12 shrink-0 place-items-center rounded-full bg-primario-suave font-titulo text-h2 font-semibold text-primario',
@@ -307,7 +314,7 @@ function toast(mensaje, tipo = 'info') {
   const caja = $('#toast');
   const [nombreIcono, color] = ICONO_TOAST[tipo] || ICONO_TOAST.info;
   const iconoTipo = icono(nombreIcono, `h-5 w-5 shrink-0 ${color}`);
-  caja.innerHTML = `<p class="toast-mensaje flex items-start gap-3 rounded-xl border border-borde bg-superficie p-4 text-body font-medium text-texto shadow-lg">${iconoTipo}<span>${esc(mensaje)}</span></p>`;
+  caja.innerHTML = `<p class="toast-mensaje ${CLS.tarjeta} flex items-start gap-3 text-body font-medium text-texto shadow-lg">${iconoTipo}<span>${esc(mensaje)}</span></p>`;
   clearTimeout(temporizadorToast);
   temporizadorToast = setTimeout(() => {
     const mensaje = caja.firstElementChild;
@@ -741,7 +748,7 @@ function pintarConfirmado() {
       <span class="block text-caption text-secundario">Código de turno</span>
       <span class="block font-titulo text-h2 font-semibold tracking-wider">${t.codigo}</span>
     </p>
-    <dl class="mt-6 divide-y divide-borde rounded-xl border border-borde bg-superficie px-4 py-1 text-left">
+    <dl class="${CLS.panelLista} mt-6 py-1 text-left">
       <div class="flex items-baseline justify-between gap-4 py-3"><dt class="text-secundario">Día y hora</dt><dd class="text-h2 font-semibold">${formatoDia(t.fecha)} · ${t.hora}</dd></div>
       <div class="flex justify-between gap-4 py-3"><dt class="text-secundario">Servicio</dt><dd class="text-right font-semibold">${servicio.nombre}</dd></div>
       <div class="flex justify-between gap-4 py-3"><dt class="text-secundario">Barbero</dt><dd class="font-semibold">${esc(barbero)}</dd></div>
@@ -964,7 +971,7 @@ function pintarClientes() {
 function pintarGaleria() {
   $('#galeria-lista').innerHTML = GALERIA.map((nombre, i) => `
     <li>
-      <figure class="overflow-hidden rounded-xl border border-borde bg-superficie">
+      <figure class="${CLS.recuadro} overflow-hidden">
         <div class="galeria-tile" data-variante="${(i % 3) + 1}" role="img" aria-label="Foto de ejemplo: ${nombre}"></div>
         <figcaption class="p-4 text-caption font-semibold">${nombre}</figcaption>
       </figure>
