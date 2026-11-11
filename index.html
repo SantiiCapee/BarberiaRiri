@@ -39,7 +39,15 @@
             'sobre-acento': token('sobre-acento'),
             exito: token('exito'),
             error: token('error'),
+            advertencia: token('advertencia'),
             borde: { DEFAULT: token('borde'), control: token('borde-control') },
+          },
+          // Escala tipográfica (Clase 5): único lugar donde se definen los tamaños
+          fontSize: {
+            h1: ['2rem', { lineHeight: '1.2' }],
+            h2: ['1.5rem', { lineHeight: '1.2' }],
+            body: ['1rem', { lineHeight: '1.5' }],
+            caption: ['0.75rem', { lineHeight: '1.5' }],
           },
           fontFamily: {
             titulo: ['Oswald', 'Arial Narrow', 'sans-serif'],
@@ -52,14 +60,14 @@
   <link rel="stylesheet" href="style.css">
 </head>
 
-<body class="min-h-screen bg-fondo font-texto text-base leading-normal text-texto antialiased">
+<body class="min-h-screen bg-fondo font-texto text-body leading-normal text-texto antialiased">
   <a href="#contenido" class="sr-only rounded-xl bg-primario px-4 py-3 font-semibold text-sobre-primario focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:outline-none focus:ring-[3px] focus:ring-primario focus:ring-offset-2 focus:ring-offset-fondo">Saltar al contenido</a>
 
   <!-- ===== Barra superior ===== -->
   <header class="sticky top-0 z-30 border-b border-borde bg-superficie/95 backdrop-blur">
     <div class="franja-poste h-1.5" aria-hidden="true"></div>
     <div class="mx-auto flex h-16 max-w-5xl items-center gap-2 px-4">
-      <a href="#/inicio" class="mr-auto flex min-h-12 items-center gap-2 rounded-xl pr-2 font-titulo text-xl font-semibold uppercase tracking-wide text-texto hover:text-primario active:scale-[0.98] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo">
+      <a href="#/inicio" class="mr-auto flex min-h-12 items-center gap-2 rounded-xl pr-2 font-titulo text-h2 font-semibold uppercase tracking-wide text-texto hover:text-primario active:scale-[0.98] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo">
         <span class="poste-logo" aria-hidden="true"></span>
         <span>Barbería<span class="text-primario">Riri</span></span>
       </a>
@@ -68,21 +76,18 @@
         <ul id="nav-escritorio" class="flex items-center gap-1"></ul>
       </nav>
 
-      <button type="button" id="btn-salir-barbero" data-accion="salir-barbero" hidden
-        class="inline-flex min-h-12 items-center gap-2 rounded-xl px-3 text-sm font-semibold text-texto transition hover:bg-superficie-2 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50">
+      <button type="button" id="btn-salir-barbero" data-accion="salir-barbero" hidden data-cls="btnIcono" class="px-3">
         <span data-icono="salir"></span><span>Salir<span class="sr-only"> de Soy barbero</span></span>
       </button>
 
-      <button type="button" id="btn-tema" data-accion="tema" aria-pressed="false" aria-label="Modo oscuro" title="Modo oscuro"
-        class="inline-flex h-12 w-12 items-center justify-center rounded-xl text-texto transition hover:bg-superficie-2 active:scale-95 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50">
+      <button type="button" id="btn-tema" data-accion="tema" aria-pressed="false" aria-label="Modo oscuro" title="Modo oscuro" data-cls="btnIcono">
         <span data-icono="luna" class="dark:hidden"></span>
         <span data-icono="sol" class="hidden dark:inline"></span>
       </button>
 
-      <button type="button" id="btn-avisos" data-accion="notificaciones" aria-label="Avisos" title="Avisos"
-        class="relative inline-flex h-12 w-12 items-center justify-center rounded-xl text-texto transition hover:bg-superficie-2 active:scale-95 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50">
+      <button type="button" id="btn-avisos" data-accion="notificaciones" aria-label="Avisos" title="Avisos" data-cls="btnIcono" class="relative">
         <span data-icono="campana"></span>
-        <span id="avisos-contador" hidden class="absolute right-1.5 top-1.5 grid h-5 min-w-5 place-items-center rounded-full bg-acento px-1 text-xs font-bold text-sobre-acento" aria-hidden="true"></span>
+        <span id="avisos-contador" hidden class="absolute right-1.5 top-1.5 grid h-5 min-w-5 place-items-center rounded-full bg-acento px-1 text-caption font-bold text-sobre-acento" aria-hidden="true"></span>
       </button>
     </div>
   </header>
@@ -93,7 +98,7 @@
     <section data-vista="inicio" aria-labelledby="t-inicio" hidden class="mx-auto max-w-5xl px-4 pt-8">
       <div class="grid gap-8 md:grid-cols-[1.1fr_1fr] md:items-start">
         <div>
-          <h1 id="t-inicio" tabindex="-1" class="font-titulo text-[2rem] font-semibold leading-tight focus:outline-none md:text-5xl">Reservá tu turno</h1>
+          <h1 id="t-inicio" tabindex="-1" class="font-titulo text-h1 font-semibold leading-tight focus:outline-none">Reservá tu turno</h1>
           <p class="mt-2 text-secundario">En 1 minuto: elegí servicio, barbero y horario. Asegurás tu lugar con una seña del 30%.</p>
           <div class="mt-6 grid gap-4 sm:max-w-sm">
             <a href="#/reservar/1" data-cls="btnPrimario">
@@ -102,15 +107,15 @@
             <button type="button" id="btn-repetir" data-accion="repetir" aria-describedby="ayuda-repetir" data-cls="btnSecundario">
               <span data-icono="repetir"></span>Repetir mi último corte
             </button>
-            <p id="ayuda-repetir" class="text-sm text-secundario"></p>
+            <p id="ayuda-repetir" class="text-caption text-secundario"></p>
           </div>
         </div>
         <div id="inicio-destacado"></div>
       </div>
 
       <section aria-labelledby="t-barberos" class="mt-8">
-        <h2 id="t-barberos" class="font-titulo text-2xl font-semibold leading-tight">Barberos</h2>
-        <p class="mt-1 text-sm text-secundario">Tocá un barbero para reservar directamente con él.</p>
+        <h2 id="t-barberos" class="font-titulo text-h2 font-semibold leading-tight">Barberos</h2>
+        <p class="mt-1 text-caption text-secundario">Tocá un barbero para reservar directamente con él.</p>
         <ul id="inicio-barberos" class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3"></ul>
       </section>
     </section>
@@ -118,7 +123,7 @@
     <!-- ===== 02–05 Reservar ===== -->
     <section data-vista="paso1" aria-labelledby="t-paso1" hidden class="mx-auto max-w-3xl px-4 pt-8">
       <div data-progreso="1"></div>
-      <h1 id="t-paso1" tabindex="-1" class="mt-4 font-titulo text-[2rem] font-semibold leading-tight focus:outline-none">Servicio</h1>
+      <h1 id="t-paso1" tabindex="-1" class="mt-4 font-titulo text-h1 font-semibold leading-tight focus:outline-none">Servicio</h1>
       <p class="mt-2 text-secundario">¿Qué te hacés hoy?</p>
       <ul id="lista-servicios" class="mt-6 grid gap-4 md:grid-cols-2" aria-label="Servicios"></ul>
       <div class="barra-accion" data-barra="1"></div>
@@ -126,7 +131,7 @@
 
     <section data-vista="paso2" aria-labelledby="t-paso2" hidden class="mx-auto max-w-3xl px-4 pt-8">
       <div data-progreso="2"></div>
-      <h1 id="t-paso2" tabindex="-1" class="mt-4 font-titulo text-[2rem] font-semibold leading-tight focus:outline-none">Barbero</h1>
+      <h1 id="t-paso2" tabindex="-1" class="mt-4 font-titulo text-h1 font-semibold leading-tight focus:outline-none">Barbero</h1>
       <p class="mt-2 text-secundario">Elegí con quién, o dejá que te asignemos uno libre.</p>
       <ul id="lista-barberos" class="mt-6 grid gap-4" aria-label="Barberos"></ul>
       <div class="barra-accion" data-barra="2"></div>
@@ -134,7 +139,7 @@
 
     <section data-vista="paso3" aria-labelledby="t-paso3" hidden class="mx-auto max-w-3xl px-4 pt-8">
       <div data-progreso="3"></div>
-      <h1 id="t-paso3" tabindex="-1" class="mt-4 font-titulo text-[2rem] font-semibold leading-tight focus:outline-none">Fecha y hora</h1>
+      <h1 id="t-paso3" tabindex="-1" class="mt-4 font-titulo text-h1 font-semibold leading-tight focus:outline-none">Fecha y hora</h1>
       <p id="paso3-detalle" class="mt-2 text-secundario"></p>
       <h2 class="sr-only">Día</h2>
       <ul id="lista-dias" class="dias-scroll -mx-4 mt-6 flex gap-2 overflow-x-auto px-4 pb-2" aria-label="Días disponibles"></ul>
@@ -144,46 +149,46 @@
 
     <section data-vista="paso4" aria-labelledby="t-paso4" hidden class="mx-auto max-w-3xl px-4 pt-8">
       <div data-progreso="4"></div>
-      <h1 id="t-paso4" tabindex="-1" class="mt-4 font-titulo text-[2rem] font-semibold leading-tight focus:outline-none">Tus datos y seña</h1>
+      <h1 id="t-paso4" tabindex="-1" class="mt-4 font-titulo text-h1 font-semibold leading-tight focus:outline-none">Tus datos y seña</h1>
       <div id="resumen-reserva" class="mt-6"></div>
 
       <form id="form-datos" class="mt-6 grid gap-6" novalidate>
         <div>
           <label for="campo-nombre" data-cls="etiqueta">Nombre y apellido</label>
           <input id="campo-nombre" name="nombre" type="text" autocomplete="name" required aria-describedby="error-nombre" data-cls="campo">
-          <p id="error-nombre" class="mt-2 hidden items-center gap-2 text-sm font-medium text-error"></p>
+          <p id="error-nombre" class="mt-2 hidden items-center gap-2 text-body font-medium text-error"></p>
         </div>
         <div>
           <label for="campo-telefono" data-cls="etiqueta">Teléfono (WhatsApp)</label>
-          <p id="ayuda-telefono" class="text-sm text-secundario">10 números, sin 0 ni 15. Ej.: 3584123456</p>
+          <p id="ayuda-telefono" class="text-caption text-secundario">10 números, sin 0 ni 15. Ej.: 3584123456</p>
           <input id="campo-telefono" name="telefono" type="tel" inputmode="numeric" autocomplete="tel-national" required aria-describedby="ayuda-telefono error-telefono" data-cls="campo">
-          <p id="error-telefono" class="mt-2 hidden items-center gap-2 text-sm font-medium text-error"></p>
+          <p id="error-telefono" class="mt-2 hidden items-center gap-2 text-body font-medium text-error"></p>
         </div>
 
         <fieldset id="grupo-pago">
           <legend class="font-semibold">Seña</legend>
           <div class="mt-2 grid gap-4">
-            <label class="flex min-h-12 cursor-pointer items-center gap-4 rounded-xl border border-borde-control bg-superficie p-4 transition hover:border-primario active:scale-[0.99] has-[:checked]:border-2 has-[:checked]:border-primario has-[:checked]:bg-primario-suave has-[:checked]:p-[15px] has-[:focus-visible]:ring-[3px] has-[:focus-visible]:ring-primario has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-fondo has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50">
+            <label data-cls="opcionRadio">
               <input type="radio" name="pago" value="sena" class="h-5 w-5 accent-[rgb(var(--c-primario))] focus:outline-none">
-              <span class="grow"><span class="block font-semibold">Pagar seña ahora (30%)</span><span class="block text-sm text-secundario">Con Mercado Pago (simulado). El resto lo pagás en el local.</span></span>
+              <span class="grow"><span class="block font-semibold">Pagar seña ahora (30%)</span><span class="block text-caption text-secundario">Con Mercado Pago (simulado). El resto lo pagás en el local.</span></span>
               <span id="monto-sena" class="font-semibold"></span>
             </label>
-            <label class="flex min-h-12 cursor-pointer items-center gap-4 rounded-xl border border-borde-control bg-superficie p-4 transition hover:border-primario active:scale-[0.99] has-[:checked]:border-2 has-[:checked]:border-primario has-[:checked]:bg-primario-suave has-[:checked]:p-[15px] has-[:focus-visible]:ring-[3px] has-[:focus-visible]:ring-primario has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-fondo has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50">
+            <label data-cls="opcionRadio">
               <input type="radio" name="pago" value="local" class="h-5 w-5 accent-[rgb(var(--c-primario))] focus:outline-none">
-              <span class="grow"><span class="block font-semibold">Pagar en el local</span><span class="block text-sm text-secundario">Pagás todo cuando vengas.</span></span>
+              <span class="grow"><span class="block font-semibold">Pagar en el local</span><span class="block text-caption text-secundario">Pagás todo cuando vengas.</span></span>
             </label>
           </div>
         </fieldset>
-        <p id="nota-reprogramacion" hidden class="rounded-xl bg-primario-suave p-4 text-sm"></p>
+        <p id="nota-reprogramacion" hidden class="rounded-xl bg-primario-suave p-4 text-body"></p>
 
-        <label class="flex cursor-pointer items-start gap-3 rounded-xl p-1 has-[:focus-visible]:ring-[3px] has-[:focus-visible]:ring-primario">
+        <label class="flex cursor-pointer items-start gap-3 rounded-xl p-1 transition hover:bg-superficie-2 active:scale-[0.99] has-[:focus-visible]:ring-[3px] has-[:focus-visible]:ring-primario has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-fondo">
           <input id="campo-politica" type="checkbox" class="mt-0.5 h-6 w-6 shrink-0 accent-[rgb(var(--c-primario))] focus:outline-none">
-          <span class="text-sm">Acepto la política de cancelación: podés cancelar o reprogramar sin cargo hasta <strong>2 horas antes</strong>; después, la seña no se devuelve.</span>
+          <span class="text-caption">Acepto la política de cancelación: podés cancelar o reprogramar sin cargo hasta <strong>2 horas antes</strong>; después, la seña no se devuelve.</span>
         </label>
 
         <div class="barra-accion">
           <div class="mx-auto flex max-w-3xl flex-col gap-2">
-            <p id="motivo-confirmar" class="text-center text-sm text-secundario" aria-live="polite"></p>
+            <p id="motivo-confirmar" class="text-center text-caption text-secundario" aria-live="polite"></p>
             <div class="flex gap-4">
               <a href="#/reservar/3" data-cls="btnSecundario">Volver</a>
               <button type="submit" id="btn-confirmar" aria-describedby="motivo-confirmar" data-cls="btnPrimario" class="grow">Confirmar turno</button>
@@ -196,14 +201,14 @@
     <!-- ===== 06 Turno confirmado ===== -->
     <section data-vista="confirmado" aria-labelledby="t-confirmado" hidden class="mx-auto max-w-xl px-4 pt-8 text-center">
       <span data-icono="check-circulo" data-icono-clase="mx-auto h-16 w-16 text-exito"></span>
-      <h1 id="t-confirmado" tabindex="-1" class="mt-4 font-titulo text-[2rem] font-semibold leading-tight focus:outline-none">¡Turno confirmado!</h1>
+      <h1 id="t-confirmado" tabindex="-1" class="mt-4 font-titulo text-h1 font-semibold leading-tight focus:outline-none">¡Turno confirmado!</h1>
       <p id="confirmado-subtitulo" class="mt-2 text-secundario">Te esperamos. Guardá tu código por las dudas.</p>
       <div id="confirmado-detalle"></div>
     </section>
 
     <!-- ===== 07 Mis turnos ===== -->
     <section data-vista="mis-turnos" aria-labelledby="t-mis-turnos" hidden class="mx-auto max-w-3xl px-4 pt-8">
-      <h1 id="t-mis-turnos" tabindex="-1" class="font-titulo text-[2rem] font-semibold leading-tight focus:outline-none">Mis turnos</h1>
+      <h1 id="t-mis-turnos" tabindex="-1" class="font-titulo text-h1 font-semibold leading-tight focus:outline-none">Mis turnos</h1>
       <div role="tablist" aria-label="Mis turnos" class="mt-4 grid grid-cols-2 gap-1 rounded-xl bg-superficie-2 p-1">
         <button type="button" role="tab" id="tab-proximos" aria-controls="panel-turnos" data-accion="tab-turnos" data-tab="proximos"
           class="min-h-12 rounded-lg border-2 border-transparent font-semibold text-secundario transition hover:text-texto active:scale-[0.98] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario aria-selected:border-primario aria-selected:bg-superficie aria-selected:text-texto aria-selected:shadow-sm disabled:cursor-not-allowed disabled:opacity-50">Próximos</button>
@@ -214,13 +219,13 @@
 
       <!-- Clase 4: el recuadro va después de los turnos para que el h1 y el turno sean lo primero que se ve -->
       <div class="mt-8 flex items-center gap-4 rounded-xl border border-borde bg-superficie p-4">
-        <p class="grow"><span class="block font-semibold">¿Otro corte?</span><span class="block text-sm text-secundario">Reservá en menos de un minuto.</span></p>
+        <p class="grow"><span class="block font-semibold">¿Otro corte?</span><span class="block text-caption text-secundario">Reservá en menos de un minuto.</span></p>
         <a href="#/reservar/1" data-cls="btnSecundario">Reservar</a>
       </div>
 
       <section aria-labelledby="t-espera" class="mt-8">
-        <h2 id="t-espera" class="font-titulo text-2xl font-semibold leading-tight">Lista de espera</h2>
-        <p class="mt-1 text-sm text-secundario">¿No había lugar? Anotate y te avisamos si alguien cancela. El primero que confirma se queda con el turno.</p>
+        <h2 id="t-espera" class="font-titulo text-h2 font-semibold leading-tight">Lista de espera</h2>
+        <p class="mt-1 text-caption text-secundario">¿No había lugar? Anotate y te avisamos si alguien cancela. El primero que confirma se queda con el turno.</p>
         <ul id="lista-espera" class="mt-4 grid gap-4"></ul>
         <form id="form-espera" class="mt-4 grid gap-4 rounded-xl border border-borde bg-superficie p-4 sm:grid-cols-3 sm:items-end">
           <div>
@@ -246,21 +251,21 @@
     <!-- ===== 08 Perfil ===== -->
     <section data-vista="perfil" aria-labelledby="t-perfil" hidden class="mx-auto max-w-3xl px-4 pt-8">
       <div class="flex items-center gap-4">
-        <span id="perfil-avatar" class="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-primario-suave font-titulo text-2xl font-semibold text-primario" aria-hidden="true"></span>
+        <span id="perfil-avatar" class="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-primario-suave font-titulo text-h2 font-semibold text-primario" aria-hidden="true"></span>
         <div>
-          <h1 id="t-perfil" tabindex="-1" class="font-titulo text-[2rem] font-semibold leading-tight focus:outline-none">Perfil</h1>
+          <h1 id="t-perfil" tabindex="-1" class="font-titulo text-h1 font-semibold leading-tight focus:outline-none">Perfil</h1>
           <p id="perfil-subtitulo" class="mt-2 text-secundario"></p>
         </div>
       </div>
 
       <section aria-labelledby="t-sellos" class="mt-6 rounded-xl border border-borde bg-superficie p-4">
-        <h2 id="t-sellos" class="font-titulo text-2xl font-semibold leading-tight">Tarjeta de sellos</h2>
+        <h2 id="t-sellos" class="font-titulo text-h2 font-semibold leading-tight">Tarjeta de sellos</h2>
         <ol id="sellos" class="mt-4 grid grid-cols-5 justify-items-center gap-4" aria-describedby="sellos-texto"></ol>
-        <p id="sellos-texto" class="mt-4 text-sm text-secundario"></p>
+        <p id="sellos-texto" class="mt-4 text-caption text-secundario"></p>
       </section>
 
       <section aria-labelledby="t-preferencias" class="mt-8">
-        <h2 id="t-preferencias" class="font-titulo text-2xl font-semibold leading-tight">Preferencias</h2>
+        <h2 id="t-preferencias" class="font-titulo text-h2 font-semibold leading-tight">Preferencias</h2>
         <dl id="perfil-preferencias" class="mt-4 divide-y divide-borde rounded-xl border border-borde bg-superficie px-4"></dl>
         <form id="form-perfil" class="mt-6 grid gap-6">
           <div class="grid gap-6 sm:grid-cols-2">
@@ -270,14 +275,14 @@
             </div>
             <div>
               <label for="perfil-telefono" data-cls="etiqueta">Teléfono</label>
-              <p id="ayuda-perfil-telefono" class="text-sm text-secundario">10 números, sin 0 ni 15. Ej.: 3584123456</p>
+              <p id="ayuda-perfil-telefono" class="text-caption text-secundario">10 números, sin 0 ni 15. Ej.: 3584123456</p>
               <input id="perfil-telefono" type="tel" inputmode="numeric" autocomplete="tel-national" aria-describedby="ayuda-perfil-telefono error-perfil-telefono" data-cls="campo">
-              <p id="error-perfil-telefono" class="mt-2 hidden items-center gap-2 text-sm font-medium text-error"></p>
+              <p id="error-perfil-telefono" class="mt-2 hidden items-center gap-2 text-body font-medium text-error"></p>
             </div>
           </div>
           <div>
             <label for="perfil-notas" data-cls="etiqueta">Cómo te gusta el corte</label>
-            <p id="ayuda-notas" class="text-sm text-secundario">Lo ve tu barbero en la agenda. Ej.: máquina 2 a los costados, tijera arriba.</p>
+            <p id="ayuda-notas" class="text-caption text-secundario">Lo ve tu barbero en la agenda. Ej.: máquina 2 a los costados, tijera arriba.</p>
             <textarea id="perfil-notas" rows="3" aria-describedby="ayuda-notas" data-cls="campo" class="py-3"></textarea>
           </div>
           <button type="submit" data-cls="btnPrimario" class="sm:justify-self-start">Guardar preferencias</button>
@@ -285,7 +290,7 @@
       </section>
 
       <section aria-labelledby="t-ajustes" class="mt-8">
-        <h2 id="t-ajustes" class="font-titulo text-2xl font-semibold leading-tight">Ajustes</h2>
+        <h2 id="t-ajustes" class="font-titulo text-h2 font-semibold leading-tight">Ajustes</h2>
         <ul class="mt-4 divide-y divide-borde rounded-xl border border-borde bg-superficie px-4">
           <li class="flex min-h-14 items-center justify-between gap-4 py-2">
             <span id="lbl-oscuro" class="font-medium">Modo oscuro</span>
@@ -307,7 +312,7 @@
     <section data-vista="agenda" aria-labelledby="t-agenda" hidden class="mx-auto max-w-3xl px-4 pt-8">
       <div class="flex items-start gap-2">
         <div class="grow">
-          <h1 id="t-agenda" tabindex="-1" class="font-titulo text-[2rem] font-semibold leading-tight focus:outline-none">Agenda</h1>
+          <h1 id="t-agenda" tabindex="-1" class="font-titulo text-h1 font-semibold leading-tight focus:outline-none">Agenda</h1>
           <p id="agenda-subtitulo" class="mt-2 text-secundario" aria-live="polite"></p>
         </div>
         <button type="button" id="agenda-anterior" data-accion="agenda-dia" data-delta="-1" aria-label="Día anterior" title="Día anterior" data-cls="btnIconoBorde"><span data-icono="chevron-izq"></span></button>
@@ -317,28 +322,28 @@
     </section>
 
     <section data-vista="clientes" aria-labelledby="t-clientes" hidden class="mx-auto max-w-3xl px-4 pt-8">
-      <h1 id="t-clientes" tabindex="-1" class="font-titulo text-[2rem] font-semibold leading-tight focus:outline-none">Clientes</h1>
+      <h1 id="t-clientes" tabindex="-1" class="font-titulo text-h1 font-semibold leading-tight focus:outline-none">Clientes</h1>
       <p class="mt-2 text-secundario">Quiénes vienen en los próximos 14 días.</p>
       <ul id="clientes-lista" class="mt-6 grid gap-4 sm:grid-cols-2"></ul>
     </section>
 
     <section data-vista="galeria" aria-labelledby="t-galeria" hidden class="mx-auto max-w-5xl px-4 pt-8">
-      <h1 id="t-galeria" tabindex="-1" class="font-titulo text-[2rem] font-semibold leading-tight focus:outline-none">Mi galería</h1>
+      <h1 id="t-galeria" tabindex="-1" class="font-titulo text-h1 font-semibold leading-tight focus:outline-none">Mi galería</h1>
       <p class="mt-2 text-secundario">Tus trabajos para mostrarles a los clientes.</p>
       <ul id="galeria-lista" class="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-3"></ul>
     </section>
 
     <section data-vista="local" aria-labelledby="t-local" hidden class="mx-auto max-w-5xl px-4 pt-8">
-      <h1 id="t-local" tabindex="-1" class="font-titulo text-[2rem] font-semibold leading-tight focus:outline-none">Local</h1>
+      <h1 id="t-local" tabindex="-1" class="font-titulo text-h1 font-semibold leading-tight focus:outline-none">Local</h1>
       <p id="local-subtitulo" class="mt-2 text-secundario"></p>
       <dl id="local-resumen" class="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4"></dl>
-      <h2 class="mt-8 font-titulo text-2xl font-semibold leading-tight">Barberos hoy</h2>
+      <h2 class="mt-8 font-titulo text-h2 font-semibold leading-tight">Barberos hoy</h2>
       <ul id="local-barberos" class="mt-4 grid gap-4 sm:grid-cols-3"></ul>
     </section>
   </main>
 
   <footer class="footer-con-barra border-t border-borde bg-superficie">
-    <div class="mx-auto grid max-w-5xl gap-2 px-4 py-6 text-sm text-secundario sm:grid-cols-2">
+    <div class="mx-auto grid max-w-5xl gap-2 px-4 py-6 text-caption text-secundario sm:grid-cols-2">
       <p><strong class="text-texto">BarberíaRiri</strong> · Río Cuarto, Córdoba<br>Lunes a sábado de 9 a 13 y de 15 a 21 · Domingo franco</p>
       <p class="sm:text-right">Demo académica: los pagos, WhatsApp y avisos son simulados.<br>
         <a href="https://www.google.com/maps/search/?api=1&amp;query=Barber%C3%ADa%20Riri%20R%C3%ADo%20Cuarto" target="_blank" rel="noopener noreferrer"
@@ -356,14 +361,14 @@
     <form id="form-pago" method="dialog" class="grid gap-4 p-6" novalidate>
       <div class="mx-auto h-1.5 w-12 rounded-full bg-borde md:hidden" aria-hidden="true"></div>
       <div>
-        <h2 id="t-pago" class="font-titulo text-2xl font-semibold leading-tight">Pagar seña</h2>
-        <p class="mt-1 text-sm text-secundario">Mercado Pago · simulación, no se cobra nada.</p>
+        <h2 id="t-pago" class="font-titulo text-h2 font-semibold leading-tight">Pagar seña</h2>
+        <p class="mt-1 text-caption text-secundario">Mercado Pago · simulación, no se cobra nada.</p>
       </div>
-      <p class="rounded-xl bg-superficie-2 p-4 text-center"><span class="block text-sm text-secundario">Total a pagar ahora</span><span id="pago-monto" class="block text-3xl font-bold"></span><span id="pago-detalle" class="block text-sm text-secundario"></span></p>
+      <p class="rounded-xl bg-superficie-2 p-4 text-center"><span class="block text-caption text-secundario">Total a pagar ahora</span><span id="pago-monto" class="block text-h1 font-bold"></span><span id="pago-detalle" class="block text-caption text-secundario"></span></p>
       <div>
         <label for="pago-email" data-cls="etiqueta">Email para el comprobante</label>
         <input id="pago-email" type="email" autocomplete="email" required aria-describedby="error-pago" data-cls="campo">
-        <p id="error-pago" class="mt-2 hidden items-center gap-2 text-sm font-medium text-error"></p>
+        <p id="error-pago" class="mt-2 hidden items-center gap-2 text-body font-medium text-error"></p>
       </div>
       <button type="submit" id="btn-pagar" value="pagar" data-cls="btnPrimario"><span data-icono="candado"></span><span id="btn-pagar-texto">Pagar</span></button>
       <button type="button" data-accion="cerrar-dialogo" data-cls="btnTexto">Cancelar</button>
@@ -373,10 +378,10 @@
   <!-- ===== Cancelar turno ===== -->
   <dialog id="dlg-cancelar" aria-labelledby="t-cancelar" aria-describedby="cancelar-texto" class="dialogo-hoja bg-superficie text-texto">
     <div class="grid gap-4 p-6">
-      <h2 id="t-cancelar" class="font-titulo text-2xl font-semibold leading-tight">¿Cancelar el turno?</h2>
+      <h2 id="t-cancelar" class="font-titulo text-h2 font-semibold leading-tight">¿Cancelar el turno?</h2>
       <p id="cancelar-texto"></p>
-      <!-- Confirmar arriba y descartar abajo, como en los otros diálogos. La opción segura sigue como principal y recibe el foco (ADR-005: sin rojo en botones) -->
-      <button type="button" id="btn-cancelar-confirmar" data-accion="cancelar-confirmar" data-cls="btnSecundario">Sí, cancelar turno</button>
+      <!-- Confirmar arriba y descartar abajo, como en los otros diálogos. La opción segura sigue como principal y recibe el foco; la destructiva va en rojo de error (ADR-019) -->
+      <button type="button" id="btn-cancelar-confirmar" data-accion="cancelar-confirmar" data-cls="btnPeligro">Sí, cancelar turno</button>
       <button type="button" data-accion="cerrar-dialogo" autofocus data-cls="btnPrimario">No, mantener turno</button>
     </div>
   </dialog>
@@ -385,8 +390,8 @@
   <dialog id="dlg-barbero" aria-labelledby="t-soy-barbero" class="dialogo-hoja bg-superficie text-texto">
     <form id="form-barbero" class="grid gap-4 p-6">
       <div>
-        <h2 id="t-soy-barbero" class="font-titulo text-2xl font-semibold leading-tight">Soy barbero</h2>
-        <p class="mt-1 text-sm text-secundario">Demostración sin contraseña: elegí quién sos.</p>
+        <h2 id="t-soy-barbero" class="font-titulo text-h2 font-semibold leading-tight">Soy barbero</h2>
+        <p class="mt-1 text-caption text-secundario">Demostración sin contraseña: elegí quién sos.</p>
       </div>
       <fieldset>
         <legend class="sr-only">Barbero</legend>
@@ -401,9 +406,8 @@
   <dialog id="dlg-avisos" aria-labelledby="t-avisos" class="dialogo-hoja bg-superficie text-texto">
     <div class="grid gap-4 p-6">
       <div class="flex items-center justify-between gap-4">
-        <h2 id="t-avisos" class="font-titulo text-2xl font-semibold leading-tight">Avisos</h2>
-        <button type="button" data-accion="cerrar-dialogo" aria-label="Cerrar avisos" title="Cerrar avisos"
-          class="inline-flex h-12 w-12 items-center justify-center rounded-xl text-texto transition hover:bg-superficie-2 active:scale-95 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50"><span data-icono="x"></span></button>
+        <h2 id="t-avisos" class="font-titulo text-h2 font-semibold leading-tight">Avisos</h2>
+        <button type="button" data-accion="cerrar-dialogo" aria-label="Cerrar avisos" title="Cerrar avisos" data-cls="btnIcono"><span data-icono="x"></span></button>
       </div>
       <ul id="avisos-lista" class="grid max-h-[60vh] gap-4 overflow-y-auto"></ul>
     </div>

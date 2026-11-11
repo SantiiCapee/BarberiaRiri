@@ -9,8 +9,10 @@ Inspirados en el poste de barbería. Todos los contrastes están medidos con la 
 | Primario | `#1E3A5F` marino | `#8FB3E0` azul claro | Botones y elementos activos | 11,5:1 (texto blanco) · 8,2:1 (texto carbón) |
 | Acento | `#C9A227` dorado | `#D4AF37` | Sellos y estrellas, **solo como fondo** | 7,2:1 · 8,4:1 (texto oscuro encima) |
 | Éxito | `#15803D` | `#4ADE80` | Confirmaciones | 5,0:1 · 8,6:1 |
-| Error | `#B91C1C` | `#F87171` | Errores, siempre con ícono | 6,1:1 · 5,4:1 |
-| Decorativo | `#B91C1C` | — | **Solo** el logo y la franja del poste | — |
+| Error / peligro | `#B91C1C` | `#F87171` | Errores (siempre con ícono) y botones destructivos (`btnPeligro`, sin relleno) | 6,1:1 · 5,4:1 |
+| Advertencia | `#B45309` | `#FBBF24` | Estados intermedios (ej.: menos de 2 h para reprogramar), siempre con ícono de triángulo | 5,0:1 · 8,9:1 |
+| Info | = Primario | = Primario | Avisos informativos, ícono "i" | 11,5:1 · 8,2:1 |
+| Poste | `--c-poste-rojo/azul/blanco` | iguales | **Solo** el logo y la franja (fijos en los dos modos) | — |
 | Fondo / superficie | `#FAF7F2` / `#FFFFFF` | `#18181B` / `#27272A` | — | — |
 | Texto / secundario | `#1C1917` / `#57534E` | `#F5F5F4` / `#A8A29E` | — | 16,4 · 7,1 / 16,2 · 7,0 |
 | Primario hover / activo | `#2B4C77` / `#152B47` | `#A9C5EA` / `#7AA1D4` | Estados del botón primario | 8,7 · 14,3 / 9,9 · 6,6 |
@@ -19,19 +21,19 @@ Inspirados en el poste de barbería. Todos los contrastes están medidos con la 
 | Borde de control | `#78716C` | `#8B8B94` | Bordes de inputs, tarjetas y horarios | 4,5 · 5,3 (≥3:1) |
 
 > El éxito `#15803D` sobre Superficie 2 da 4,3:1: no usarlo como texto ahí (GOT-08).
+>
+> Ningún hex suelto: todo color sale de un token de `style.css`. Única excepción: `COLOR_BARRA_NAVEGADOR` en `app.js` (el `<meta theme-color>` no acepta variables).
 
 ## 2. Escala tipográfica
 
-Escala modular de aproximadamente 1,25.
+Definida una sola vez en `tailwind.config` (`index.html`, `fontSize`). No usar `text-sm`, `text-xl`, `text-[…]` ni otros tamaños sueltos (ADR-019).
 
-| Nivel | Fuente | Tamaño | Interlineado |
-|---|---|---|---|
-| h1 | Oswald | 32px | 1.2 |
-| h2 | Oswald | 24px | 1.2 |
-| h3 | Oswald | 20px | 1.2 |
-| Texto | Inter | 16px (mínimo para leer) | 1.5 |
-| Texto chico | Inter | 14px | 1.5 |
-| Caption | Inter | 12px | 1.5 |
+| Clase | Nivel | Fuente | Tamaño | Interlineado | Uso |
+|---|---|---|---|---|---|
+| `text-h1` | h1 | Oswald | 32px | 1.2 | Título de pantalla, montos y estadísticas |
+| `text-h2` | h2 | Oswald | 24px | 1.2 | Títulos de sección y de tarjeta, logo, datos destacados |
+| `text-body` | Texto | Inter | 16px | 1.5 | Texto común, botones, errores y avisos |
+| `text-caption` | Caption | Inter | 12px | 1.5 | Ayudas, fechas, badges, letra chica |
 
 Los precios y los horarios van en **Inter semibold**.
 

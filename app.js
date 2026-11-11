@@ -33,6 +33,8 @@ const DIAS_RESERVA = 14;       // RN-13
 const HORAS_SIN_CARGO = 2;     // RN-11
 const SELLOS_PREMIO = 10;      // RN-12
 const DIAS_SEMANA = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'];
+// <meta name="theme-color"> no acepta variables CSS: único lugar con hex (= --c-primario claro y --c-fondo oscuro)
+const COLOR_BARRA_NAVEGADOR = { claro: '#1E3A5F', oscuro: '#18181B' };
 
 // ============ Clases (nombres completos: GOT-11) ============
 const FOCO = 'focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo';
@@ -46,14 +48,20 @@ const CLS = {
   radioPunto: 'h-3 w-3 scale-0 rounded-full bg-primario transition group-aria-pressed:scale-100',
   dia: `flex min-h-16 w-[4.5rem] shrink-0 flex-col items-center justify-center rounded-xl border border-borde-control bg-superficie px-2 py-2 transition duration-150 hover:border-primario hover:bg-primario-suave active:scale-[0.98] ${FOCO} aria-pressed:border-primario aria-pressed:bg-primario aria-pressed:text-sobre-primario disabled:cursor-not-allowed disabled:opacity-50`,
   hora: `flex min-h-12 min-w-0 flex-col items-center justify-center rounded-lg border border-borde-control bg-superficie px-1 py-1 font-semibold text-texto transition duration-150 hover:border-primario hover:bg-primario-suave active:scale-[0.98] ${FOCO} aria-pressed:border-primario aria-pressed:bg-primario aria-pressed:text-sobre-primario disabled:cursor-not-allowed disabled:border-dashed disabled:bg-superficie-2 disabled:font-normal disabled:text-secundario disabled:line-through disabled:hover:border-borde-control disabled:hover:bg-superficie-2 disabled:active:scale-100`,
+  // Acciones destructivas (Clase 5, ADR-019): rojo de error, sin relleno, para no competir con el primario
+  btnPeligro: `inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border-2 border-error bg-superficie px-5 font-semibold text-error transition duration-150 hover:bg-superficie-2 active:scale-[0.98] ${FOCO} disabled:cursor-not-allowed disabled:border-borde-control disabled:text-secundario disabled:hover:bg-superficie disabled:active:scale-100`,
+  // Botón de ícono sin borde (barra superior y cierre de diálogos). Con texto, sumar px-3.
+  btnIcono: `inline-flex min-h-12 min-w-12 items-center justify-center gap-2 rounded-xl font-semibold text-texto transition hover:bg-superficie-2 active:scale-95 ${FOCO} disabled:cursor-not-allowed disabled:opacity-50`,
+  // Tarjeta con radio nativo adentro (forma de pago)
+  opcionRadio: 'flex min-h-12 cursor-pointer items-center gap-4 rounded-xl border border-borde-control bg-superficie p-4 transition hover:border-primario active:scale-[0.99] has-[:checked]:border-2 has-[:checked]:border-primario has-[:checked]:bg-primario-suave has-[:checked]:p-[15px] has-[:focus-visible]:ring-[3px] has-[:focus-visible]:ring-primario has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-fondo has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50',
   btnIconoBorde: `inline-flex h-12 w-12 items-center justify-center rounded-xl border border-borde-control bg-superficie text-texto transition hover:border-primario hover:bg-primario-suave active:scale-95 ${FOCO} disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-borde-control disabled:hover:bg-superficie`,
   // Campos de formulario: siempre debajo de su etiqueta, a 8px (proximidad)
-  campo: `mt-2 block min-h-12 w-full rounded-xl border border-borde-control bg-superficie px-4 text-base text-texto placeholder:text-secundario transition hover:border-primario focus:border-primario focus:outline-none focus:ring-[3px] focus:ring-primario focus:ring-offset-2 focus:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50 aria-[invalid=true]:border-2 aria-[invalid=true]:border-error`,
+  campo: `mt-2 block min-h-12 w-full rounded-xl border border-borde-control bg-superficie px-4 text-body text-texto placeholder:text-secundario transition hover:border-primario focus:border-primario focus:outline-none focus:ring-[3px] focus:ring-primario focus:ring-offset-2 focus:ring-offset-fondo disabled:cursor-not-allowed disabled:opacity-50 aria-[invalid=true]:border-2 aria-[invalid=true]:border-error`,
   etiqueta: 'block font-semibold',
   tarjeta: 'rounded-xl border border-borde bg-superficie p-4',
   vacio: 'rounded-xl bg-superficie-2 p-4 text-secundario',
-  badge: 'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold',
-  avatar: 'grid h-12 w-12 shrink-0 place-items-center rounded-full bg-primario-suave font-titulo text-xl font-semibold text-primario',
+  badge: 'inline-flex items-center rounded-full px-2 py-0.5 text-caption font-semibold',
+  avatar: 'grid h-12 w-12 shrink-0 place-items-center rounded-full bg-primario-suave font-titulo text-h2 font-semibold text-primario',
 };
 
 // ============ Íconos (SVG inline, sin librerías) ============
@@ -74,6 +82,8 @@ const ICONOS = {
   mensaje: '<path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7A8.4 8.4 0 0 1 12 3.1a8.5 8.5 0 0 1 9 8.4z"/>',
   mapa: '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>',
   alerta: '<circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/>',
+  advertencia: '<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>',
+  info: '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>',
   x: '<path d="M18 6 6 18M6 6l12 12"/>',
   repetir: '<path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/>',
   lista: '<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',
@@ -277,10 +287,18 @@ function horariosLibres(fecha, franja) {
 // ============ Avisos (toast) y notificaciones ============
 let temporizadorToast = null;
 
+// Cada tipo con su color semántico (Clase 5): éxito verde, error rojo, info azul
+const ICONO_TOAST = {
+  exito: ['check-circulo', 'text-exito'],
+  error: ['alerta', 'text-error'],
+  info: ['info', 'text-primario'],
+};
+
 function toast(mensaje, tipo = 'info') {
   const caja = $('#toast');
-  const iconoTipo = tipo === 'error' ? icono('alerta', 'h-5 w-5 shrink-0 text-error') : icono('check-circulo', 'h-5 w-5 shrink-0 text-exito');
-  caja.innerHTML = `<p class="toast-mensaje flex items-start gap-3 rounded-xl border border-borde bg-superficie p-4 text-sm font-medium text-texto shadow-lg">${iconoTipo}<span>${esc(mensaje)}</span></p>`;
+  const [nombreIcono, color] = ICONO_TOAST[tipo] || ICONO_TOAST.info;
+  const iconoTipo = icono(nombreIcono, `h-5 w-5 shrink-0 ${color}`);
+  caja.innerHTML = `<p class="toast-mensaje flex items-start gap-3 rounded-xl border border-borde bg-superficie p-4 text-body font-medium text-texto shadow-lg">${iconoTipo}<span>${esc(mensaje)}</span></p>`;
   clearTimeout(temporizadorToast);
   temporizadorToast = setTimeout(() => { caja.innerHTML = ''; }, 5000);
 }
@@ -311,7 +329,7 @@ function pintarAvisos() {
   lista.innerHTML = estado.notificaciones.map((n) => `
     <li class="${CLS.tarjeta} ${n.leida ? '' : 'border-primario'}">
       <p class="font-semibold">${n.leida ? '' : `<span class="${CLS.badge} mr-2 bg-primario-suave text-primario">Nuevo</span>`}${esc(n.titulo)}</p>
-      <p class="text-sm text-secundario">${esc(n.texto)}</p>
+      <p class="text-body text-secundario">${esc(n.texto)}</p>
       ${n.accion ? `<button type="button" class="${CLS.btnSecundario} mt-4 w-full" data-accion="reservar-liberado" data-id="${n.id}">Reservar ese horario</button>` : ''}
     </li>`).join('');
 }
@@ -415,7 +433,7 @@ function pintarNavegacion(ruta, modoBarbero) {
   $('#tabbar').innerHTML = pestanias.map((p) => `
     <li>
       <a href="#${p.ruta}" ${activa(p) ? 'aria-current="page"' : ''}
-        class="flex min-h-[4.5rem] flex-col items-center justify-center gap-1 text-xs font-semibold text-secundario transition hover:bg-superficie-2 hover:text-texto active:scale-95 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-primario aria-[current=page]:text-primario">
+        class="flex min-h-[4.5rem] flex-col items-center justify-center gap-1 text-caption font-semibold text-secundario transition hover:bg-superficie-2 hover:text-texto active:scale-95 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-primario aria-[current=page]:text-primario">
         <span class="grid h-8 w-12 place-items-center rounded-full ${activa(p) ? 'bg-primario text-sobre-primario' : ''}">${icono(p.icono)}</span>${p.texto}
       </a>
     </li>`).join('');
@@ -454,27 +472,27 @@ function pintarInicio() {
   const proximo = proximosTurnos()[0];
   $('#inicio-destacado').innerHTML = proximo
     ? `<article class="${CLS.tarjeta} shadow-sm" aria-labelledby="t-proximo">
-        <p class="text-sm font-semibold uppercase tracking-wide text-secundario">Tu próximo turno</p>
-        <h2 id="t-proximo" class="mt-1 font-titulo text-xl font-semibold leading-tight">${esc(servicioPorId(proximo.servicioId).nombre)}</h2>
+        <p class="text-caption font-semibold uppercase tracking-wide text-secundario">Tu próximo turno</p>
+        <h2 id="t-proximo" class="mt-1 font-titulo text-h2 font-semibold leading-tight">${esc(servicioPorId(proximo.servicioId).nombre)}</h2>
         <p class="mt-2 flex items-center gap-2 font-semibold">${icono('calendario')}${formatoDia(proximo.fecha)} · ${proximo.hora}</p>
         <p class="mt-1 flex items-center gap-2 text-secundario">${icono('usuario')}Con ${esc(nombreBarbero(proximo.barberoId))} · ${proximo.codigo}</p>
         <a href="#/mis-turnos" class="${CLS.btnTexto} -ml-3 mt-2">Ver Mis turnos</a>
       </article>`
     : `<article class="${CLS.tarjeta}" aria-labelledby="t-horarios">
-        <h2 id="t-horarios" class="font-titulo text-xl font-semibold leading-tight">Horarios</h2>
+        <h2 id="t-horarios" class="font-titulo text-h2 font-semibold leading-tight">Horarios</h2>
         <p class="mt-2 flex items-center gap-2">${icono('reloj')}Lunes a sábado</p>
         <p class="mt-1 pl-7 text-secundario">Mañana de 9 a 13 · Tarde de 15 a 21</p>
-        <p class="mt-4 text-sm text-secundario">Podés cancelar o reprogramar sin cargo hasta 2 horas antes.</p>
+        <p class="mt-4 text-caption text-secundario">Podés cancelar o reprogramar sin cargo hasta 2 horas antes.</p>
       </article>`;
 
   $('#inicio-barberos').innerHTML = BARBEROS.map((b) => `
     <li>
       <button type="button" class="${CLS.opcion} sm:min-h-48 sm:flex-col sm:justify-center sm:text-center" data-accion="reservar-con" data-id="${b.id}">
-        <span class="${CLS.avatar} sm:h-16 sm:w-16 sm:text-2xl" aria-hidden="true">${b.nombre[0]}</span>
+        <span class="${CLS.avatar} sm:h-16 sm:w-16 sm:text-h2" aria-hidden="true">${b.nombre[0]}</span>
         <span>
-          <span class="block font-titulo text-xl font-semibold">${b.nombre}${b.duenio ? ' <span class="sr-only">(dueño)</span>' : ''}</span>
-          <span class="block text-sm text-secundario">${b.especialidad}</span>
-          <span class="mt-1 inline-flex items-center gap-1 text-sm font-semibold">${icono('estrella', 'h-4 w-4')}${puntaje(b.puntaje)}<span class="sr-only"> de 5</span></span>
+          <span class="block font-titulo text-h2 font-semibold">${b.nombre}${b.duenio ? ' <span class="sr-only">(dueño)</span>' : ''}</span>
+          <span class="block text-caption text-secundario">${b.especialidad}</span>
+          <span class="mt-1 inline-flex items-center gap-1 text-caption font-semibold">${icono('estrella', 'h-4 w-4')}${puntaje(b.puntaje)}<span class="sr-only"> de 5</span></span>
           <span class="sr-only">. Reservar con ${b.nombre}</span>
         </span>
       </button>
@@ -486,9 +504,9 @@ function pintarProgreso(paso) {
   const reprog = estado.borrador.reprogramando;
   const contenedor = $(`[data-progreso="${paso}"]`);
   contenedor.innerHTML = `
-    ${reprog ? `<p class="mb-4 flex flex-wrap items-center gap-x-2 rounded-xl bg-primario-suave p-4 text-sm">Estás reprogramando el turno <strong>${esc(reprog)}</strong>.
+    ${reprog ? `<p class="mb-4 flex flex-wrap items-center gap-x-2 rounded-xl bg-primario-suave p-4 text-body">Estás reprogramando el turno <strong>${esc(reprog)}</strong>.
       <button type="button" class="${CLS.btnTexto} min-h-10 px-2" data-accion="cancelar-reprogramacion">Dejarlo como estaba</button></p>` : ''}
-    <p class="text-sm font-semibold text-secundario">Paso ${paso} de 4</p>
+    <p class="text-caption font-semibold text-secundario">Paso ${paso} de 4</p>
     <ol class="mt-2 grid grid-cols-4 gap-1" aria-label="Progreso de la reserva">
       ${nombres.map((n, i) => `<li class="h-1.5 rounded-full ${i < paso ? 'bg-primario' : 'bg-borde'}"><span class="sr-only">${n}${i + 1 === paso ? ' (paso actual)' : i < paso ? ' (listo)' : ''}</span></li>`).join('')}
     </ol>`;
@@ -499,7 +517,7 @@ function pintarBarra(paso, puedeContinuar, motivo) {
   const volverReprog = estado.borrador.reprogramando && paso === 3 ? '#/mis-turnos' : volver;
   $(`[data-barra="${paso}"]`).innerHTML = `
     <div class="mx-auto flex max-w-3xl flex-col gap-2">
-      ${motivo ? `<p id="motivo-${paso}" class="text-center text-sm text-secundario">${motivo}</p>` : ''}
+      ${motivo ? `<p id="motivo-${paso}" class="text-center text-caption text-secundario">${motivo}</p>` : ''}
       <div class="flex gap-4">
         <a href="${volverReprog}" class="${CLS.btnSecundario}">Volver</a>
         <button type="button" class="${CLS.btnPrimario} grow" data-accion="continuar" data-destino="${paso + 1}" ${puedeContinuar ? '' : 'disabled'} ${motivo ? `aria-describedby="motivo-${paso}"` : ''}>Continuar</button>
@@ -516,7 +534,7 @@ function pintarPaso1() {
         <span class="${CLS.radio}" aria-hidden="true"><span class="${CLS.radioPunto}"></span></span>
         <span class="min-w-0 grow">
           <span class="block font-semibold">${s.nombre}</span>
-          <span class="mt-1 flex flex-wrap items-center gap-2 text-sm text-secundario">${s.duracion} min
+          <span class="mt-1 flex flex-wrap items-center gap-2 text-caption text-secundario">${s.duracion} min
             ${s.badge ? `<span class="${CLS.badge} bg-acento text-sobre-acento">${s.badge}</span>` : ''}</span>
         </span>
         <span class="shrink-0 font-semibold">${precio(s.precio)}</span>
@@ -534,7 +552,7 @@ function pintarPaso2() {
       <button type="button" class="${CLS.opcionPunteada}" data-accion="barbero" data-id="cualquiera" aria-pressed="${elegido === 'cualquiera'}">
         <span class="grid w-12 shrink-0 place-items-center" aria-hidden="true"><span class="${CLS.radio}"><span class="${CLS.radioPunto}"></span></span></span>
         <span class="grow"><span class="block font-semibold">Cualquier barbero disponible</span>
-        <span class="block text-sm text-secundario">Te mostramos más horarios y asignamos uno libre.</span></span>
+        <span class="block text-caption text-secundario">Te mostramos más horarios y asignamos uno libre.</span></span>
         ${icono('usuarios', 'h-6 w-6 shrink-0 text-secundario')}
       </button>
     </li>
@@ -543,9 +561,9 @@ function pintarPaso2() {
       <button type="button" class="${CLS.opcion}" data-accion="barbero" data-id="${b.id}" aria-pressed="${elegido === b.id}">
         <span class="${CLS.avatar}" aria-hidden="true">${b.nombre[0]}</span>
         <span class="grow">
-          <span class="block font-semibold">${b.nombre}${b.duenio ? ' <span class="text-sm font-normal text-secundario">· Dueño</span>' : ''}</span>
-          <span class="block text-sm text-secundario">${b.especialidad}</span>
-          <span class="inline-flex items-center gap-1 text-sm font-semibold">${icono('estrella', 'h-4 w-4')}${puntaje(b.puntaje)}<span class="sr-only"> de 5</span></span>
+          <span class="block font-semibold">${b.nombre}${b.duenio ? ' <span class="text-caption font-normal text-secundario">· Dueño</span>' : ''}</span>
+          <span class="block text-caption text-secundario">${b.especialidad}</span>
+          <span class="inline-flex items-center gap-1 text-caption font-semibold">${icono('estrella', 'h-4 w-4')}${puntaje(b.puntaje)}<span class="sr-only"> de 5</span></span>
         </span>
         <span class="hidden h-6 w-6 shrink-0 place-items-center rounded-full bg-primario text-sobre-primario group-aria-pressed:grid" aria-hidden="true">${icono('check', 'h-4 w-4')}</span>
       </button>
@@ -573,9 +591,9 @@ function pintarPaso3() {
     const [diaSemana, numero] = formatoDia(d).split(' ');
     return `<li>
       <button type="button" class="${CLS.dia}" data-accion="dia" data-fecha="${d}" aria-pressed="${d === b.fecha}">
-        <span class="text-xs font-semibold uppercase">${i === 0 ? 'Hoy' : diaSemana}</span>
-        <span class="text-base font-semibold">${numero}</span>
-        <span class="text-xs leading-tight">${libres ? `${libres} ${libres === 1 ? 'libre' : 'libres'}` : 'Completo'}</span>
+        <span class="text-caption font-semibold uppercase">${i === 0 ? 'Hoy' : diaSemana}</span>
+        <span class="text-body font-semibold">${numero}</span>
+        <span class="text-caption leading-tight">${libres ? `${libres} ${libres === 1 ? 'libre' : 'libres'}` : 'Completo'}</span>
       </button>
     </li>`;
   }).join('');
@@ -592,7 +610,7 @@ function pintarPaso3() {
           const elegido = h === b.hora;
           return `<button type="button" class="${CLS.hora}" data-accion="hora" data-hora="${h}" aria-pressed="${elegido}" ${libre ? '' : 'disabled'}>
             <span class="flex items-center gap-1">${elegido ? icono('check', 'h-4 w-4') : ''}${h}</span>
-            ${libre ? '' : '<span class="text-xs no-underline">Ocupado</span>'}
+            ${libre ? '' : '<span class="text-caption no-underline">Ocupado</span>'}
           </button>`;
         }).join('')}
       </div>` : `<p class="text-secundario">Sin horarios libres a la ${FRANJAS[clave].nombre.toLowerCase()}.</p>`}
@@ -643,8 +661,8 @@ function pintarPaso4() {
 
   const fila = (etiqueta, valor, paso, destacado = false) => `
     <div class="flex items-center gap-4 py-2">
-      <dt class="w-24 shrink-0 text-sm text-secundario">${etiqueta}</dt>
-      <dd class="min-w-0 grow break-words font-semibold ${destacado ? 'text-xl' : ''}">${valor}</dd>
+      <dt class="w-24 shrink-0 text-caption text-secundario">${etiqueta}</dt>
+      <dd class="min-w-0 grow break-words font-semibold ${destacado ? 'text-h2' : ''}">${valor}</dd>
       ${paso && !(reprog && paso < 3) ? `<dd><a href="#/reservar/${paso}" class="${CLS.btnTexto} min-h-10 px-2">Cambiar<span class="sr-only"> ${etiqueta.toLowerCase()}</span></a></dd>` : ''}
     </div>`;
   $('#resumen-reserva').innerHTML = `
@@ -685,16 +703,16 @@ function pintarConfirmado() {
   const mapa = 'https://www.google.com/maps/search/?api=1&query=Barber%C3%ADa%20Riri%20R%C3%ADo%20Cuarto';
   const externo = (url, ico, texto) => `
     <a href="${url}" target="_blank" rel="noopener noreferrer"
-      class="flex min-h-20 flex-col items-center justify-center gap-1 rounded-xl border border-borde-control bg-superficie p-2 text-sm font-semibold transition hover:border-primario hover:bg-primario-suave active:scale-[0.98] ${FOCO}">
+      class="flex min-h-20 flex-col items-center justify-center gap-1 rounded-xl border border-borde-control bg-superficie p-2 text-caption font-semibold transition hover:border-primario hover:bg-primario-suave active:scale-[0.98] ${FOCO}">
       ${icono(ico, 'h-6 w-6 text-primario')}${texto}<span class="sr-only"> (se abre en otra pestaña)</span></a>`;
 
   $('#confirmado-detalle').innerHTML = `
     <p class="mx-auto mt-6 w-fit rounded-xl border-2 border-dashed border-borde-control px-6 py-3">
-      <span class="block text-sm text-secundario">Código de turno</span>
-      <span class="block font-titulo text-2xl font-semibold tracking-wider">${t.codigo}</span>
+      <span class="block text-caption text-secundario">Código de turno</span>
+      <span class="block font-titulo text-h2 font-semibold tracking-wider">${t.codigo}</span>
     </p>
     <dl class="mt-6 divide-y divide-borde rounded-xl border border-borde bg-superficie px-4 py-1 text-left">
-      <div class="flex items-baseline justify-between gap-4 py-3"><dt class="text-secundario">Día y hora</dt><dd class="text-lg font-semibold">${formatoDia(t.fecha)} · ${t.hora}</dd></div>
+      <div class="flex items-baseline justify-between gap-4 py-3"><dt class="text-secundario">Día y hora</dt><dd class="text-h2 font-semibold">${formatoDia(t.fecha)} · ${t.hora}</dd></div>
       <div class="flex justify-between gap-4 py-3"><dt class="text-secundario">Servicio</dt><dd class="text-right font-semibold">${servicio.nombre}</dd></div>
       <div class="flex justify-between gap-4 py-3"><dt class="text-secundario">Barbero</dt><dd class="font-semibold">${esc(barbero)}</dd></div>
       <div class="flex justify-between gap-4 py-3"><dt class="text-secundario">${t.sena ? 'Seña pagada' : 'Pago'}</dt><dd class="font-semibold">${t.sena ? precio(t.sena) : 'En el local'}</dd></div>
@@ -710,7 +728,8 @@ function pintarConfirmado() {
 
 const ETIQUETA_ESTADO = {
   cancelado: ['Cancelado', 'bg-superficie-2 text-secundario'],
-  llego: ['Llegó', 'bg-primario-suave text-primario'],
+  // Verde de éxito sobre superficie (5,0:1); sobre superficie-2 no da (GOT-08)
+  llego: ['Llegó', 'border border-exito bg-superficie text-exito'],
   'no-vino': ['No vino', 'bg-superficie-2 text-error'],
   confirmado: ['Finalizado', 'bg-superficie-2 text-secundario'],
 };
@@ -724,20 +743,20 @@ function tarjetaTurno(t, esProximo) {
     <article class="${CLS.tarjeta}" aria-labelledby="turno-${t.codigo}">
       <div class="flex gap-4">
         <p class="grid h-16 w-16 shrink-0 place-content-center rounded-xl bg-superficie-2 text-center" aria-hidden="true">
-          <span class="text-xs font-semibold uppercase text-secundario">${diaSemana}</span><span class="font-titulo text-xl font-semibold leading-tight">${numero}</span></p>
+          <span class="text-caption font-semibold uppercase text-secundario">${diaSemana}</span><span class="font-titulo text-h2 font-semibold leading-tight">${numero}</span></p>
         <div class="min-w-0 grow">
-          <h2 id="turno-${t.codigo}" class="font-titulo text-xl font-semibold leading-tight">${servicio.nombre}</h2>
+          <h2 id="turno-${t.codigo}" class="font-titulo text-h2 font-semibold leading-tight">${servicio.nombre}</h2>
           <p class="mt-1 font-semibold">${formatoDia(t.fecha)} · ${t.hora} · con ${esc(nombreBarbero(t.barberoId))}</p>
-          <p class="text-sm text-secundario">${t.codigo} · ${t.sena ? `Seña pagada ${precio(t.sena)}` : 'Pagás en el local'}</p>
+          <p class="text-caption text-secundario">${t.codigo} · ${t.sena ? `Seña pagada ${precio(t.sena)}` : 'Pagás en el local'}</p>
           ${esProximo ? '' : `<span class="${CLS.badge} ${colores} mt-2">${etiqueta}</span>`}
         </div>
       </div>
       ${esProximo ? `
         <div class="mt-4 grid grid-cols-2 gap-4">
           <button type="button" class="${CLS.btnSecundario}" data-accion="reprogramar" data-codigo="${t.codigo}" ${dentroDelPlazo ? '' : 'disabled aria-describedby="plazo-' + t.codigo + '"'}>Reprogramar</button>
-          <button type="button" class="${CLS.btnTexto}" data-accion="cancelar" data-codigo="${t.codigo}">Cancelar turno</button>
+          <button type="button" class="${CLS.btnPeligro}" data-accion="cancelar" data-codigo="${t.codigo}">Cancelar turno</button>
         </div>
-        ${dentroDelPlazo ? '' : `<p id="plazo-${t.codigo}" class="mt-2 text-sm text-secundario">Faltan menos de 2 horas: ya no se puede reprogramar.</p>`}`
+        ${dentroDelPlazo ? '' : `<p id="plazo-${t.codigo}" class="mt-2 flex items-start gap-2 text-body font-semibold text-advertencia">${icono('advertencia', 'mt-0.5 h-5 w-5 shrink-0')}Faltan menos de 2 horas: ya no se puede reprogramar.</p>`}`
       : `<button type="button" class="${CLS.btnTexto} -ml-3 mt-2" data-accion="repetir" data-codigo="${t.codigo}">${icono('repetir', 'h-4 w-4')}Reservar de nuevo</button>`}
     </article>
   </li>`;
@@ -760,7 +779,7 @@ function pintarMisTurnos() {
     ? `<ul class="grid gap-4">${lista.map((t) => tarjetaTurno(t, pestania === 'proximos')).join('')}</ul>`
     : `<div class="rounded-xl border-2 border-dashed border-borde-control p-6 text-center">
         <p class="font-semibold">${pestania === 'proximos' ? 'No tenés turnos próximos' : 'Todavía no hay turnos en tu historial'}</p>
-        <p class="mt-1 text-sm text-secundario">Reservá tu turno en menos de un minuto.</p>
+        <p class="mt-1 text-caption text-secundario">Reservá tu turno en menos de un minuto.</p>
         <a href="#/reservar/1" class="${CLS.btnPrimario} mt-4">Reservar turno</a>
       </div>`;
 
@@ -771,7 +790,7 @@ function pintarMisTurnos() {
     ? [...estado.espera].sort((a, b) => (a.fecha + a.franja).localeCompare(b.fecha + b.franja)).map((e) => `
       <li class="${CLS.tarjeta} flex items-center gap-4">
         <p class="grow"><span class="block font-semibold">${formatoDia(e.fecha)} · ${FRANJAS[e.franja].nombre}</span>
-          <span class="block text-sm text-secundario">${esc(nombreBarbero(e.barberoId))}</span></p>
+          <span class="block text-caption text-secundario">${esc(nombreBarbero(e.barberoId))}</span></p>
         <button type="button" class="${CLS.btnTexto}" data-accion="espera-quitar" data-id="${e.id}">Salir<span class="sr-only"> de la lista de espera del ${formatoDia(e.fecha)}</span></button>
       </li>`).join('')
     : `<li class="${CLS.vacio}">No estás en ninguna lista de espera.</li>`;
@@ -800,7 +819,7 @@ function pintarPerfil() {
   const enTarjeta = sellos >= SELLOS_PREMIO ? SELLOS_PREMIO : sellos % SELLOS_PREMIO;
   $('#sellos').innerHTML = Array.from({ length: SELLOS_PREMIO }, (_, i) => `
     <li class="grid h-12 w-12 place-items-center rounded-full ${i < enTarjeta ? 'bg-acento text-sobre-acento' : 'border-2 border-dashed border-borde-control text-secundario'}">
-      ${i < enTarjeta ? icono('tijera', 'h-5 w-5') : `<span class="text-sm" aria-hidden="true">${i + 1}</span>`}
+      ${i < enTarjeta ? icono('tijera', 'h-5 w-5') : `<span class="text-caption" aria-hidden="true">${i + 1}</span>`}
       <span class="sr-only">Sello ${i + 1}: ${i < enTarjeta ? 'conseguido' : 'pendiente'}</span>
     </li>`).join('');
   $('#sellos-texto').textContent = sellos >= SELLOS_PREMIO
@@ -841,7 +860,7 @@ function pintarAgenda() {
   for (const franja of Object.keys(FRANJAS)) {
     const bloques = bloquesDeFranja(franja);
     // Proximidad: el título queda a 16px de su grupo y a 32px del grupo anterior
-    items.push(`<li class="list-none before:hidden ${items.length ? 'mt-4' : ''}"><h2 class="font-titulo text-2xl font-semibold leading-tight">${FRANJAS[franja].nombre}</h2></li>`);
+    items.push(`<li class="list-none before:hidden ${items.length ? 'mt-4' : ''}"><h2 class="font-titulo text-h2 font-semibold leading-tight">${FRANJAS[franja].nombre}</h2></li>`);
     let i = 0;
     while (i < bloques.length) {
       const hora = bloques[i];
@@ -854,10 +873,10 @@ function pintarAgenda() {
           <article class="rounded-xl border border-borde-control bg-superficie p-4 shadow-sm" aria-label="${hora}, ${esc(turno.nombre)}">
             <div class="flex flex-wrap items-baseline justify-between gap-x-4">
               <p class="font-semibold">${hora} · ${esc(turno.nombre)}</p>
-              <p class="text-sm text-secundario">${servicio.nombre} · ${servicio.duracion} min</p>
+              <p class="text-caption text-secundario">${servicio.nombre} · ${servicio.duracion} min</p>
             </div>
-            ${turno.demo ? '' : `<p class="mt-1 text-sm"><span class="${CLS.badge} bg-primario-suave text-primario">Reservó en la app · ${turno.sena ? `seña ${precio(turno.sena)}` : 'paga en el local'}</span></p>
-              ${estado.perfil.notas ? `<p class="mt-2 rounded-lg bg-superficie-2 p-2 text-sm">“${esc(estado.perfil.notas)}”</p>` : ''}`}
+            ${turno.demo ? '' : `<p class="mt-1 text-caption"><span class="${CLS.badge} bg-primario-suave text-primario">Reservó en la app · ${turno.sena ? `seña ${precio(turno.sena)}` : 'paga en el local'}</span></p>
+              ${estado.perfil.notas ? `<p class="mt-2 rounded-lg bg-superficie-2 p-2 text-caption">“${esc(estado.perfil.notas)}”</p>` : ''}`}
             ${marca ? `
               <p class="mt-4 flex items-center gap-2 font-semibold ${marca === 'llego' ? 'text-exito' : 'text-error'}">
                 ${icono(marca === 'llego' ? 'check-circulo' : 'alerta')}${marca === 'llego' ? 'Llegó' : 'No vino'}
@@ -883,7 +902,7 @@ function pintarAgenda() {
       i++;
     }
   }
-  $('#agenda-lista').innerHTML = items.join('') + (esFuturo ? '<li class="list-none before:hidden"><p id="nota-futuro" class="text-sm text-secundario">"Llegó" y "No vino" se marcan el día del turno.</p></li>' : '');
+  $('#agenda-lista').innerHTML = items.join('') + (esFuturo ? '<li class="list-none before:hidden"><p id="nota-futuro" class="text-caption text-secundario">"Llegó" y "No vino" se marcan el día del turno.</p></li>' : '');
 }
 
 function pintarClientes() {
@@ -903,8 +922,8 @@ function pintarClientes() {
     <li class="${CLS.tarjeta} flex items-center gap-4">
       <span class="${CLS.avatar}" aria-hidden="true">${esc(c.nombre[0])}</span>
       <p class="min-w-0 grow"><span class="block font-semibold">${esc(c.nombre)}${c.app ? ` <span class="${CLS.badge} bg-primario-suave text-primario">App</span>` : ''}</span>
-        <span class="block text-sm text-secundario">Próximo: ${c.proximo.fecha === hoy ? 'hoy' : formatoDia(c.proximo.fecha)} ${c.proximo.hora} · ${servicioPorId(c.proximo.servicioId).nombre}</span></p>
-      <span class="text-sm font-semibold">${c.cantidad} ${c.cantidad === 1 ? 'turno' : 'turnos'}</span>
+        <span class="block text-caption text-secundario">Próximo: ${c.proximo.fecha === hoy ? 'hoy' : formatoDia(c.proximo.fecha)} ${c.proximo.hora} · ${servicioPorId(c.proximo.servicioId).nombre}</span></p>
+      <span class="text-caption font-semibold">${c.cantidad} ${c.cantidad === 1 ? 'turno' : 'turnos'}</span>
     </li>`).join('') : `<li class="${CLS.vacio}">No hay clientes agendados.</li>`;
 }
 
@@ -913,7 +932,7 @@ function pintarGaleria() {
     <li>
       <figure class="overflow-hidden rounded-xl border border-borde bg-superficie">
         <div class="galeria-tile" data-variante="${(i % 3) + 1}" role="img" aria-label="Foto de ejemplo: ${nombre}"></div>
-        <figcaption class="p-4 text-sm font-semibold">${nombre}</figcaption>
+        <figcaption class="p-4 text-caption font-semibold">${nombre}</figcaption>
       </figure>
     </li>`).join('');
 }
@@ -931,14 +950,14 @@ function pintarLocal() {
     ['Señas cobradas (app)', precio(senas)],
   ];
   $('#local-resumen').innerHTML = datos.map(([k, v]) => `
-    <div class="${CLS.tarjeta}"><dt class="text-sm text-secundario">${k}</dt><dd class="mt-1 font-titulo text-3xl font-semibold">${v}</dd></div>`).join('');
+    <div class="${CLS.tarjeta}"><dt class="text-caption text-secundario">${k}</dt><dd class="mt-1 font-titulo text-h1 font-semibold">${v}</dd></div>`).join('');
   const bloquesTotales = bloquesDeFranja('manana').length + bloquesDeFranja('tarde').length;
   $('#local-barberos').innerHTML = BARBEROS.map((b) => {
     const ocupados = esDomingo(hoy) ? 0 : bloquesOcupados(b.id, hoy).size;
     const porcentaje = Math.round((ocupados / bloquesTotales) * 100);
     return `<li class="${CLS.tarjeta}">
       <p class="flex items-center gap-4"><span class="${CLS.avatar}" aria-hidden="true">${b.nombre[0]}</span><span class="font-semibold">${b.nombre}</span></p>
-      <p class="mt-4 text-sm text-secundario">Agenda ocupada: <strong class="text-texto">${porcentaje}%</strong></p>
+      <p class="mt-4 text-caption text-secundario">Agenda ocupada: <strong class="text-texto">${porcentaje}%</strong></p>
       <progress class="barra-ocupacion mt-2" max="100" value="${porcentaje}" aria-label="Agenda ocupada de ${b.nombre}">${porcentaje}%</progress>
     </li>`;
   }).join('');
@@ -1059,7 +1078,7 @@ function pintarTema() {
   const oscuro = document.documentElement.classList.contains('dark');
   $('#btn-tema').setAttribute('aria-pressed', String(oscuro));
   $('#switch-oscuro').setAttribute('aria-checked', String(oscuro));
-  $('meta[name="theme-color"]').setAttribute('content', oscuro ? '#18181B' : '#1E3A5F');
+  $('meta[name="theme-color"]').setAttribute('content', oscuro ? COLOR_BARRA_NAVEGADOR.oscuro : COLOR_BARRA_NAVEGADOR.claro);
 }
 
 const ACCIONES = {
@@ -1133,7 +1152,7 @@ const ACCIONES = {
     notificar('Turno cancelado', `${t.codigo}, ${formatoDia(t.fecha)} a las ${t.hora}.`);
     toast(avisados
       ? `Turno cancelado. Avisamos a ${avisados} ${avisados === 1 ? 'persona' : 'personas'} de la lista de espera.`
-      : 'Turno cancelado. El horario quedó libre para otro cliente.');
+      : 'Turno cancelado. El horario quedó libre para otro cliente.', 'exito');
     pintarMisTurnos();
     $('#t-mis-turnos').focus();
   },
@@ -1149,7 +1168,7 @@ const ACCIONES = {
   'espera-quitar'(el) {
     estado.espera = estado.espera.filter((e) => String(e.id) !== el.dataset.id);
     guardarStorage('espera', estado.espera);
-    toast('Saliste de la lista de espera.');
+    toast('Saliste de la lista de espera.', 'exito');
     pintarMisTurnos();
     $('#t-espera').scrollIntoView({ block: 'nearest' });
     $('#espera-dia').focus();
@@ -1171,7 +1190,7 @@ const ACCIONES = {
     estado.perfil.recordatorios = el.getAttribute('aria-checked') !== 'true';
     guardarStorage('perfil', estado.perfil);
     el.setAttribute('aria-checked', String(estado.perfil.recordatorios));
-    toast(estado.perfil.recordatorios ? 'Te vamos a recordar el turno 2 horas antes.' : 'Desactivaste los recordatorios.');
+    toast(estado.perfil.recordatorios ? 'Te vamos a recordar el turno 2 horas antes.' : 'Desactivaste los recordatorios.', 'exito');
   },
   notificaciones() {
     pintarAvisos();
@@ -1185,7 +1204,7 @@ const ACCIONES = {
       <label class="flex min-h-12 cursor-pointer items-center gap-4 rounded-xl border border-borde-control bg-superficie p-4 transition hover:border-primario active:scale-[0.99] has-[:checked]:border-2 has-[:checked]:border-primario has-[:checked]:bg-primario-suave has-[:checked]:p-[15px] has-[:focus-visible]:ring-[3px] has-[:focus-visible]:ring-primario has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-fondo">
         <input type="radio" name="barbero-actual" value="${b.id}" class="h-5 w-5 accent-[rgb(var(--c-primario))] focus:outline-none" ${(estado.barbero || 'riri') === b.id || (!estado.barbero && i === 0) ? 'checked' : ''}>
         <span class="${CLS.avatar}" aria-hidden="true">${b.nombre[0]}</span>
-        <span><span class="block font-semibold">${b.nombre}</span><span class="block text-sm text-secundario">${b.duenio ? 'Dueño · ve también "Local"' : b.especialidad}</span></span>
+        <span><span class="block font-semibold">${b.nombre}</span><span class="block text-caption text-secundario">${b.duenio ? 'Dueño · ve también "Local"' : b.especialidad}</span></span>
       </label>`).join('');
     abrirModal('#dlg-barbero');
   },
@@ -1248,7 +1267,7 @@ function agregarEspera(fecha, franja, barberoId) {
   }
   estado.espera.push({ id: Date.now(), fecha, franja, barberoId, creado: Date.now() });
   guardarStorage('espera', estado.espera);
-  toast(`Te anotamos para el ${formatoDia(fecha)} a la ${FRANJAS[franja].nombre.toLowerCase()}. Te avisamos si se libera un turno.`);
+  toast(`Te anotamos para el ${formatoDia(fecha)} a la ${FRANJAS[franja].nombre.toLowerCase()}. Te avisamos si se libera un turno.`, 'exito');
 }
 
 // ============ Eventos ============
@@ -1374,7 +1393,7 @@ $('#form-perfil').addEventListener('submit', (evento) => {
   estado.perfil.notas = $('#perfil-notas').value.trim();
   guardarStorage('perfil', estado.perfil);
   pintarPerfil();
-  toast('Guardamos tus preferencias.');
+  toast('Guardamos tus preferencias.', 'exito');
 });
 
 $('#form-barbero').addEventListener('submit', (evento) => {

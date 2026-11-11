@@ -21,7 +21,7 @@ SPA con Vite, TypeScript y Tailwind, y persistencia en IndexedDB o LocalStorage.
 - **Why:** Tomás usa el celular con una mano; Graciela necesita poder volver atrás.
 - **How:** pestañas inferiores fijas en lugar del menú hamburguesa, y el botón "atrás" funcionando gracias al hash.
 
-**[ADR-005] · [2026-11-10 16:02] — Paleta inspirada en el poste de barbería** · Aprobada
+**[ADR-005] · [2026-11-10 16:02] — Paleta inspirada en el poste de barbería** · Aprobada · Ajustada por ADR-019 (rojo de borde en botones destructivos)
 - **Why:** identidad de barbería clásica, sin que el rojo choque con su significado de error.
 - **How:** marino como primario. El rojo queda solo para el logo, la franja decorativa y los errores, y nunca en botones. El dorado va solo como fondo. Los tokens están en `convenciones.md`.
 
@@ -115,6 +115,17 @@ El acceso a la vista del barbero sin login queda aprobado.
   - Agenda: "Llegó" pasa a secundario y "No vino" a texto.
   - Mis turnos: el h1 va primero y "¿Otro corte?" baja debajo de los turnos.
 - **Trade-off:** las acciones destructivas siguen sin rojo por ADR-005 (decisión del usuario); se distinguen por jerarquía, orden y estilo de texto.
+
+**[ADR-019] · [2026-11-11 17:11] — Ajustes por la Clase 5 (Estética funcional)** · Aprobada (pedido explícito del usuario)
+- **Why:** la revisión marcó acciones destructivas en el color primario, un "Llegó" en azul, avisos informativos con el ✓ de éxito, una advertencia en gris, hex sueltos, tamaños de letra fuera de escala y estilos de botón copiados.
+- **How:**
+  - Nuevo `btnPeligro` (borde y texto rojo de error, sin relleno) para "Cancelar turno" y "Sí, cancelar turno". **Reemplaza la regla "nunca rojo en botones" de ADR-005**: el rojo sigue sin usarse como relleno, y la opción segura sigue siendo el primario con el foco.
+  - "Llegó" del historial pasa a verde de éxito; el toast distingue `exito` / `error` / `info`.
+  - Nuevo token `advertencia` (#B45309 / #FBBF24) para "Faltan menos de 2 horas".
+  - Tokens `poste-azul` y `poste-blanco` y una constante para `theme-color`.
+  - Escala `text-h1/h2/body/caption` en la configuración de Tailwind; se eliminan 14px, 18px, 20px, 30px y 48px. Errores y avisos quedan en 16px.
+  - Nuevas clases `btnIcono` y `opcionRadio`; el checkbox de la política suma hover y active.
+- **Trade-off:** las ayudas y la letra chica bajan de 14 a 12px (mantienen contraste ≥ 7:1); "Día y hora" y el Total del resumen pasan a 24px para conservar la jerarquía de ADR-018.
 
 ---
 

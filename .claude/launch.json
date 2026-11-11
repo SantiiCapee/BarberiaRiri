@@ -4,14 +4,31 @@
     {
       "name": "barberiariri",
       "runtimeExecutable": "node",
-      "runtimeArgs": ["C:/Users/santi/AppData/Local/Temp/claude/4367fba1c6e235a3/2c130a7c-eae8-42c7-a5ca-42b8d2d3e66c/scratchpad/servidor.js", "D:\\Cosas SANTI\\Descargas\\claude\\efi interfaz"],
+      "runtimeArgs": [
+        "C:/Users/santi/AppData/Local/Temp/claude/4367fba1c6e235a3/2c130a7c-eae8-42c7-a5ca-42b8d2d3e66c/scratchpad/servidor.js",
+        "D:\\Cosas SANTI\\Descargas\\claude\\efi interfaz"
+      ],
       "port": 5173
     },
     {
       "name": "barberiariri-clase4",
       "runtimeExecutable": "node",
-      "runtimeArgs": ["C:/Users/santi/AppData/Local/Temp/claude/ccd233946c6c604a/4478e438-354b-4098-aa46-2de4047d3b7e/scratchpad/servidor.js", "D:\\Cosas SANTI\\Descargas\\claude\\efi interfaz", "5174"],
+      "runtimeArgs": [
+        "C:/Users/santi/AppData/Local/Temp/claude/ccd233946c6c604a/4478e438-354b-4098-aa46-2de4047d3b7e/scratchpad/servidor.js",
+        "D:\\Cosas SANTI\\Descargas\\claude\\efi interfaz",
+        "5174"
+      ],
       "port": 5174
+    },
+    {
+      "name": "barberiariri-clase5",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "C:/Users/santi/AppData/Local/Temp/claude/ccd233946c6c604a/14d323f7-9e62-4953-8c24-0c3881745075/scratchpad/servidor.js",
+        "D:\\Cosas SANTI\\Descargas\\claude\\efi interfaz",
+        "5175"
+      ],
+      "port": 5175
     }
   ]
 }
