@@ -37,9 +37,9 @@ const DIAS_SEMANA = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'];
 // ============ Clases (nombres completos: GOT-11) ============
 const FOCO = 'focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primario focus-visible:ring-offset-2 focus-visible:ring-offset-fondo';
 const CLS = {
-  btnPrimario: `inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-primario px-5 font-semibold text-sobre-primario shadow-sm transition duration-150 hover:bg-primario-hover hover:shadow-md active:scale-[0.98] active:bg-primario-activo ${FOCO} disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-sm disabled:hover:bg-primario disabled:active:scale-100`,
-  btnSecundario: `inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border-2 border-primario bg-superficie px-4 font-semibold text-primario transition duration-150 hover:bg-primario-suave active:scale-[0.98] active:bg-primario-suave ${FOCO} disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-superficie disabled:active:scale-100`,
-  btnTexto: `inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-3 font-semibold text-primario underline-offset-4 transition hover:bg-primario-suave hover:underline active:scale-[0.98] ${FOCO} disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent disabled:hover:no-underline`,
+  btnPrimario: `inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border-2 border-transparent bg-primario px-5 font-semibold text-sobre-primario shadow-sm transition duration-150 hover:bg-primario-hover hover:shadow-md active:scale-[0.98] active:bg-primario-activo ${FOCO} disabled:cursor-not-allowed disabled:border-borde-control disabled:bg-superficie-2 disabled:text-secundario disabled:shadow-none disabled:hover:bg-superficie-2 disabled:hover:shadow-none disabled:active:scale-100`,
+  btnSecundario: `inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border-2 border-primario bg-superficie px-4 font-semibold text-primario transition duration-150 hover:bg-primario-suave active:scale-[0.98] active:bg-primario-suave ${FOCO} disabled:cursor-not-allowed disabled:border-borde-control disabled:text-secundario disabled:hover:bg-superficie disabled:active:scale-100`,
+  btnTexto: `inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-3 font-semibold text-primario underline-offset-4 transition hover:bg-primario-suave hover:underline active:scale-[0.98] ${FOCO} disabled:cursor-not-allowed disabled:text-secundario disabled:hover:bg-transparent disabled:hover:no-underline`,
   opcion: `group flex w-full min-h-12 items-center gap-4 rounded-xl border border-borde-control bg-superficie p-4 text-left transition duration-150 hover:border-primario hover:shadow-md active:scale-[0.98] ${FOCO} aria-pressed:border-2 aria-pressed:border-primario aria-pressed:bg-primario-suave aria-pressed:p-[15px] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-borde-control disabled:hover:shadow-none`,
   opcionPunteada: `group flex w-full min-h-12 items-center gap-4 rounded-xl border-2 border-dashed border-borde-control bg-superficie p-[15px] text-left transition duration-150 hover:border-primario hover:shadow-md active:scale-[0.98] ${FOCO} aria-pressed:border-solid aria-pressed:border-primario aria-pressed:bg-primario-suave disabled:cursor-not-allowed disabled:opacity-50`,
   radio: 'grid h-6 w-6 shrink-0 place-items-center rounded-full border-2 border-borde-control group-aria-pressed:border-primario',
@@ -303,7 +303,7 @@ function pintarAvisos() {
   }
   lista.innerHTML = estado.notificaciones.map((n) => `
     <li class="${CLS.tarjeta} ${n.leida ? '' : 'border-primario'}">
-      <p class="font-semibold">${n.leida ? '' : '<span class="sr-only">Nuevo: </span>'}${esc(n.titulo)}</p>
+      <p class="font-semibold">${n.leida ? '' : `<span class="${CLS.badge} mr-2 bg-primario-suave text-primario">Nuevo</span>`}${esc(n.titulo)}</p>
       <p class="text-sm text-secundario">${esc(n.texto)}</p>
       ${n.accion ? `<button type="button" class="${CLS.btnSecundario} mt-3 w-full" data-accion="reservar-liberado" data-id="${n.id}">Reservar ese horario</button>` : ''}
     </li>`).join('');
@@ -409,14 +409,14 @@ function pintarNavegacion(ruta, modoBarbero) {
     <li>
       <a href="#${p.ruta}" ${activa(p) ? 'aria-current="page"' : ''}
         class="flex min-h-[4.5rem] flex-col items-center justify-center gap-1 text-xs font-semibold text-secundario transition hover:bg-superficie-2 hover:text-texto active:scale-95 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-primario aria-[current=page]:text-primario">
-        <span class="grid h-8 w-12 place-items-center rounded-full ${activa(p) ? 'bg-primario-suave' : ''}">${icono(p.icono)}</span>${p.texto}
+        <span class="grid h-8 w-12 place-items-center rounded-full ${activa(p) ? 'bg-primario text-sobre-primario' : ''}">${icono(p.icono)}</span>${p.texto}
       </a>
     </li>`).join('');
 
   $('#nav-escritorio').innerHTML = pestanias.map((p) => `
     <li>
       <a href="#${p.ruta}" ${activa(p) ? 'aria-current="page"' : ''}
-        class="inline-flex min-h-12 items-center rounded-xl px-3 font-semibold text-secundario transition hover:bg-superficie-2 hover:text-texto active:scale-[0.98] ${FOCO} aria-[current=page]:bg-primario-suave aria-[current=page]:text-primario">${p.texto}</a>
+        class="inline-flex min-h-12 items-center rounded-xl px-3 font-semibold text-secundario transition hover:bg-superficie-2 hover:text-texto active:scale-[0.98] ${FOCO} aria-[current=page]:bg-primario-suave aria-[current=page]:text-primario aria-[current=page]:underline aria-[current=page]:decoration-2 aria-[current=page]:underline-offset-8">${p.texto}</a>
     </li>`).join('');
 
   $('#btn-salir-barbero').hidden = !modoBarbero;
@@ -717,7 +717,7 @@ function tarjetaTurno(t, esProximo) {
         <p class="grid h-16 w-16 shrink-0 place-content-center rounded-xl bg-superficie-2 text-center" aria-hidden="true">
           <span class="text-xs font-semibold uppercase text-secundario">${diaSemana}</span><span class="font-semibold">${numero}</span></p>
         <div class="min-w-0 grow">
-          <h3 id="turno-${t.codigo}" class="font-titulo text-xl font-semibold leading-tight">${servicio.nombre}</h3>
+          <h2 id="turno-${t.codigo}" class="font-titulo text-xl font-semibold leading-tight">${servicio.nombre}</h2>
           <p class="text-sm font-semibold">${formatoDia(t.fecha)} · ${t.hora} · con ${esc(nombreBarbero(t.barberoId))}</p>
           <p class="text-sm text-secundario">${t.codigo} · ${t.sena ? `Seña pagada ${precio(t.sena)}` : 'Pagás en el local'}</p>
           ${esProximo ? '' : `<span class="${CLS.badge} ${colores} mt-2">${etiqueta}</span>`}
@@ -1386,6 +1386,12 @@ $$('dialog').forEach((dialogo) => {
     if (origenFoco && document.contains(origenFoco)) origenFoco.focus();
     origenFoco = null;
   });
+});
+
+// "Saltar al contenido": con el ruteo por hash, #contenido mandaba a Inicio; ahora lleva el foco al título de la vista actual
+$('a[href="#contenido"]').addEventListener('click', (evento) => {
+  evento.preventDefault();
+  $('[data-vista]:not([hidden]) h1')?.focus();
 });
 
 window.addEventListener('hashchange', router);

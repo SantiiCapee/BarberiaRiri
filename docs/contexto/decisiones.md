@@ -80,6 +80,17 @@ El acceso a la vista del barbero sin login queda aprobado.
   - Mientras se procesa el pago, el diálogo no se puede cerrar; si se cierra igual, el pago se anula.
 - **Trade-off:** se respeta ADR-005, así que la distinción es por jerarquía y orden, no por color rojo.
 
+**[ADR-016] · [2026-11-11 17:30] — Ajustes por la Clase 2 (Usabilidad y Accesibilidad)** · Aprobada (pedido explícito del usuario)
+- **Why:** la revisión WCAG marcó botones deshabilitados con contraste de 2.8:1, indicadores que dependían solo del color, un salto de títulos y el enlace "Saltar al contenido" roto.
+- **How:**
+  - Los botones deshabilitados dejan `opacity-50` y usan `superficie-2`/`secundario` con borde `borde-control`: 6.4:1 o más en los dos modos.
+  - La pestaña activa se marca con píldora rellena (celular) y subrayado (escritorio).
+  - La pestaña seleccionada de Mis turnos lleva borde `primario`.
+  - Los avisos nuevos muestran el texto "Nuevo".
+  - Los turnos de Mis turnos pasan de h3 a h2.
+  - "Saltar al contenido" enfoca el título de la vista sin cambiar de ruta.
+- **Trade-off:** no cambia ningún token de la paleta; todos los colores de texto ya cumplían 4.5:1.
+
 ---
 
 ## Pendientes
