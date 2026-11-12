@@ -187,6 +187,15 @@ El acceso a la vista del barbero sin login queda aprobado.
   - Se actualizaron el glosario (§3), las convenciones (§2, §3 y §5) y `DESIGN.md`.
 - **Trade-off:** los avisos de error ahora hay que cerrarlos a mano.
 
+**[ADR-027] · [2026-11-12 13:30] — El barbero anota turnos desde la Agenda** · Aprobada (pedido explícito del usuario)
+- **Why:** muchos clientes piden turno por WhatsApp, por teléfono o en el local. Sin esta opción, el barbero solo podía "Bloquear" el horario: perdía el nombre y el servicio, y no podía marcar Llegó/No vino.
+- **How:**
+  - Cada horario libre de la Agenda tiene un botón "Anotar". Abre un diálogo con nombre (obligatorio), servicio (obligatorio; se desactivan los que no entran), teléfono (opcional, 10 números) y nota (opcional).
+  - Se guardan en `anotados` (localStorage), aparte de `turnos`, para no mezclarlos con Mis turnos, sellos ni señas. Ocupan la agenda igual que los demás y el cliente ya no puede reservar ese horario.
+  - En la tarjeta: etiqueta "Anotado por vos · paga en el local", teléfono para llamar, nota, Llegó/No vino y "Quitar turno" con confirmación.
+  - El barbero solo puede quitar los turnos que anotó él. Los de la app los cancela el cliente.
+- **Trade-off:** no lleva seña ni recordatorios, y al quitarlo no se avisa a la lista de espera.
+
 ---
 
 ## Pendientes

@@ -388,6 +388,50 @@
     </div>
   </dialog>
 
+  <!-- ===== Anotar turno (barbero, cliente que escribió por fuera de la app: ADR-027) ===== -->
+  <dialog id="dlg-anotar" aria-labelledby="t-anotar" aria-describedby="anotar-detalle" class="dialogo-hoja bg-superficie text-texto">
+    <form id="form-anotar" class="grid gap-4 p-6" novalidate>
+      <div class="mx-auto h-1.5 w-12 rounded-full bg-borde md:hidden" aria-hidden="true"></div>
+      <div>
+        <h2 id="t-anotar" data-cls="tituloSeccion">Anotar turno</h2>
+        <p id="anotar-detalle" class="mt-1 text-body text-secundario"></p>
+      </div>
+      <div>
+        <label for="anotar-nombre" data-cls="etiqueta">Nombre del cliente</label>
+        <input id="anotar-nombre" type="text" autocomplete="off" required aria-describedby="error-anotar-nombre" data-cls="campo">
+        <p id="error-anotar-nombre" data-cls="errorCampo"></p>
+      </div>
+      <div>
+        <label for="anotar-servicio" data-cls="etiqueta">Servicio</label>
+        <p id="ayuda-anotar-servicio" class="text-body text-secundario">Los que no entran antes del próximo turno aparecen desactivados.</p>
+        <select id="anotar-servicio" required aria-describedby="ayuda-anotar-servicio" data-cls="campo"></select>
+      </div>
+      <div>
+        <label for="anotar-telefono" data-cls="etiqueta">Teléfono (opcional)</label>
+        <p id="ayuda-anotar-telefono" class="text-body text-secundario">10 números, sin 0 ni 15. Ej.: 3584123456</p>
+        <input id="anotar-telefono" type="tel" inputmode="numeric" autocomplete="off" aria-describedby="ayuda-anotar-telefono error-anotar-telefono" data-cls="campo">
+        <p id="error-anotar-telefono" data-cls="errorCampo"></p>
+      </div>
+      <div>
+        <label for="anotar-nota" data-cls="etiqueta">Nota (opcional)</label>
+        <textarea id="anotar-nota" rows="2" placeholder="Ej.: degradé bajo, perfilar barba" data-cls="campo" class="py-3"></textarea>
+      </div>
+      <p class="flex items-start gap-2 text-body text-secundario"><span data-icono="info" data-icono-clase="mt-0.5 h-5 w-5 shrink-0"></span>No paga seña y no le llegan recordatorios de la app: avisale vos.</p>
+      <button type="submit" data-cls="btnPrimario">Anotar turno</button>
+      <button type="button" data-accion="cerrar-dialogo" data-cls="btnTexto">Volver</button>
+    </form>
+  </dialog>
+
+  <!-- ===== Quitar turno anotado ===== -->
+  <dialog id="dlg-quitar" aria-labelledby="t-quitar" aria-describedby="quitar-texto" class="dialogo-hoja bg-superficie text-texto">
+    <div class="grid gap-4 p-6">
+      <h2 id="t-quitar" data-cls="tituloSeccion">¿Quitar el turno?</h2>
+      <p id="quitar-texto"></p>
+      <button type="button" data-accion="quitar-confirmar" data-cls="btnPeligro">Sí, quitar turno</button>
+      <button type="button" data-accion="cerrar-dialogo" autofocus data-cls="btnPrimario">No, mantener turno</button>
+    </div>
+  </dialog>
+
   <!-- ===== Soy barbero ===== -->
   <dialog id="dlg-barbero" aria-labelledby="t-soy-barbero" class="dialogo-hoja bg-superficie text-texto">
     <form id="form-barbero" class="grid gap-4 p-6">

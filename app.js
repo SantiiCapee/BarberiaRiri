@@ -94,6 +94,8 @@ const ICONOS = {
   'chevron-der': '<path d="m9 18 6-6-6-6"/>',
   reloj: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
   mensaje: '<path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7A8.4 8.4 0 0 1 12 3.1a8.5 8.5 0 0 1 9 8.4z"/>',
+  telefono: '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>',
+  mas: '<path d="M12 5v14M5 12h14"/>',
   mapa: '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>',
   alerta: '<circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/>',
   advertencia: '<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>',
@@ -220,6 +222,11 @@ const estado = {
   notificaciones: leerStorage('notificaciones', []),
   asistencia: leerStorage('asistencia', {}),
   bloqueos: leerStorage('bloqueos', {}),
+  // ADR-027: turnos que el barbero anota a mano (clientes que escribieron por fuera de la app). Van aparte de
+  // estado.turnos, que son los del cliente de este dispositivo (Mis turnos, sellos, señas).
+  anotados: leerStorage('anotados', []),
+  anotando: null,
+  quitando: null,
   barbero: leerStorage('barbero', null),
   ultimo: leerStorage('ultimo', null),
   pestaniaTurnos: 'proximos',
@@ -264,7 +271,8 @@ const turnosActivos = () => estado.turnos.filter((t) => t.estado !== 'cancelado'
 
 function turnosDelDia(barberoId, fecha, excluirCodigo = null) {
   const propios = turnosActivos().filter((t) => t.barberoId === barberoId && t.fecha === fecha && t.codigo !== excluirCodigo);
-  return [...turnosDemo(barberoId, fecha), ...propios].sort((a, b) => minutos(a.hora) - minutos(b.hora));
+  const anotados = estado.anotados.filter((t) => t.barberoId === barberoId && t.fecha === fecha);
+  return [...turnosDemo(barberoId, fecha), ...propios, ...anotados].sort((a, b) => minutos(a.hora) - minutos(b.hora));
 }
 
 function bloquesOcupados(barberoId, fecha, excluirCodigo) {
@@ -687,6 +695,8 @@ function validarCampo(campo, mostrar) {
     'campo-nombre': (v) => (v.trim().length >= 2 ? '' : 'Escribí tu nombre (mínimo 2 letras).'),
     'campo-telefono': (v) => (/^\d{10}$/.test(v.replace(/\D/g, '')) ? '' : 'El teléfono tiene que tener 10 números, sin 0 ni 15.'),
     'perfil-telefono': (v) => (!v.trim() || /^\d{10}$/.test(v.replace(/\D/g, '')) ? '' : 'El teléfono tiene que tener 10 números, sin 0 ni 15.'),
+    'anotar-nombre': (v) => (v.trim().length >= 2 ? '' : 'Escribí el nombre del cliente (mínimo 2 letras).'),
+    'anotar-telefono': (v) => (!v.trim() || /^\d{10}$/.test(v.replace(/\D/g, '')) ? '' : 'El teléfono tiene que tener 10 números, sin 0 ni 15. Si no lo tenés, dejalo vacío.'),
     'pago-email': (v) => (/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) ? '' : 'Revisá el email. Tiene que ser como nombre@gmail.com.'),
   };
   const error = errores[campo.id](campo.value);
@@ -944,7 +954,10 @@ function pintarAgenda() {
               <p class="font-semibold">${hora} · ${esc(turno.nombre)}</p>
               <p class="text-small text-secundario">${servicio.nombre} · ${servicio.duracion} min</p>
             </div>
-            ${turno.demo ? '' : `<p class="mt-1 text-caption"><span class="${CLS.badge} bg-primario-suave text-primario">Reservó en la app · ${turno.sena ? `seña ${precio(turno.sena)}` : 'paga en el local'}</span></p>
+            ${turno.anotado ? `<p class="mt-1 flex flex-wrap items-center justify-between gap-x-4"><span class="text-caption"><span class="${CLS.badge} bg-superficie-2 text-texto">Anotado por vos · paga en el local</span></span>
+                ${turno.telefono ? `<a href="tel:${turno.telefono}" class="${CLS.btnTexto} -ml-3 sm:ml-0">${icono('telefono', 'h-4 w-4')}${turno.telefono}<span class="sr-only">, llamar a ${esc(turno.nombre)}</span></a>` : ''}</p>
+              ${turno.nota ? `<p class="mt-2 rounded-lg bg-superficie-2 p-2 text-small">“${esc(turno.nota)}”</p>` : ''}`
+              : turno.demo ? '' : `<p class="mt-1 text-caption"><span class="${CLS.badge} bg-primario-suave text-primario">Reservó en la app · ${turno.sena ? `seña ${precio(turno.sena)}` : 'paga en el local'}</span></p>
               ${estado.perfil.notas ? `<p class="mt-2 rounded-lg bg-superficie-2 p-2 text-small">“${esc(estado.perfil.notas)}”</p>` : ''}`}
             ${marca ? `
               <p class="mt-4 flex items-center gap-2 font-semibold ${marca === 'llego' ? 'text-exito' : 'text-error'}">
@@ -955,6 +968,7 @@ function pintarAgenda() {
                 <button type="button" class="${CLS.btnSecundario}" data-accion="asistencia" data-hora="${hora}" data-valor="llego" ${esFuturo ? 'disabled aria-describedby="nota-futuro"' : ''}>Llegó</button>
                 <button type="button" class="${CLS.btnTexto}" data-accion="asistencia" data-hora="${hora}" data-valor="no-vino" ${esFuturo ? 'disabled aria-describedby="nota-futuro"' : ''}>No vino</button>
               </div>`}
+            ${turno.anotado && !marca && !esPasado(fecha, hora) ? `<button type="button" class="${CLS.btnTexto} -ml-3 mt-2 text-error" data-accion="quitar-anotado" data-id="${turno.id}" data-hora="${hora}">Quitar turno<span class="sr-only"> de ${esc(turno.nombre)}</span></button>` : ''}
           </article>
         </li>`);
         i += bloquesNecesarios(servicio);
@@ -965,6 +979,7 @@ function pintarAgenda() {
       items.push(`<li data-tipo="libre">
         <div class="flex min-h-14 items-center gap-4 rounded-xl border-2 border-dashed border-borde-control px-4 py-1 ${bloqueado ? 'bg-superficie-2' : ''}">
           <p class="grow"><span class="font-semibold">${hora}</span> <span class="text-secundario">· ${bloqueado ? 'Bloqueado' : pasado ? 'Sin turno' : 'Libre'}</span></p>
+          ${pasado || bloqueado ? '' : `<button type="button" class="${CLS.btnTexto}" data-accion="anotar" data-hora="${hora}">${icono('mas', 'h-4 w-4')}Anotar<span class="sr-only"> un turno a las ${hora}</span></button>`}
           ${pasado ? '' : `<button type="button" class="${CLS.btnTexto}" data-accion="bloquear" data-hora="${hora}">${bloqueado ? 'Desbloquear' : 'Bloquear'}<span class="sr-only"> el horario de las ${hora}</span></button>`}
         </div>
       </li>`);
@@ -981,7 +996,7 @@ function pintarClientes() {
   for (const d of diasReservables()) {
     for (const t of turnosDelDia(barbero, d)) {
       if (esPasado(t.fecha, t.hora)) continue;
-      const c = mapa.get(t.nombre) || { nombre: t.nombre, cantidad: 0, proximo: t, app: !t.demo };
+      const c = mapa.get(t.nombre) || { nombre: t.nombre, cantidad: 0, proximo: t, app: !t.demo && !t.anotado };
       c.cantidad++;
       mapa.set(t.nombre, c);
     }
@@ -1308,6 +1323,14 @@ const ACCIONES = {
     const fecha = estado.agendaFecha;
     const hora = el.dataset.hora;
     const valor = el.dataset.valor;
+    const anotado = estado.anotados.find((t) => t.barberoId === barbero && t.fecha === fecha && t.hora === hora);
+    if (anotado) {
+      anotado.estado = valor || 'confirmado';
+      guardarStorage('anotados', estado.anotados);
+      pintarAgenda();
+      $(`#agenda-lista [data-hora="${hora}"]`)?.focus();
+      return;
+    }
     const propio = turnosActivos().find((t) => t.barberoId === barbero && t.fecha === fecha && t.hora === hora) ||
       estado.turnos.find((t) => t.barberoId === barbero && t.fecha === fecha && t.hora === hora && ['llego', 'no-vino'].includes(t.estado));
     if (propio) {
@@ -1333,6 +1356,44 @@ const ACCIONES = {
     guardarStorage('bloqueos', estado.bloqueos);
     pintarAgenda();
     $(`#agenda-lista [data-accion="bloquear"][data-hora="${hora}"]`)?.focus();
+  },
+  // ADR-027: el barbero anota a un cliente que le escribió por fuera de la app
+  anotar(el) {
+    const barbero = estado.barbero;
+    const fecha = estado.agendaFecha;
+    const hora = el.dataset.hora;
+    estado.anotando = { barberoId: barbero, fecha, hora };
+    $('#anotar-detalle').textContent = `${fecha === hoyISO() ? 'Hoy, ' : ''}${formatoDia(fecha)} a las ${hora}. Para clientes que te escribieron por fuera de la app.`;
+    const entra = (s) => disponible(barbero, fecha, hora, s);
+    const primero = SERVICIOS.find(entra);
+    $('#anotar-servicio').innerHTML = SERVICIOS.map((s) => `<option value="${s.id}" ${entra(s) ? '' : 'disabled'} ${s === primero ? 'selected' : ''}>${s.nombre} · ${s.duracion} min${entra(s) ? '' : ' (no entra)'}</option>`).join('');
+    $('#form-anotar').reset();
+    $('#anotar-servicio').value = primero?.id ?? '';
+    ['#anotar-nombre', '#anotar-telefono'].forEach((sel) => {
+      const campo = $(sel);
+      campo.removeAttribute('aria-invalid');
+      const error = $(`#${campo.getAttribute('aria-describedby').split(' ').pop()}`);
+      error.classList.add('hidden');
+      error.classList.remove('flex');
+    });
+    abrirModal('#dlg-anotar');
+  },
+  'quitar-anotado'(el) {
+    const t = estado.anotados.find((x) => String(x.id) === el.dataset.id);
+    estado.quitando = t.id;
+    $('#quitar-texto').textContent = `${t.nombre}, ${servicioPorId(t.servicioId).nombre}, ${formatoDia(t.fecha)} a las ${t.hora}. El horario vuelve a quedar libre.`;
+    abrirModal('#dlg-quitar');
+  },
+  'quitar-confirmar'() {
+    const t = estado.anotados.find((x) => x.id === estado.quitando);
+    estado.anotados = estado.anotados.filter((x) => x.id !== estado.quitando);
+    estado.quitando = null;
+    guardarStorage('anotados', estado.anotados);
+    origenFoco = null;
+    cerrarModal('#dlg-quitar');
+    pintarAgenda();
+    toast(`Quitaste el turno de ${t.nombre}. Las ${t.hora} quedaron libres.`, 'exito');
+    $(`#agenda-lista [data-accion="anotar"][data-hora="${t.hora}"]`)?.focus();
   },
   'cerrar-dialogo'(el) {
     el.closest('dialog').close();
@@ -1495,6 +1556,46 @@ $('#form-barbero').addEventListener('submit', (evento) => {
   origenFoco = null;
   cerrarModal('#dlg-barbero');
   irA('/barbero/agenda');
+});
+
+// ADR-027: Anotar turno (barbero)
+['#anotar-nombre', '#anotar-telefono'].forEach((sel) => {
+  const campo = $(sel);
+  campo.addEventListener('blur', () => validarCampo(campo, true));
+  campo.addEventListener('input', () => validarCampo(campo, false));
+});
+
+$('#form-anotar').addEventListener('submit', (evento) => {
+  evento.preventDefault();
+  const nombre = $('#anotar-nombre');
+  const telefono = $('#anotar-telefono');
+  const valido = [validarCampo(nombre, true), validarCampo(telefono, true)].every(Boolean);
+  if (!valido) {
+    $('#form-anotar [aria-invalid="true"]').focus();
+    return;
+  }
+  const { barberoId, fecha, hora } = estado.anotando;
+  const servicio = servicioPorId($('#anotar-servicio').value);
+  // Por si el horario se ocupó mientras el diálogo estaba abierto
+  if (!servicio || !disponible(barberoId, fecha, hora, servicio)) {
+    toast('Ese servicio ya no entra en este horario. Elegí otro o cerrá y mirá la agenda.', 'error');
+    $('#anotar-servicio').focus();
+    return;
+  }
+  estado.anotados.push({
+    id: Date.now(), anotado: true, estado: 'confirmado', creado: Date.now(),
+    barberoId, fecha, hora, servicioId: servicio.id,
+    nombre: nombre.value.trim(),
+    telefono: telefono.value.replace(/\D/g, ''),
+    nota: $('#anotar-nota').value.trim(),
+  });
+  guardarStorage('anotados', estado.anotados);
+  estado.anotando = null;
+  origenFoco = null;
+  cerrarModal('#dlg-anotar');
+  pintarAgenda();
+  toast(`Turno anotado: ${hora} · ${nombre.value.trim()}.`, 'exito');
+  $(`#agenda-lista [data-accion="quitar-anotado"][data-hora="${hora}"]`)?.focus();
 });
 
 // Modales: clic en el fondo cierra; al cerrar, el foco vuelve a quien lo abrió
