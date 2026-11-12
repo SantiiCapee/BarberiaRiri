@@ -187,6 +187,13 @@ El acceso a la vista del barbero sin login queda aprobado.
   - Se actualizaron el glosario (§3), las convenciones (§2, §3 y §5) y `DESIGN.md`.
 - **Trade-off:** los avisos de error ahora hay que cerrarlos a mano.
 
+**[ADR-026] · [2026-11-12 12:43] — Tercera poda de skills y bloqueo del wireframe SVG** · Aprobada (pedido explícito del usuario)
+- **Why:** el SVG de wireframes pesa 680 KB (~200.000 tokens si se lee) y cuatro skills repetían lo que ya hacen otras.
+- **How:**
+  - `.claude/settings.json` bloquea la lectura de `docs/wireframes/*.svg`. El archivo sigue igual.
+  - Se borraron `ux-feedback` (la cubre `ui-states`), `web-design-system` (diseño ya definido en `convenciones.md`), `design-token-contrast` (la cubre `better-colors`) y `ux-flow` (flujo ya definido en ADR-004). Quedan 14 skills.
+- **Trade-off:** para que Claude revise el SVG hay que sacar temporalmente la regla de `.claude/settings.json`.
+
 **[ADR-027] · [2026-11-12 13:30] — El barbero anota turnos desde la Agenda** · Aprobada (pedido explícito del usuario)
 - **Why:** muchos clientes piden turno por WhatsApp, por teléfono o en el local. Sin esta opción, el barbero solo podía "Bloquear" el horario: perdía el nombre y el servicio, y no podía marcar Llegó/No vino.
 - **How:**
